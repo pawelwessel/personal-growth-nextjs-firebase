@@ -5,7 +5,7 @@ export default function ProductDetails({ product }: { product: any }) {
   return (
     <div className="">
       <div className="h-[300px] relative overflow-hidden flex flex-col items-center justify-center rounded-2xl">
-        <div className="w-full h-full bg-black/50 z-10 absolute left-0 top-0"></div>
+        <div className="w-full h-full bg-black/70 z-10 absolute left-0 top-0"></div>
         <Image
           src={product?.mainImage}
           width={1024}

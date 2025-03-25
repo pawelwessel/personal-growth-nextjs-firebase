@@ -2,7 +2,7 @@
 import { updateDocument } from "@/firebase";
 import moment from "moment";
 import "moment/locale/pl";
-import { getPolishCurrency } from "../../../../../utils/getPolishCurrency";
+import { getPolishCurrency } from "@/lib/getPolishCurrency";
 import { FaCheckCircle } from "react-icons/fa";
 
 interface Order {
