@@ -1,14 +1,16 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Calistoga, PT_Serif } from "next/font/google";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const calistoga = Calistoga({
+  weight: ["400"],
+  variable: "--font-calistoga",
   subsets: ["latin"],
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const ptSerif = PT_Serif({
+  weight: ["400", "700"],
+  variable: "--font-pt-serif",
   subsets: ["latin"],
 });
 
@@ -23,10 +25,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+    <html style={{ scrollBehavior: "smooth" }} lang="en">
+      <body className={`${calistoga.variable} ${ptSerif.variable} antialiased`}>
         {children}
       </body>
     </html>
