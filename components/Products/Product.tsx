@@ -38,7 +38,7 @@ export default function Product({
       {openedImage === product.id && (
         <div
           onClick={(e) => e.stopPropagation()}
-          className="bg-white z-50 overflow-y-scroll left-0 top-0 lg:top-1/2 lg:-translate-y-1/2 lg:left-1/2 lg:-translate-x-1/2 fixed"
+          className="lg:rounded-2xl bg-white z-50 overflow-y-scroll left-0 top-0 lg:top-1/2 lg:-translate-y-1/2 lg:left-1/2 lg:-translate-x-1/2 fixed"
         >
           <div className="relative h-screen lg:h-[80vh] p-4 lg:p-12 w-screen lg:max-w-[80vw]">
             <ProductDetails product={product} />

@@ -4,6 +4,7 @@ import logo from "@/public/logo.png";
 import brain from "@/public/brain.png";
 import Products from "@/components/Products";
 import { getProducts } from "@/lib/getProducts";
+import { Metadata } from "next";
 export const dynamic = "force-dynamic";
 export default async function Home() {
   const products = await getProducts();
@@ -69,3 +70,16 @@ export default async function Home() {
     </div>
   );
 }
+
+export const metadata: Metadata = {
+  title:
+    "Rozwój Osobisty: Motywacja, Produktywność, Pewność Siebie - Poradniki | MocnyRozwój.pl",
+  description:
+    "Znajdź skuteczne sposoby na rozwój osobisty: poradniki, testy, porady, które pomogą Ci osiągnąć cele i zbudować silną osobowość. Z nami odkryjesz swój potencjał!",
+  icons: [
+    {
+      type: "image/x-icon",
+      url: "./public/logo.png",
+    },
+  ],
+};
