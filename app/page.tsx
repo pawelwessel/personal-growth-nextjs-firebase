@@ -57,7 +57,7 @@ export default async function Home() {
           alt="Narzędzia Do Rozwoju Osobistego"
           className="brain pt-12 pb-6 w-[100px] mx-auto"
         />
-        <h2 className="text-center font-calistoga text-3xl sm:text-4xl font-bold text-black">
+        <h2 className="text-center font-calistoga text-3xl sm:text-4xl font-bold text-black px-4">
           Przyszłość należy do Ciebie!
         </h2>
         <p className="mx-auto mt-4 text-center px-6 lg:pl-0 sm:text-lg text-gray-700 font-pt max-w-lg">
