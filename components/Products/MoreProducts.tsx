@@ -14,7 +14,10 @@ export default function MoreProducts({
   setOpenedImage: Function;
 }) {
   const displayedProducts = useMemo(() => {
-    return [...products].sort(() => 0.5 - Math.random()).slice(0, 10);
+    return [...products]
+      .filter((item) => item.id !== product.id)
+      .sort(() => 0.5 - Math.random())
+      .slice(0, 10);
   }, [products]);
 
   return (
@@ -29,9 +32,7 @@ export default function MoreProducts({
         <Masonry>
           {displayedProducts?.map((item: any, i: any) => (
             <div
-              className={`border border-gray-400 ${
-                item.title === product.title && "hidden"
-              }`}
+              className={`${item.title === product.title && "hidden"}`}
               key={item.title}
             >
               <button
@@ -45,9 +46,9 @@ export default function MoreProducts({
                     product.id
                   );
                 }}
-                className="flex flex-col relative overflow-y-hidden group drop-shadow-sm shadow-black"
+                className="flex flex-col relative overflow-hidden rounded-2xl group drop-shadow-sm shadow-black"
               >
-                <div className="absolute z-[5] inset-0 bg-gradient-to-t from-black/10 to-black/50 group-hover:from-black/50 group-hover:to-black/50" />
+                <div className="absolute z-[5] inset-0 bg-gradient-to-t from-black/30 to-black/70 group-hover:from-black/50 group-hover:to-black/50" />
                 <div className="absolute z-[6] inset-0 flex items-center justify-center">
                   <div className="text-center">
                     {item.price > 0 && (
@@ -65,7 +66,7 @@ export default function MoreProducts({
                     </h2>
                   </div>
                 </div>
-                <div className="overflow-hidden">
+                <div className="overflow-hidden rounded-2xl">
                   <Image
                     width={800}
                     height={800}

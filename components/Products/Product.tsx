@@ -1,7 +1,6 @@
 "use client";
 import { useState } from "react";
 import Viewer from "@/components/Viewer";
-import ProductImages from "../ProductImages";
 import ProjectImages from "../ProjectImages";
 import ProductCard from "./ProductCard";
 import ProductNavigation from "./ProductNavigation";
@@ -15,13 +14,13 @@ export default function Product({
   products,
   openedImage,
   setOpenedImage,
-  setIsTest,
+  setTest,
 }: {
   product: any;
   products: any[];
   openedImage: string;
   setOpenedImage: React.Dispatch<React.SetStateAction<any>>;
-  setIsTest: React.Dispatch<React.SetStateAction<boolean>>;
+  setTest: React.Dispatch<React.SetStateAction<any>>;
 }) {
   const [currentIndex, setCurrentIndex] = useState(-1);
   const [isImageOpen, setImageOpen] = useState(false);
@@ -41,7 +40,7 @@ export default function Product({
           className="lg:rounded-2xl bg-white z-50 overflow-y-scroll left-0 top-0 lg:top-1/2 lg:-translate-y-1/2 lg:left-1/2 lg:-translate-x-1/2 fixed"
         >
           <div className="relative h-screen lg:h-[80vh] p-4 lg:p-12 w-screen lg:max-w-[80vw]">
-            <ProductDetails product={product} />
+            <ProductDetails product={product} setTest={setTest} />
             <div className="mt-12 text-black">
               <Viewer value={product.description} />
               <div className="mt-4 flex flex-wrap gap-2">
@@ -50,12 +49,6 @@ export default function Product({
                 ))}
               </div>
             </div>
-            <ProductImages
-              product={product}
-              setCurrentIndex={setCurrentIndex}
-              setImageOpen={setImageOpen}
-            />
-
             <Disclaimer />
             <MoreProducts
               setOpenedImage={setOpenedImage}

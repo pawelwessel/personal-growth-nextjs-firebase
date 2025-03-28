@@ -8,6 +8,9 @@ dependencies:
   firebase:
     specifier: ^11.5.0
     version: 11.5.0
+  framer-motion:
+    specifier: ^12.6.2
+    version: 12.6.2(react-dom@19.0.0)(react@19.0.0)
   moment:
     specifier: ^2.30.1
     version: 2.30.1
@@ -36,8 +39,8 @@ dependencies:
     specifier: ^9.2.0
     version: 9.2.0(@types/react@19.0.12)(react@19.0.0)
   react-responsive-masonry:
-    specifier: ^2.7.1
-    version: 2.7.1
+    specifier: ^2.2.2
+    version: 2.2.2
   react-toastify:
     specifier: ^11.0.5
     version: 11.0.5(react-dom@19.0.0)(react@19.0.0)
@@ -1333,6 +1336,27 @@ packages:
       - '@react-native-async-storage/async-storage'
     dev: false
 
+  /framer-motion@12.6.2(react-dom@19.0.0)(react@19.0.0):
+    resolution: {integrity: sha512-7LgPRlPs5aG8UxeZiMCMZz8firC53+2+9TnWV22tuSi38D3IFRxHRUqOREKckAkt6ztX+Dn6weLcatQilJTMcg==}
+    peerDependencies:
+      '@emotion/is-prop-valid': '*'
+      react: ^18.0.0 || ^19.0.0
+      react-dom: ^18.0.0 || ^19.0.0
+    peerDependenciesMeta:
+      '@emotion/is-prop-valid':
+        optional: true
+      react:
+        optional: true
+      react-dom:
+        optional: true
+    dependencies:
+      motion-dom: 12.6.1
+      motion-utils: 12.5.0
+      react: 19.0.0
+      react-dom: 19.0.0(react@19.0.0)
+      tslib: 2.8.1
+    dev: false
+
   /function-bind@1.1.2:
     resolution: {integrity: sha512-7XHNxH7qX9xG5mIwxkhumTox/MIRNcOgDrxWsMt2pAr23WHp6MrRlN7FBSFpCpr+oVO0F744iUgR82nJMfG2SA==}
     dev: false
@@ -1596,6 +1620,16 @@ packages:
     resolution: {integrity: sha512-uEmtNhbDOrWPFS+hdjFCBfy9f2YoyzRpwcl+DqpC6taX21FzsTLQVbMV/W7PzNSX6x/bhC1zA3c2UQ5NzH6how==}
     dev: false
 
+  /motion-dom@12.6.1:
+    resolution: {integrity: sha512-8XVsriTUEVOepoIDgE/LDGdg7qaKXWdt+wQA/8z0p8YzJDLYL8gbimZ3YkCLlj7bB2i/4UBD/g+VO7y9ZY0zHQ==}
+    dependencies:
+      motion-utils: 12.5.0
+    dev: false
+
+  /motion-utils@12.5.0:
+    resolution: {integrity: sha512-+hFFzvimn0sBMP9iPxBa9OtRX35ZQ3py0UHnb8U29VD+d8lQ8zH3dTygJWqK7av2v6yhg7scj9iZuvTS0f4+SA==}
+    dev: false
+
   /nanoid@3.3.11:
     resolution: {integrity: sha512-N8SpfPUnUp1bK+PMYW8qSWdl9U+wwNWI4QKxOYDy9JAro3WMX7p2OeVRF9v+347pnakNevPmiHhNmZ2HbFA76w==}
     engines: {node: ^10 || ^12 || ^13.7 || ^14 || >=15.0.1}
@@ -1842,8 +1876,10 @@ packages:
       use-sync-external-store: 1.4.0(react@19.0.0)
     dev: false
 
-  /react-responsive-masonry@2.7.1:
-    resolution: {integrity: sha512-Q+u+nOH87PzjqGFd2PgTcmLpHPZnCmUPREHYoNBc8dwJv6fi51p9U6hqwG8g/T8MN86HrFjrU+uQU6yvETU7cA==}
+  /react-responsive-masonry@2.2.2:
+    resolution: {integrity: sha512-rnFqycGHc5VfEMj/1Q0JPtrc7O6cBZn1KUDh+KQ0WygZK3KH591zmXyq5/MHQsUM3i2mTE+AzHK3hXNbNe9+AA==}
+    dependencies:
+      caniuse-lite: 1.0.30001707
     dev: false
 
   /react-toastify@11.0.5(react-dom@19.0.0)(react@19.0.0):

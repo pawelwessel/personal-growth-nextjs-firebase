@@ -2,6 +2,7 @@ import Image from "next/image";
 import { getPolishCurrency } from "@/lib/getPolishCurrency";
 import { updateDocument } from "@/firebase";
 import { useState } from "react";
+import { FaStar } from "react-icons/fa6";
 
 export default function ProductCard({
   setOpenedImage,
@@ -24,7 +25,7 @@ export default function ProductCard({
         );
       }}
     >
-      <div className="absolute z-[5] inset-0 bg-gradient-to-t from-black/10 to-black/50 group-hover:from-black/50 group-hover:to-black/50" />
+      <div className="absolute rounded-2xl z-[5] inset-0 bg-gradient-to-t from-black/30 to-black/70 group-hover:from-black/50 group-hover:to-black/50" />
       {!loading && (
         <div className="absolute z-[6] inset-0 flex items-center justify-center">
           <div className="text-center">
@@ -36,11 +37,18 @@ export default function ProductCard({
             <h2 className="font-pt text-white font-extralight text-lg line-clamp-2">
               {product.title}
             </h2>
+            <div className="text-yellow-400 justify-center flex gap-3 text-xs mt-3">
+              <FaStar />
+              <FaStar />
+              <FaStar />
+              <FaStar />
+              <FaStar />
+            </div>
           </div>
         </div>
       )}
 
-      <div className="overflow-hidden">
+      <div className="overflow-hidden rounded-2xl">
         {loading && (
           <div className="w-full h-[500px] bg-gray-200 animate-pulse">
             <Image

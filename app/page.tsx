@@ -24,7 +24,6 @@ export default async function Home() {
           </h2>
         </div>
       </div>
-
       <div className="-mt-[104px] lg:-mt-0 h-full flex flex-col items-center justify-center text-center lg:text-left lg:flex-row-reverse">
         <Image
           src={hero}
@@ -62,10 +61,11 @@ export default async function Home() {
           Przyszłość należy do Ciebie!
         </h2>
         <p className="mx-auto mt-4 text-center px-6 lg:pl-0 sm:text-lg text-gray-700 font-pt max-w-lg">
-          Sprawdzone narzędzia, które poprowadzą Cię krok po kroku do realizacji
-          Twoich celów.
+          Sprawdzone narzędzia, które pomogą Ci w zrozumieniu siebie i
+          osiągnięciu Twoich celów.
         </p>
-        <Products products={products} />
+        <Products data={products} />
+        <div className="pt-12 bg-gray-200 mt-12"></div>
       </div>
     </div>
   );
