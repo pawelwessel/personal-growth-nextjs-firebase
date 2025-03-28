@@ -31,7 +31,7 @@ export default function ProductDetails({
         <h2 className="z-20  text-white drop-shadow-lg text-2xl sm:text-3xl xl:text-4xl font-bold mt-6">
           {product.title}
         </h2>
-        <div className="flex items-end flex-wrap gap-4 justify-center z-20 mt-6">
+        <div className="text-white flex items-end flex-wrap gap-4 justify-center z-20 mt-6">
           <div className="flex-col items-center w-max justify-center text-center">
             <Image src={pc} width={28} height={28} alt="" className="mx-auto" />
             <span className="text-xs md:text-sm font-pt font-light block mt-1.5">
