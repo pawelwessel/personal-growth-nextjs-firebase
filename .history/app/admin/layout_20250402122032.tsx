@@ -4,7 +4,7 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import LoginPage from "./LoginPage";
 import Nav from "./Nav";
 import Loading from "./loading";
-
+import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import { useState } from "react";
 import Toast from "@/components/Toast";
 export default function AdminLayout({
