@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { FaPlay, FaCheck, FaArrowRight, FaStar, FaTimes } from "react-icons/fa";
+import { FaPlay, FaCheck, FaArrowRight, FaStar } from "react-icons/fa";
 import Image from "next/image";
 import ReactConfetti from "react-confetti";
 import PersonalReport from "./PersonalReport";
@@ -41,40 +41,28 @@ export default function Test({
   const [loading, setLoading] = useState(false);
   const [results, setResults] = useState<any>(null);
 
-  // Keyboard event listeners
+  // Keyboard event listener for 'E' key to jump to last question
   useEffect(() => {
     const handleKeyPress = (event: KeyboardEvent) => {
-      // 'E' key to jump to last question
       if (
         event.key.toLowerCase() === "e" &&
         test &&
         test.questions &&
         currentIndex < test.questions.length - 1
       ) {
+        // Jump to the last question
         setCurrentIndex(test.questions.length - 1);
-      }
-
-      // 'Escape' key to close test
-      if (event.key === "Escape") {
-        handleClose();
       }
     };
 
+    // Add event listener
     window.addEventListener("keydown", handleKeyPress);
+
+    // Cleanup event listener
     return () => {
       window.removeEventListener("keydown", handleKeyPress);
     };
   }, [currentIndex, test]);
-
-  const handleClose = () => {
-    setTest(false);
-    setUserAnswers([]);
-    setSelected([]);
-    setCurrentIndex(0);
-    setFinished(false);
-    setShouldAnimate(false);
-    setResults(null);
-  };
 
   useEffect(() => {
     if (currentIndex === test?.questions?.length) {
@@ -106,7 +94,7 @@ export default function Test({
   }, [currentIndex, test?.questions?.length, selected]);
 
   return (
-    <div className="z-50 w-full h-full bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 rounded-3xl overflow-hidden flex flex-col">
+    <div className="w-full h-full bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 rounded-3xl overflow-hidden">
       {/* Test Container */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
@@ -115,7 +103,7 @@ export default function Test({
       >
         {/* Confetti Animation */}
         <div
-          className={`absolute inset-0 ${
+          className={`absolute inset-0 z-10 ${
             shouldAnimate ? "opacity-100" : "opacity-0"
           } transition-opacity duration-300`}
         >
@@ -123,22 +111,14 @@ export default function Test({
         </div>
 
         {/* Header */}
-        <div className="bg-gradient-to-r from-purple-600 via-pink-600 to-blue-600 text-white p-4 lg:p-8 text-center relative overflow-hidden flex-shrink-0">
-          {/* Close Button */}
-          <button
-            onClick={handleClose}
-            className="absolute top-4 right-4 z-20 p-2 rounded-full bg-white/20 hover:bg-white/30 transition-colors duration-200"
-            aria-label="Zamknij test"
-          >
-            <FaTimes className="text-white text-lg" />
-          </button>
-
+        <div className="bg-gradient-to-r from-purple-600 via-pink-600 to-blue-600 text-white p-6 lg:p-8 text-center relative overflow-hidden flex-shrink-0">
+          <div className="absolute inset-0 bg-black/10"></div>
           <div className="relative z-10">
             {!results && (
               <motion.h1
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="text-xl lg:text-3xl xl:text-4xl font-bold mb-4 pr-12"
+                className="text-2xl lg:text-3xl xl:text-4xl font-bold mb-4"
               >
                 {test?.title}
               </motion.h1>
@@ -146,8 +126,8 @@ export default function Test({
 
             {!finished && (
               <div className="flex flex-col items-center gap-3">
-                <div className="flex items-center space-x-2 bg-white/20 backdrop-blur-sm rounded-full px-3 py-2 text-sm">
-                  <FaPlay className="text-xs" />
+                <div className="flex items-center space-x-2 bg-white/20 backdrop-blur-sm rounded-full px-4 py-2">
+                  <FaPlay className="text-sm" />
                   <span className="font-medium">
                     Pytanie {currentIndex + 1} z {test?.questions?.length}
                   </span>
@@ -156,7 +136,7 @@ export default function Test({
                 {test &&
                   test.questions &&
                   currentIndex < test.questions.length - 1 && (
-                    <div className="text-white/80 text-xs lg:text-sm">
+                    <div className="text-white/80 text-sm">
                       Naciśnij{" "}
                       <span className="bg-white/20 px-2 py-1 rounded font-mono">
                         E
@@ -171,7 +151,7 @@ export default function Test({
 
         {/* Progress Bar */}
         {!finished && (
-          <div className="px-4 lg:px-8 pt-4 flex-shrink-0">
+          <div className="px-6 lg:px-8 pt-4 flex-shrink-0">
             <div className="w-full bg-gray-200 rounded-full h-2 overflow-hidden">
               <motion.div
                 className="bg-gradient-to-r from-purple-500 to-pink-500 h-2 rounded-full"
@@ -188,7 +168,7 @@ export default function Test({
         )}
 
         {/* Content */}
-        <div className="flex-1 overflow-y-auto p-4 lg:p-8">
+        <div className="flex-1 overflow-y-auto p-6 lg:p-8">
           {test && (
             <div className="relative">
               <AnimatePresence mode="wait">
@@ -199,17 +179,17 @@ export default function Test({
                     animate={{ opacity: 1, x: 0 }}
                     exit={{ opacity: 0, x: -50 }}
                     transition={{ duration: 0.3 }}
-                    className="space-y-4 lg:space-y-6"
+                    className="space-y-6"
                   >
                     {/* Question */}
                     <div className="text-center">
-                      <h2 className="text-base lg:text-xl xl:text-2xl font-bold text-gray-800 mb-4 lg:mb-6 leading-relaxed">
+                      <h2 className="text-lg lg:text-xl xl:text-2xl font-bold text-gray-800 mb-6 leading-relaxed">
                         {test.questions[currentIndex].question}
                       </h2>
                     </div>
 
                     {/* Answers */}
-                    <div className="space-y-3 lg:space-y-4">
+                    <div className="space-y-4">
                       {test.questions[currentIndex].answers.map(
                         (answer: string, i: number) => {
                           const isSelected = selected.some(
@@ -258,15 +238,15 @@ export default function Test({
                               }}
                               whileHover={{ scale: 1.02 }}
                               whileTap={{ scale: 0.98 }}
-                              className={`w-full p-3 lg:p-6 rounded-2xl border-2 transition-all duration-300 text-left ${
+                              className={`w-full p-4 lg:p-6 rounded-2xl border-2 transition-all duration-300 text-left ${
                                 isSelected
                                   ? "border-purple-500 bg-gradient-to-r from-purple-50 to-pink-50 shadow-lg"
                                   : "border-gray-200 bg-white hover:border-purple-300 hover:shadow-md"
                               }`}
                             >
-                              <div className="flex items-center space-x-3 lg:space-x-4">
+                              <div className="flex items-center space-x-4">
                                 <div
-                                  className={`w-8 h-8 lg:w-12 lg:h-12 rounded-full flex items-center justify-center font-bold text-sm lg:text-lg ${
+                                  className={`w-10 h-10 lg:w-12 lg:h-12 rounded-full flex items-center justify-center font-bold text-lg ${
                                     isSelected
                                       ? "bg-gradient-to-r from-purple-500 to-pink-500 text-white"
                                       : "bg-gray-100 text-gray-600"
@@ -301,7 +281,7 @@ export default function Test({
 
               {/* Navigation */}
               {!finished && (
-                <div className="mt-6 lg:mt-8 text-center">
+                <div className="mt-8 text-center">
                   <motion.button
                     onClick={() => {
                       setCurrentIndex((prev) =>
@@ -311,7 +291,7 @@ export default function Test({
                     disabled={currentIndex + 1 !== selected.length}
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
-                    className={`inline-flex items-center space-x-2 px-4 lg:px-8 py-3 lg:py-4 rounded-full font-semibold transition-all duration-300 text-sm lg:text-base ${
+                    className={`inline-flex items-center space-x-2 px-6 lg:px-8 py-3 lg:py-4 rounded-full font-semibold transition-all duration-300 ${
                       currentIndex + 1 === selected.length
                         ? "bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg"
                         : "bg-gray-200 text-gray-500 cursor-not-allowed"
@@ -328,22 +308,22 @@ export default function Test({
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className="text-center py-6 lg:py-12"
+                  className="text-center py-8 lg:py-12"
                 >
-                  <div className="w-16 h-16 lg:w-24 lg:h-24 bg-gradient-to-r from-green-400 to-blue-400 rounded-full flex items-center justify-center mx-auto mb-4 lg:mb-6">
-                    <FaStar className="text-white text-xl lg:text-3xl" />
+                  <div className="w-20 h-20 lg:w-24 lg:h-24 bg-gradient-to-r from-green-400 to-blue-400 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <FaStar className="text-white text-2xl lg:text-3xl" />
                   </div>
-                  <h3 className="text-lg lg:text-2xl font-bold text-gray-800 mb-3 lg:mb-4">
+                  <h3 className="text-xl lg:text-2xl font-bold text-gray-800 mb-4">
                     Test ukończony!
                   </h3>
-                  <p className="text-gray-600 mb-4 lg:mb-6 text-sm lg:text-base">
+                  <p className="text-gray-600 mb-6 text-sm lg:text-base">
                     Dziękujemy za wypełnienie testu. Generujemy Twój
                     spersonalizowany raport...
                   </p>
 
                   {loading && (
                     <div className="flex flex-col items-center">
-                      <div className="w-10 h-10 lg:w-16 lg:h-16 border-4 border-purple-200 border-t-purple-600 rounded-full animate-spin mb-3 lg:mb-4"></div>
+                      <div className="w-12 h-12 lg:w-16 lg:h-16 border-4 border-purple-200 border-t-purple-600 rounded-full animate-spin mb-4"></div>
                       <p className="text-gray-600 text-sm lg:text-base">
                         Analizujemy Twoje odpowiedzi...
                       </p>
@@ -367,10 +347,18 @@ export default function Test({
         </div>
 
         {/* Footer */}
-        <div className="bg-gray-50 px-4 lg:px-8 py-3 lg:py-4 flex-shrink-0 text-center">
+        <div className="bg-gray-50 px-6 lg:px-8 py-4 flex-shrink-0 text-center">
           <button
-            onClick={handleClose}
-            className="text-gray-500 hover:text-gray-700 font-medium transition-colors duration-300 text-sm lg:text-base"
+            onClick={() => {
+              setTest(false);
+              setUserAnswers([]);
+              setSelected([]);
+              setCurrentIndex(0);
+              setFinished(false);
+              setShouldAnimate(false);
+              setResults(null);
+            }}
+            className="text-gray-500 hover:text-gray-700 font-medium transition-colors duration-300"
           >
             Zamknij test
           </button>

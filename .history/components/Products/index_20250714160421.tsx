@@ -13,26 +13,6 @@ export default function Products({ products }: { products: IProduct[] }) {
     setIsClient(typeof window !== "undefined");
   }, []);
 
-  // Handle escape key to close test
-  useEffect(() => {
-    const handleEscape = (event: KeyboardEvent) => {
-      if (event.key === "Escape" && test) {
-        setTest(null);
-      }
-    };
-
-    if (test) {
-      document.addEventListener("keydown", handleEscape);
-      // Prevent body scroll when modal is open
-      document.body.style.overflow = "hidden";
-    }
-
-    return () => {
-      document.removeEventListener("keydown", handleEscape);
-      document.body.style.overflow = "unset";
-    };
-  }, [test]);
-
   if (!isClient) {
     return null;
   }
@@ -41,12 +21,9 @@ export default function Products({ products }: { products: IProduct[] }) {
     <div className="mx-5 lg:mx-[8vw] xl:mx-[12vw]">
       {/* Test Modal */}
       {test && (
-        <div className="fixed inset-0 z-[9999] flex items-center justify-center p-2 sm:p-4">
-          <div
-            className="absolute inset-0 bg-black/60 backdrop-blur-sm"
-            onClick={() => setTest(null)}
-          />
-          <div className="relative w-full h-full sm:h-auto sm:max-w-4xl sm:max-h-[90vh] overflow-hidden rounded-2xl sm:rounded-3xl">
+        <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4">
+          <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" />
+          <div className="relative w-full max-w-4xl max-h-[90vh] overflow-hidden">
             <Test setTest={setTest} test={test} />
           </div>
         </div>
