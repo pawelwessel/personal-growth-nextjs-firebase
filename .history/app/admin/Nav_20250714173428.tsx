@@ -8,8 +8,6 @@ import {
   FaImages,
   FaPlus,
   FaSignOutAlt,
-  FaGraduationCap,
-  FaBook,
 } from "react-icons/fa";
 import { useState } from "react";
 import Image from "next/image";
@@ -24,24 +22,6 @@ export default function Nav({
 
   const navItems: any = [
     { title: "Przegląd", href: `/admin`, icon: <FaHome /> },
-    {
-      title: "Kursy",
-      href: `/admin/courses`,
-      expandable: true,
-      icon: <FaGraduationCap />,
-      subItems: [
-        {
-          title: "Dodaj kurs",
-          href: `/admin/courses/add`,
-          icon: <FaPlus />,
-        },
-        {
-          title: "Wszystkie kursy",
-          href: `/admin/courses/list`,
-          icon: <FaBook />,
-        },
-      ],
-    },
     // {
     //   title: "Blog",
     //   href: `/admin/blog`,

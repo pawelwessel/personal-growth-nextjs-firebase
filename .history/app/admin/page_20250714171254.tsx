@@ -2,14 +2,7 @@
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "@/firebase";
 import Link from "next/link";
-import {
-  FaPlus,
-  FaImages,
-  FaClipboardList,
-  FaUser,
-  FaGraduationCap,
-  FaBook,
-} from "react-icons/fa";
+import { FaPlus, FaImages, FaClipboardList, FaUser } from "react-icons/fa";
 
 export default function Admin() {
   const [user, loading] = useAuthState(auth);
@@ -47,20 +40,6 @@ export default function Admin() {
 
   const adminCards = [
     {
-      title: "Dodaj kurs",
-      description: "Utwórz nowy kurs rozwojowy",
-      icon: <FaGraduationCap className="text-2xl" />,
-      href: "/admin/courses/add",
-      color: "bg-purple-500 hover:bg-purple-600",
-    },
-    {
-      title: "Wszystkie kursy",
-      description: "Zarządzaj istniejącymi kursami",
-      icon: <FaBook className="text-2xl" />,
-      href: "/admin/courses/list",
-      color: "bg-indigo-500 hover:bg-indigo-600",
-    },
-    {
       title: "Dodaj produkt",
       description: "Utwórz nowy produkt w sklepie",
       icon: <FaPlus className="text-2xl" />,
@@ -79,14 +58,14 @@ export default function Admin() {
       description: "Przeglądaj i zarządzaj zamówieniami",
       icon: <FaClipboardList className="text-2xl" />,
       href: "/admin/shop/orders",
-      color: "bg-orange-500 hover:bg-orange-600",
+      color: "bg-purple-500 hover:bg-purple-600",
     },
     {
       title: "Profil",
       description: "Zarządzaj swoim kontem",
       icon: <FaUser className="text-2xl" />,
       href: "/admin/profile",
-      color: "bg-red-500 hover:bg-red-600",
+      color: "bg-orange-500 hover:bg-orange-600",
     },
   ];
 
@@ -101,7 +80,7 @@ export default function Admin() {
         </p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {adminCards.map((card, index) => (
           <Link key={index} href={card.href}>
             <div
@@ -121,11 +100,7 @@ export default function Admin() {
         <h2 className="text-2xl font-bold text-gray-800 mb-4">
           Szybkie statystyki
         </h2>
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-          <div className="text-center">
-            <div className="text-3xl font-bold text-purple-500">0</div>
-            <div className="text-gray-600">Aktywne kursy</div>
-          </div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div className="text-center">
             <div className="text-3xl font-bold text-blue-500">0</div>
             <div className="text-gray-600">Aktywne produkty</div>
@@ -135,7 +110,7 @@ export default function Admin() {
             <div className="text-gray-600">Nowe zamówienia</div>
           </div>
           <div className="text-center">
-            <div className="text-3xl font-bold text-orange-500">0</div>
+            <div className="text-3xl font-bold text-purple-500">0</div>
             <div className="text-gray-600">Użytkownicy</div>
           </div>
         </div>

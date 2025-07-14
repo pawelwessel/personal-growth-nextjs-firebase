@@ -4,6 +4,7 @@ import { FaPlay, FaCheck, FaArrowRight, FaStar, FaTimes } from "react-icons/fa";
 import Image from "next/image";
 import ReactConfetti from "react-confetti";
 import PersonalReport from "./PersonalReport";
+import Advertisement from "./Advertisement";
 
 async function getTestResults({
   prompt,
@@ -106,7 +107,7 @@ export default function Test({
   }, [currentIndex, test?.questions?.length, selected]);
 
   return (
-    <div className="z-50 w-full h-full bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 rounded-3xl overflow-hidden flex flex-col">
+    <div className="z-50 w-full h-full bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 rounded-3xl flex flex-col">
       {/* Test Container */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
@@ -114,20 +115,22 @@ export default function Test({
         className="h-full flex flex-col"
       >
         {/* Confetti Animation */}
-        <div
-          className={`absolute inset-0 ${
-            shouldAnimate ? "opacity-100" : "opacity-0"
-          } transition-opacity duration-300`}
-        >
-          <ReactConfetti width={1920} height={1920} />
-        </div>
+        {shouldAnimate && (
+          <div
+            className={`absolute inset-0 ${
+              shouldAnimate ? "opacity-100" : "opacity-0"
+            } transition-opacity duration-300 z-10`}
+          >
+            <ReactConfetti width={1920} height={1920} />
+          </div>
+        )}
 
         {/* Header */}
         <div className="bg-gradient-to-r from-purple-600 via-pink-600 to-blue-600 text-white p-4 lg:p-8 text-center relative overflow-hidden flex-shrink-0">
           {/* Close Button */}
           <button
             onClick={handleClose}
-            className="absolute top-4 right-4 z-20 p-2 rounded-full bg-white/20 hover:bg-white/30 transition-colors duration-200"
+            className="absolute top-4 right-4 z-50 p-2 rounded-full bg-white/20 hover:bg-white/30 transition-colors duration-200"
             aria-label="Zamknij test"
           >
             <FaTimes className="text-white text-lg" />
@@ -188,7 +191,7 @@ export default function Test({
         )}
 
         {/* Content */}
-        <div className="flex-1 overflow-y-auto p-4 lg:p-8">
+        <div className="flex flex-col p-4 lg:p-8 overflow-y-scroll h-[70vh]">
           {test && (
             <div className="relative">
               <AnimatePresence mode="wait">
@@ -357,8 +360,9 @@ export default function Test({
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className="py-4"
+                  className="py-6"
                 >
+                  <Advertisement />
                   <PersonalReport data={results} />
                 </motion.div>
               )}
@@ -367,7 +371,7 @@ export default function Test({
         </div>
 
         {/* Footer */}
-        <div className="bg-gray-50 px-4 lg:px-8 py-3 lg:py-4 flex-shrink-0 text-center">
+        <div className="bg-gray-50 px-4 lg:px-8 py-3 lg:py-4 flex-shrink-0 text-center relative z-40">
           <button
             onClick={handleClose}
             className="text-gray-500 hover:text-gray-700 font-medium transition-colors duration-300 text-sm lg:text-base"

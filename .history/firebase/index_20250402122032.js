@@ -9,16 +9,9 @@ import {
   getDocs,
   deleteDoc,
 } from "firebase/firestore/lite";
-import {
-  getStorage,
-  ref,
-  uploadBytes,
-  getDownloadURL,
-  deleteObject,
-} from "firebase/storage";
+import { getStorage } from "firebase/storage";
 import { getAuth } from "firebase/auth";
 import { getAnalytics, isSupported } from "firebase/analytics";
-
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
   authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
@@ -34,18 +27,15 @@ export const db = getFirestore(app);
 const storage = getStorage(app);
 const auth = getAuth(app);
 const analytics = isSupported().then((yes) => (yes ? getAnalytics(app) : null));
-
 async function getDocuments(collectionName) {
   const ref = collection(db, collectionName);
   const response = await getDocs(ref);
   const res = response.docs.map((doc) => doc.data());
   return res;
 }
-
 async function addDocument(collectionName, uniqueId, data) {
   await setDoc(doc(db, collectionName, uniqueId), data);
 }
-
 async function getDocument(collectionName, id) {
   const docRef = doc(db, collectionName, id);
   const docSnap = await getDoc(docRef);
@@ -53,11 +43,9 @@ async function getDocument(collectionName, id) {
     return docSnap.data();
   }
 }
-
 async function removeDocument(collectionName, uniqueId) {
   await deleteDoc(doc(db, collectionName, uniqueId));
 }
-
 async function updateDocument(keys, values, collectionName, id) {
   const docRef = doc(db, collectionName, id);
   const docSnapshot = await getDoc(docRef);
@@ -69,19 +57,6 @@ async function updateDocument(keys, values, collectionName, id) {
   });
   await updateDoc(docRef, updatedData);
 }
-
-// Storage functions
-async function uploadFile(file, path) {
-  const storageRef = ref(storage, path);
-  const snapshot = await uploadBytes(storageRef, file);
-  return await getDownloadURL(snapshot.ref);
-}
-
-async function deleteFile(fileUrl) {
-  const fileRef = ref(storage, fileUrl);
-  await deleteObject(fileRef);
-}
-
 export {
   storage,
   auth,
@@ -90,6 +65,4 @@ export {
   getDocument,
   removeDocument,
   updateDocument,
-  uploadFile,
-  deleteFile,
 };

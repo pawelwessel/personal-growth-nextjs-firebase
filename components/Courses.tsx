@@ -2,13 +2,8 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import {
-  FaChevronDown,
-  FaPlay,
-  FaClock,
-  FaStar,
-  FaUsers,
-} from "react-icons/fa";
+import { FaChevronDown } from "react-icons/fa";
+import CourseCard from "./CourseCard";
 
 interface Course {
   id: string;
@@ -124,19 +119,6 @@ export default function Courses() {
       ? courses
       : courses.filter((course) => course.category === selectedCategory);
 
-  const getLevelColor = (level: string) => {
-    switch (level) {
-      case "Początkujący":
-        return "bg-green-100 text-green-800";
-      case "Średniozaawansowany":
-        return "bg-yellow-100 text-yellow-800";
-      case "Zaawansowany":
-        return "bg-red-100 text-red-800";
-      default:
-        return "bg-gray-100 text-gray-800";
-    }
-  };
-
   return (
     <div className="bg-white py-16 px-6 lg:px-12">
       <div className="max-w-6xl mx-auto">
@@ -178,87 +160,14 @@ export default function Courses() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden group"
               >
-                {/* Course Image */}
-                <div className="relative h-48 bg-gradient-to-br from-purple-100 to-pink-100">
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
-                  {course.isPopular && (
-                    <div className="absolute top-3 left-3 bg-gradient-to-r from-yellow-400 to-orange-400 text-white px-3 py-1 rounded-full text-xs font-bold">
-                      Popularny
-                    </div>
-                  )}
-                  {course.isNew && (
-                    <div className="absolute top-3 right-3 bg-gradient-to-r from-green-400 to-blue-400 text-white px-3 py-1 rounded-full text-xs font-bold">
-                      Nowy
-                    </div>
-                  )}
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center">
-                      <FaPlay className="text-white text-xl ml-1" />
-                    </div>
-                  </div>
-                </div>
-
-                {/* Course Content */}
-                <div className="p-6">
-                  <div className="flex items-center justify-between mb-3">
-                    <span className="text-xs font-medium text-purple-600 bg-purple-100 px-2 py-1 rounded-full">
-                      {course.category}
-                    </span>
-                    <span
-                      className={`text-xs font-medium px-2 py-1 rounded-full ${getLevelColor(
-                        course.level
-                      )}`}
-                    >
-                      {course.level}
-                    </span>
-                  </div>
-
-                  <h3 className="text-lg font-bold text-gray-800 mb-2 group-hover:text-purple-600 transition-colors">
-                    {course.title}
-                  </h3>
-                  <p className="text-gray-600 text-sm mb-4 line-clamp-2">
-                    {course.description}
-                  </p>
-
-                  {/* Course Stats */}
-                  <div className="flex items-center justify-between mb-4">
-                    <div className="flex items-center space-x-4 text-sm text-gray-500">
-                      <div className="flex items-center">
-                        <FaClock className="mr-1" />
-                        <span>{course.duration}</span>
-                      </div>
-                      <div className="flex items-center">
-                        <FaUsers className="mr-1" />
-                        <span>{course.students}</span>
-                      </div>
-                    </div>
-                    <div className="flex items-center">
-                      <FaStar className="text-yellow-400 mr-1" />
-                      <span className="text-sm font-medium">
-                        {course.rating}
-                      </span>
-                    </div>
-                  </div>
-
-                  {/* Price */}
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center space-x-2">
-                      <span className="text-2xl font-bold text-gray-800">
-                        {course.price} PLN
-                      </span>
-                      {course.originalPrice && (
-                        <span className="text-sm text-gray-500 line-through">
-                          {course.originalPrice} PLN
-                        </span>
-                      )}
-                    </div>
-                    <button className="bg-gradient-to-r from-purple-600 to-pink-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:from-purple-700 hover:to-pink-700 transition-all duration-300 transform hover:scale-105">
-                      Dołącz teraz
-                    </button>
-                  </div>
-                </div>
+                <CourseCard
+                  course={course}
+                  onClick={() => {
+                    // Handle course click - could open course details or redirect
+                    console.log("Course clicked:", course.title);
+                  }}
+                />
               </motion.div>
             ))}
         </div>
