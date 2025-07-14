@@ -2,7 +2,6 @@
 import Product from "./Product";
 import { Suspense, useState, useEffect } from "react";
 import Test from "./Test";
-import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
 import { IProduct } from "@/types";
 
 export default function Products({ products }: { products: IProduct[] }) {
@@ -31,27 +30,22 @@ export default function Products({ products }: { products: IProduct[] }) {
       )}
 
       <Suspense fallback={<div>Loading...</div>}>
-        <ResponsiveMasonry
-          className="mt-12"
-          columnsCountBreakPoints={{ 350: 1, 750: 2, 900: 3, 1360: 4 }}
-        >
-          <Masonry gutter="12px">
-            {products.length > 0 ? (
-              products.map((product: any, i: number) => (
-                <Product
-                  product={product}
-                  key={i}
-                  products={products}
-                  openedProduct={openedProduct}
-                  setOpenedProduct={setOpenedProduct}
-                  setTest={setTest}
-                />
-              ))
-            ) : (
-              <div className="p-4 bg-gray-200">Brak wyników...</div>
-            )}
-          </Masonry>
-        </ResponsiveMasonry>
+        <div className="mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
+          {products.length > 0 ? (
+            products.map((product: any, i: number) => (
+              <Product
+                product={product}
+                key={i}
+                products={products}
+                openedProduct={openedProduct}
+                setOpenedProduct={setOpenedProduct}
+                setTest={setTest}
+              />
+            ))
+          ) : (
+            <div className="col-span-full p-4 bg-gray-200">Brak wyników...</div>
+          )}
+        </div>
       </Suspense>
     </div>
   );

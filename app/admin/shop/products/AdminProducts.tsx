@@ -2,7 +2,6 @@
 import Image from "next/image";
 import { useState } from "react";
 import { FaEdit, FaTrash } from "react-icons/fa";
-import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
 import ProductEditor from "../add-product/ProductEditor";
 import { removeDocument } from "@/firebase";
 import { toast } from "react-toastify";
@@ -82,44 +81,39 @@ export default function AdminProducts({
           </div>
         </div>
       )}
-      <ResponsiveMasonry
-        className=""
-        columnsCountBreakPoints={{ 350: 1, 750: 2, 900: 3, 1360: 4 }}
-      >
-        <Masonry>
-          {products &&
-            products.map((product: IProduct) => (
-              <div key={product.title} className="relative">
-                <div
-                  className={`font-ubuntu absolute bottom-0 left-0 w-full h-12 text-white grid grid-cols-2`}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
+        {products &&
+          products.map((product: IProduct) => (
+            <div key={product.title} className="relative">
+              <div
+                className={`font-ubuntu absolute bottom-0 left-0 w-full h-12 text-white grid grid-cols-2`}
+              >
+                <button
+                  onClick={() => setCurrentlyEditingProduct(product)}
+                  className="bg-black/70 hover:bg-black/80 duration-300 flex flex-col items-center justify-center text-center h-full"
                 >
-                  <button
-                    onClick={() => setCurrentlyEditingProduct(product)}
-                    className="bg-black/70 hover:bg-black/80 duration-300 flex flex-col items-center justify-center text-center h-full"
-                  >
-                    <FaEdit />
+                  <FaEdit />
 
-                    <p className="text-xs mt-1">EDYTUJ</p>
-                  </button>
-                  <button
-                    onClick={() => setCurrentlyDeletingProduct(product)}
-                    className="bg-black/70 hover:bg-black/80 duration-300 flex flex-col items-center justify-center text-center h-full"
-                  >
-                    <FaTrash />
-                    <p className="text-xs mt-1">USUŃ</p>
-                  </button>
-                </div>
-                <Image
-                  width={1024}
-                  height={1024}
-                  src={product.mainImage || product.images[0].src}
-                  className="border border-gray-200"
-                  alt={product?.title}
-                />
+                  <p className="text-xs mt-1">EDYTUJ</p>
+                </button>
+                <button
+                  onClick={() => setCurrentlyDeletingProduct(product)}
+                  className="bg-black/70 hover:bg-black/80 duration-300 flex flex-col items-center justify-center text-center h-full"
+                >
+                  <FaTrash />
+                  <p className="text-xs mt-1">USUŃ</p>
+                </button>
               </div>
-            ))}
-        </Masonry>
-      </ResponsiveMasonry>
+              <Image
+                width={1024}
+                height={1024}
+                src={product.mainImage || product.images[0].src}
+                className="border border-gray-200"
+                alt={product?.title}
+              />
+            </div>
+          ))}
+      </div>
     </>
   );
 }
