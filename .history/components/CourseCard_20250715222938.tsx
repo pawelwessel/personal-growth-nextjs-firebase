@@ -58,16 +58,6 @@ const CourseCard: React.FC<CourseCardProps> = ({
 
   const handlePurchase = async () => {
     try {
-      // Track begin checkout event
-      trackBeginCheckout(course.price, "PLN", [
-        {
-          item_id: course.id,
-          item_name: course.title,
-          price: course.price,
-          quantity: 1,
-        },
-      ]);
-
       // Create Stripe checkout session
       const response = await fetch("/api/stripe/checkout", {
         method: "POST",

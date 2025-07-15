@@ -16,15 +16,7 @@ import {
   getDownloadURL,
   deleteObject,
 } from "firebase/storage";
-import {
-  getAuth,
-  signInWithEmailAndPassword,
-  createUserWithEmailAndPassword,
-  signInWithPopup,
-  GoogleAuthProvider,
-  signOut,
-  onAuthStateChanged,
-} from "firebase/auth";
+import { getAuth } from "firebase/auth";
 import { getAnalytics, isSupported } from "firebase/analytics";
 
 const firebaseConfig = {
@@ -90,24 +82,6 @@ async function deleteFile(fileUrl) {
   await deleteObject(fileRef);
 }
 
-// Auth functions
-async function signInWithEmail(email, password) {
-  return await signInWithEmailAndPassword(auth, email, password);
-}
-
-async function signUpWithEmail(email, password) {
-  return await createUserWithEmailAndPassword(auth, email, password);
-}
-
-async function signInWithGoogle() {
-  const provider = new GoogleAuthProvider();
-  return await signInWithPopup(auth, provider);
-}
-
-async function logout() {
-  return await signOut(auth);
-}
-
 export {
   storage,
   auth,
@@ -118,9 +92,4 @@ export {
   updateDocument,
   uploadFile,
   deleteFile,
-  signInWithEmail,
-  signUpWithEmail,
-  signInWithGoogle,
-  logout,
-  onAuthStateChanged,
 };

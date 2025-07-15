@@ -4,7 +4,6 @@ import { FaPlay, FaClock, FaStar, FaUsers } from "react-icons/fa";
 import Image from "next/image";
 import { useAuth } from "./AuthContext";
 import LoginPopup from "./LoginPopup";
-import { trackBeginCheckout } from "@/lib/conversionTracking";
 
 interface Course {
   id: string;
@@ -58,16 +57,6 @@ const CourseCard: React.FC<CourseCardProps> = ({
 
   const handlePurchase = async () => {
     try {
-      // Track begin checkout event
-      trackBeginCheckout(course.price, "PLN", [
-        {
-          item_id: course.id,
-          item_name: course.title,
-          price: course.price,
-          quantity: 1,
-        },
-      ]);
-
       // Create Stripe checkout session
       const response = await fetch("/api/stripe/checkout", {
         method: "POST",

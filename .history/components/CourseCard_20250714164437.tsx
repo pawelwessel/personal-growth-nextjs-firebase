@@ -1,10 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import { motion } from "framer-motion";
 import { FaPlay, FaClock, FaStar, FaUsers } from "react-icons/fa";
-import Image from "next/image";
-import { useAuth } from "./AuthContext";
-import LoginPopup from "./LoginPopup";
-import { trackBeginCheckout } from "@/lib/conversionTracking";
 
 interface Course {
   id: string;
@@ -34,67 +30,6 @@ const CourseCard: React.FC<CourseCardProps> = ({
   variant = "default",
   onClick,
 }) => {
-  const { user } = useAuth();
-  const [showLoginPopup, setShowLoginPopup] = useState(false);
-
-  const handleBuyClick = () => {
-    if (user) {
-      // Handle purchase for logged in user
-      handlePurchase();
-    } else {
-      setShowLoginPopup(true);
-    }
-  };
-
-  const handlePlayClick = () => {
-    if (user) {
-      // Check if user has purchased this course
-      // For now, we'll assume they need to purchase it
-      handlePurchase();
-    } else {
-      setShowLoginPopup(true);
-    }
-  };
-
-  const handlePurchase = async () => {
-    try {
-      // Track begin checkout event
-      trackBeginCheckout(course.price, "PLN", [
-        {
-          item_id: course.id,
-          item_name: course.title,
-          price: course.price,
-          quantity: 1,
-        },
-      ]);
-
-      // Create Stripe checkout session
-      const response = await fetch("/api/stripe/checkout", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          courseId: course.id,
-          courseTitle: course.title,
-          coursePrice: course.price,
-          userEmail: user?.email,
-          userId: user?.id,
-        }),
-      });
-
-      const data = await response.json();
-
-      if (data.success && data.url) {
-        // Redirect to Stripe checkout
-        window.location.href = data.url;
-      } else {
-        console.error("Error creating checkout session:", data.error);
-      }
-    } catch (error) {
-      console.error("Error handling purchase:", error);
-    }
-  };
   const getLevelColor = (level: string) => {
     switch (level) {
       case "Początkujący":
@@ -111,21 +46,8 @@ const CourseCard: React.FC<CourseCardProps> = ({
   const cardContent = (
     <>
       {/* Course Image */}
-      <div className="relative h-32 sm:h-40 lg:h-48 bg-gradient-to-br from-purple-100 to-pink-100 overflow-hidden">
-        {course.image ? (
-          <Image
-            src={course.image}
-            alt={course.title}
-            fill
-            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-            className="object-cover"
-            priority={false}
-            quality={85}
-          />
-        ) : (
-          <div className="w-full h-full bg-gradient-to-br from-purple-100 to-pink-100" />
-        )}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-black/20 to-transparent" />
+      <div className="relative h-32 sm:h-40 lg:h-48 bg-gradient-to-br from-purple-100 to-pink-100">
+        <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
         {course.isPopular && (
           <div className="absolute top-2 left-2 bg-gradient-to-r from-yellow-400 to-orange-400 text-white px-2 py-1 rounded-full text-xs font-bold">
             Popularny
@@ -137,10 +59,7 @@ const CourseCard: React.FC<CourseCardProps> = ({
           </div>
         )}
         <div className="absolute inset-0 flex items-center justify-center">
-          <div
-            onClick={handlePlayClick}
-            className="w-12 h-12 lg:w-16 lg:h-16 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white/30 transition-all duration-300 cursor-pointer"
-          >
+          <div className="w-12 h-12 lg:w-16 lg:h-16 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center">
             <FaPlay className="text-white text-lg lg:text-xl ml-1" />
           </div>
         </div>
@@ -182,7 +101,7 @@ const CourseCard: React.FC<CourseCardProps> = ({
           </div>
           <div className="flex items-center">
             <FaStar className="text-yellow-400 mr-1" />
-            <span className="text-xs lg:text-sm font-medium text-black">
+            <span className="text-xs lg:text-sm font-medium">
               {course.rating}
             </span>
           </div>
@@ -201,10 +120,10 @@ const CourseCard: React.FC<CourseCardProps> = ({
             )}
           </div>
           <button
-            onClick={handleBuyClick}
+            onClick={onClick}
             className="bg-gradient-to-r from-purple-600 to-pink-600 text-white px-3 lg:px-4 py-2 rounded-lg text-xs lg:text-sm font-medium hover:from-purple-700 hover:to-pink-700 transition-all duration-300 transform hover:scale-105"
           >
-            Kup teraz
+            Dołącz teraz
           </button>
         </div>
       </div>
@@ -219,31 +138,15 @@ const CourseCard: React.FC<CourseCardProps> = ({
         className="bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden group flex"
       >
         <div className="w-1/3">
-          <div className="relative h-full bg-gradient-to-br from-purple-100 to-pink-100 overflow-hidden">
-            {course.image ? (
-              <Image
-                src={course.image}
-                alt={course.title}
-                fill
-                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                className="object-cover"
-                priority={false}
-                quality={85}
-              />
-            ) : (
-              <div className="w-full h-full bg-gradient-to-br from-purple-100 to-pink-100" />
-            )}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-black/20 to-transparent" />
+          <div className="relative h-full bg-gradient-to-br from-purple-100 to-pink-100">
+            <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
             {course.isPopular && (
               <div className="absolute top-2 left-2 bg-gradient-to-r from-yellow-400 to-orange-400 text-white px-2 py-1 rounded-full text-xs font-bold">
                 Popularny
               </div>
             )}
             <div className="absolute inset-0 flex items-center justify-center">
-              <div
-                onClick={handlePlayClick}
-                className="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white/30 transition-all duration-300 cursor-pointer"
-              >
+              <div className="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center">
                 <FaPlay className="text-white text-lg ml-1" />
               </div>
             </div>
@@ -280,7 +183,7 @@ const CourseCard: React.FC<CourseCardProps> = ({
               </div>
             </div>
             <button
-              onClick={handleBuyClick}
+              onClick={onClick}
               className="bg-gradient-to-r from-purple-600 to-pink-600 text-white px-3 py-1 rounded-lg text-xs font-medium hover:from-purple-700 hover:to-pink-700 transition-all duration-300"
             >
               {course.price} PLN
@@ -292,22 +195,15 @@ const CourseCard: React.FC<CourseCardProps> = ({
   }
 
   return (
-    <>
-      <motion.div
-        whileHover={{ scale: 1.02 }}
-        whileTap={{ scale: 0.98 }}
-        className={`bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden group ${
-          variant === "compact" ? "max-w-xs" : ""
-        }`}
-      >
-        {cardContent}
-      </motion.div>
-
-      <LoginPopup
-        isOpen={showLoginPopup}
-        onClose={() => setShowLoginPopup(false)}
-      />
-    </>
+    <motion.div
+      whileHover={{ scale: 1.02 }}
+      whileTap={{ scale: 0.98 }}
+      className={`bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden group ${
+        variant === "compact" ? "max-w-xs" : ""
+      }`}
+    >
+      {cardContent}
+    </motion.div>
   );
 };
 

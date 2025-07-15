@@ -1,8 +1,6 @@
 import { Calistoga, PT_Serif } from "next/font/google";
 import "./globals.css";
 import { AuthProvider } from "@/components/AuthContext";
-import UserActionsTrigger from "@/components/UserActionsTrigger";
-import GoogleAnalytics from "@/components/GoogleAnalytics";
 
 const calistoga = Calistoga({
   weight: ["400"],
@@ -24,11 +22,7 @@ export default function RootLayout({
   return (
     <html style={{ scrollBehavior: "smooth" }} lang="en">
       <body className={`${calistoga.variable} ${ptSerif.variable} antialiased`}>
-        <AuthProvider>
-          {children}
-          <UserActionsTrigger />
-        </AuthProvider>
-        <GoogleAnalytics />
+        <AuthProvider>{children}</AuthProvider>
       </body>
     </html>
   );

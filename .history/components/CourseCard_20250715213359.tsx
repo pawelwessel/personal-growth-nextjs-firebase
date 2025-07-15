@@ -4,7 +4,6 @@ import { FaPlay, FaClock, FaStar, FaUsers } from "react-icons/fa";
 import Image from "next/image";
 import { useAuth } from "./AuthContext";
 import LoginPopup from "./LoginPopup";
-import { trackBeginCheckout } from "@/lib/conversionTracking";
 
 interface Course {
   id: string;
@@ -58,16 +57,6 @@ const CourseCard: React.FC<CourseCardProps> = ({
 
   const handlePurchase = async () => {
     try {
-      // Track begin checkout event
-      trackBeginCheckout(course.price, "PLN", [
-        {
-          item_id: course.id,
-          item_name: course.title,
-          price: course.price,
-          quantity: 1,
-        },
-      ]);
-
       // Create Stripe checkout session
       const response = await fetch("/api/stripe/checkout", {
         method: "POST",
@@ -137,10 +126,7 @@ const CourseCard: React.FC<CourseCardProps> = ({
           </div>
         )}
         <div className="absolute inset-0 flex items-center justify-center">
-          <div
-            onClick={handlePlayClick}
-            className="w-12 h-12 lg:w-16 lg:h-16 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white/30 transition-all duration-300 cursor-pointer"
-          >
+          <div className="w-12 h-12 lg:w-16 lg:h-16 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white/30 transition-all duration-300 cursor-pointer">
             <FaPlay className="text-white text-lg lg:text-xl ml-1" />
           </div>
         </div>
@@ -240,10 +226,7 @@ const CourseCard: React.FC<CourseCardProps> = ({
               </div>
             )}
             <div className="absolute inset-0 flex items-center justify-center">
-              <div
-                onClick={handlePlayClick}
-                className="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white/30 transition-all duration-300 cursor-pointer"
-              >
+              <div className="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white/30 transition-all duration-300 cursor-pointer">
                 <FaPlay className="text-white text-lg ml-1" />
               </div>
             </div>

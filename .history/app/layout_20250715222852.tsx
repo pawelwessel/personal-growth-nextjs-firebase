@@ -28,7 +28,6 @@ export default function RootLayout({
           {children}
           <UserActionsTrigger />
         </AuthProvider>
-        <GoogleAnalytics />
       </body>
     </html>
   );
