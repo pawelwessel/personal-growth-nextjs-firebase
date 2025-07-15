@@ -39,7 +39,7 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
-    
-# Ignore manikuracja folder and all its contents
+
 /manikuracja/*
+# Ignore manikuracja folder and all its contents
 /manikuracja/
