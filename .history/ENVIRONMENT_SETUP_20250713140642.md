@@ -22,7 +22,7 @@ All Firebase variables are prefixed with `NEXT_PUBLIC_` because they need to be 
 
 | Variable                                   | Description                       | Example                        |
 | ------------------------------------------ | --------------------------------- | ------------------------------ |
-| `NEXT_PUBLIC_FIREBASE_API_KEY`             | Firebase API key                  | ``                             |
+| `NEXT_PUBLIC_FIREBASE_API_KEY`             | Firebase API key                  | `AIzaSyC...`                   |
 | `NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN`         | Firebase auth domain              | `your-project.firebaseapp.com` |
 | `NEXT_PUBLIC_FIREBASE_PROJECT_ID`          | Firebase project ID               | `your-project-id`              |
 | `NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET`      | Firebase storage bucket           | `your-project.appspot.com`     |
