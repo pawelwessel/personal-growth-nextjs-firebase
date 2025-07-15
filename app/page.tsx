@@ -36,9 +36,6 @@ export default async function Home() {
         </div>
       </div>
 
-      {/* Courses Section */}
-      <Courses />
-
       {/* Hero Section */}
       <div className="relative -mt-[104px] lg:-mt-0 h-full flex flex-col items-center justify-center text-center lg:text-left lg:flex-row-reverse px-6 lg:px-12">
         <div className="relative">
@@ -70,7 +67,8 @@ export default async function Home() {
           </a>
         </div>
       </div>
-
+      {/* Courses Section */}
+      <Courses />
       {/* Growth Journey Section */}
       <div className="py-16 px-6 lg:px-12">
         <div className="max-w-6xl mx-auto">
