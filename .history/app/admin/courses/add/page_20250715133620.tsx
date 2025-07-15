@@ -96,32 +96,13 @@ export default function AddCoursePage() {
         return;
       }
 
-      let imageUrl = courseData.image;
-      let pdfUrl = courseData.pdfFile;
+      // In a real app, you would:
+      // 1. Upload the PDF to Firebase Storage
+      // 2. Upload the image to Firebase Storage
+      // 3. Save the course data to Firestore
 
-      // Upload image if provided
-      if (previewImage && !imageUrl.startsWith("http")) {
-        const imageFile = await fetch(previewImage).then((r) => r.blob());
-        const imageFileObj = new File([imageFile], "course-image.jpg", {
-          type: "image/jpeg",
-        });
-        imageUrl = await coursesService.uploadCourseImage(imageFileObj);
-      }
-
-      // Upload PDF if provided
-      if (uploadedPdf) {
-        pdfUrl = await coursesService.uploadCoursePdf(uploadedPdf);
-      }
-
-      // Prepare course data for database
-      const courseDataForDb = {
-        ...courseData,
-        image: imageUrl,
-        pdfFile: pdfUrl,
-      };
-
-      // Save to database
-      await coursesService.addCourse(courseDataForDb);
+      // For now, we'll simulate the process
+      await new Promise((resolve) => setTimeout(resolve, 2000));
 
       setSuccessMessage("Kurs został pomyślnie dodany!");
       setTimeout(() => {

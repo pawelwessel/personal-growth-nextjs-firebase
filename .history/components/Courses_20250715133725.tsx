@@ -29,6 +29,10 @@ export default function Courses() {
     fetchCourses();
   }, []);
 
+export default function Courses() {
+  const [isExpanded, setIsExpanded] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState<string>("Wszystkie");
+
   const categories = [
     "Wszystkie",
     "Rozwój osobisty",
@@ -42,27 +46,6 @@ export default function Courses() {
     selectedCategory === "Wszystkie"
       ? courses
       : courses.filter((course) => course.category === selectedCategory);
-
-  if (loading) {
-    return (
-      <div className="bg-white py-16 px-6 lg:px-12">
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-12">
-            <h2 className="font-calistoga text-3xl sm:text-4xl lg:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-pink-600 mb-4">
-              Kursy rozwojowe
-            </h2>
-            <p className="text-gray-600 text-lg max-w-2xl mx-auto">
-              Wybierz kurs dopasowany do Twoich potrzeb i rozpocznij swoją
-              podróż do lepszej wersji siebie
-            </p>
-          </div>
-          <div className="flex justify-center">
-            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-purple-600"></div>
-          </div>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div className="bg-white py-16 px-6 lg:px-12">

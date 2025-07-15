@@ -25,7 +25,7 @@ export default function MoreProducts({
   return (
     <div className="pb-6">
       <h3 className="mt-8 text-black text-lg sm:text-xl xl:text-2xl text-center lg:text-left font-bold flex flex-row items-center">
-        Wypróbuj inne testy
+        Zobacz więcej
       </h3>
       <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
         {displayedProducts?.map((item: any, i: any) => (
@@ -35,10 +35,7 @@ export default function MoreProducts({
           >
             <button
               key={i}
-              onClick={() => {
-                setOpenedProduct(null); // Close current product preview
-                setTest(item); // Start new test
-              }}
+              onClick={() => setOpenedProduct(item.id)}
               className="flex flex-col relative overflow-hidden rounded-2xl group drop-shadow-sm shadow-black"
             >
               <div className="absolute z-[5] inset-0 bg-gradient-to-t from-black/30 to-black/70 group-hover:from-black/50 group-hover:to-black/50" />

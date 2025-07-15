@@ -67,7 +67,8 @@ export default async function Home() {
           </a>
         </div>
       </div>
-
+      {/* Courses Section */}
+      <Courses />
       {/* Growth Journey Section */}
       <div className="py-16 px-6 lg:px-12">
         <div className="max-w-6xl mx-auto">
@@ -199,71 +200,52 @@ export default async function Home() {
           </div>
         </div>
       </div>
-      {/* Courses Section */}
-      <Courses />
+
       {/* Success Stories Section */}
       <div className="py-16 px-6 lg:px-12 bg-gradient-to-r from-blue-100 to-purple-100">
         <div className="max-w-6xl mx-auto">
           <h2 className="text-center font-calistoga text-3xl sm:text-4xl lg:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600 mb-12">
             Historie sukcesu
           </h2>
-          <div className="gap-6 grid lg:grid-cols-3">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="bg-white rounded-2xl p-6 shadow-lg">
-              <div className="flex items-start space-x-4">
-                <Image
-                  src={asset3}
-                  width={80}
-                  height={80}
-                  alt="Success Story 1"
-                  className="rounded-full w-20 h-20 object-cover flex-shrink-0"
-                />
-                <div className="flex-1">
-                  <h4 className="font-bold text-gray-800 mb-2">Anna K.</h4>
-                  <p className="text-gray-600 text-sm leading-relaxed">
-                    "Odkryłam swoje mocne strony i teraz jestem pewniejsza
-                    siebie. Dzięki narzędziom rozwojowym zrozumiałam swój
-                    potencjał i zaczęłam działać."
-                  </p>
-                </div>
-              </div>
+              <Image
+                src={asset3}
+                width={300}
+                height={200}
+                alt="Success Story 1"
+                className="rounded-xl mb-4 w-full h-48 object-cover"
+              />
+              <h4 className="font-bold text-gray-800 mb-2">Anna K.</h4>
+              <p className="text-gray-600 text-sm">
+                "Odkryłam swoje mocne strony i teraz jestem pewniejsza siebie"
+              </p>
             </div>
             <div className="bg-white rounded-2xl p-6 shadow-lg">
-              <div className="flex items-start space-x-4">
-                <Image
-                  src={asset4}
-                  width={80}
-                  height={80}
-                  alt="Success Story 2"
-                  className="rounded-full w-20 h-20 object-cover flex-shrink-0"
-                />
-                <div className="flex-1">
-                  <h4 className="font-bold text-gray-800 mb-2">Marek P.</h4>
-                  <p className="text-gray-600 text-sm leading-relaxed">
-                    "Znalazłem motywację do realizacji swoich celów.
-                    Spersonalizowane raporty pomogły mi zidentyfikować obszary
-                    do rozwoju."
-                  </p>
-                </div>
-              </div>
+              <Image
+                src={asset4}
+                width={300}
+                height={200}
+                alt="Success Story 2"
+                className="rounded-xl mb-4 w-full h-48 object-cover"
+              />
+              <h4 className="font-bold text-gray-800 mb-2">Marek P.</h4>
+              <p className="text-gray-600 text-sm">
+                "Znalazłem motywację do realizacji swoich celów"
+              </p>
             </div>
             <div className="bg-white rounded-2xl p-6 shadow-lg">
-              <div className="flex items-start space-x-4">
-                <Image
-                  src={asset5}
-                  width={80}
-                  height={80}
-                  alt="Success Story 3"
-                  className="rounded-full w-20 h-20 object-cover flex-shrink-0"
-                />
-                <div className="flex-1">
-                  <h4 className="font-bold text-gray-800 mb-2">Karolina M.</h4>
-                  <p className="text-gray-600 text-sm leading-relaxed">
-                    "Nauczyłam się lepiej zarządzać swoim czasem. Praktyczne
-                    ćwiczenia i śledzenie postępów zmotywowały mnie do
-                    działania."
-                  </p>
-                </div>
-              </div>
+              <Image
+                src={asset5}
+                width={300}
+                height={200}
+                alt="Success Story 3"
+                className="rounded-xl mb-4 w-full h-48 object-cover"
+              />
+              <h4 className="font-bold text-gray-800 mb-2">Karolina M.</h4>
+              <p className="text-gray-600 text-sm">
+                "Nauczyłam się lepiej zarządzać swoim czasem"
+              </p>
             </div>
           </div>
         </div>
@@ -295,6 +277,16 @@ export default async function Home() {
         <Products products={products} />
         <div className="pt-12 bg-gradient-to-r from-gray-100 to-gray-200 mt-12"></div>
       </div>
+
+      <Script src="https://js.stripe.com/v3/pricing-table.js" />
+      <div
+        dangerouslySetInnerHTML={{
+          __html: `<stripe-pricing-table
+            pricing-table-id="prctbl_1RkOxaIowW84f8F2ygReIx6N"
+            publishable-key="pk_test_51RkOmdIowW84f8F2fVjR6PPlODJzwr9lg64Jtmg4Uh3hVlCwhXSDmbgXaqcoqPWG1XuzpokDuAJCmrgz7D6VhdTr00ES4Olhrb"
+          ></stripe-pricing-table>`,
+        }}
+      />
       {/* Footer */}
       <footer className="bg-gradient-to-r from-gray-900 via-purple-900 to-gray-900 text-white py-16">
         <div className="max-w-6xl mx-auto px-6 lg:px-12">

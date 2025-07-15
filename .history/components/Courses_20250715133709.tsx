@@ -7,27 +7,88 @@ import CourseCard from "./CourseCard";
 import { coursesService } from "@/lib/coursesService";
 import { Course } from "@/types";
 
+const courses: Course[] = [
+  {
+    id: "1",
+    title: "Podstawy rozwoju osobistego",
+    description:
+      "Poznaj fundamenty rozwoju osobistego i rozpocznij swoją transformację",
+    duration: "4 godziny",
+    level: "Początkujący",
+    rating: 4.8,
+    students: 1247,
+    price: 99,
+    originalPrice: 149,
+    image: "/public/assets/1.jpg",
+    category: "Rozwój osobisty",
+    lessons: 12,
+    isPopular: true,
+    isNew: true,
+  },
+  {
+    id: "2",
+    title: "Budowanie pewności siebie",
+    description: "Naucz się technik zwiększających pewność siebie i samoocenę",
+    duration: "6 godzin",
+    level: "Średniozaawansowany",
+    rating: 4.9,
+    students: 892,
+    price: 129,
+    originalPrice: 179,
+    image: "/public/assets/2.jpg",
+    category: "Psychologia",
+    lessons: 18,
+    isPopular: true,
+  },
+  {
+    id: "3",
+    title: "Zarządzanie czasem i produktywność",
+    description:
+      "Opanuj sztukę efektywnego zarządzania czasem i zwiększ swoją produktywność",
+    duration: "5 godzin",
+    level: "Początkujący",
+    rating: 4.7,
+    students: 1563,
+    price: 89,
+    originalPrice: 129,
+    image: "/public/assets/3.jpg",
+    category: "Produktywność",
+    lessons: 15,
+  },
+  {
+    id: "4",
+    title: "Komunikacja interpersonalna",
+    description: "Rozwijaj umiejętności komunikacyjne i buduj lepsze relacje",
+    duration: "7 godzin",
+    level: "Średniozaawansowany",
+    rating: 4.6,
+    students: 734,
+    price: 119,
+    originalPrice: 159,
+    image: "/public/assets/4.jpg",
+    category: "Komunikacja",
+    lessons: 20,
+    isNew: true,
+  },
+  {
+    id: "5",
+    title: "Motywacja i wyznaczanie celów",
+    description: "Naucz się wyznaczać i osiągać cele oraz utrzymywać motywację",
+    duration: "5.5 godzin",
+    level: "Początkujący",
+    rating: 4.8,
+    students: 1102,
+    price: 109,
+    originalPrice: 149,
+    image: "/public/assets/5.jpg",
+    category: "Motywacja",
+    lessons: 16,
+  },
+];
+
 export default function Courses() {
-  const [courses, setCourses] = useState<Course[]>([]);
-  const [loading, setLoading] = useState(true);
   const [isExpanded, setIsExpanded] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<string>("Wszystkie");
-
-  // Fetch visible courses from database
-  useEffect(() => {
-    const fetchCourses = async () => {
-      try {
-        const fetchedCourses = await coursesService.getVisibleCourses();
-        setCourses(fetchedCourses);
-      } catch (error) {
-        console.error("Error fetching courses:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchCourses();
-  }, []);
 
   const categories = [
     "Wszystkie",
@@ -42,27 +103,6 @@ export default function Courses() {
     selectedCategory === "Wszystkie"
       ? courses
       : courses.filter((course) => course.category === selectedCategory);
-
-  if (loading) {
-    return (
-      <div className="bg-white py-16 px-6 lg:px-12">
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-12">
-            <h2 className="font-calistoga text-3xl sm:text-4xl lg:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-pink-600 mb-4">
-              Kursy rozwojowe
-            </h2>
-            <p className="text-gray-600 text-lg max-w-2xl mx-auto">
-              Wybierz kurs dopasowany do Twoich potrzeb i rozpocznij swoją
-              podróż do lepszej wersji siebie
-            </p>
-          </div>
-          <div className="flex justify-center">
-            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-purple-600"></div>
-          </div>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div className="bg-white py-16 px-6 lg:px-12">

@@ -3,7 +3,6 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { FaEdit, FaTrash, FaEye, FaPlus, FaSearch } from "react-icons/fa";
 import { Course } from "@/types";
-import { coursesService } from "@/lib/coursesService";
 
 export default function CoursesListPage() {
   const router = useRouter();
@@ -13,20 +12,52 @@ export default function CoursesListPage() {
   const [selectedCategory, setSelectedCategory] = useState("Wszystkie");
   const [deleteConfirm, setDeleteConfirm] = useState<string | null>(null);
 
-  // Fetch courses from database
+  // Mock data for demonstration
   useEffect(() => {
-    const fetchCourses = async () => {
-      try {
-        const fetchedCourses = await coursesService.getAllCourses();
-        setCourses(fetchedCourses);
-      } catch (error) {
-        console.error("Error fetching courses:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchCourses();
+    setTimeout(() => {
+      setCourses([
+        {
+          id: "1",
+          title: "Podstawy rozwoju osobistego",
+          description:
+            "Poznaj fundamenty rozwoju osobistego i rozpocznij swoją transformację",
+          duration: "4 godziny",
+          level: "Początkujący",
+          rating: 4.8,
+          students: 1247,
+          price: 99,
+          originalPrice: 149,
+          image: "/public/assets/1.jpg",
+          category: "Rozwój osobisty",
+          lessons: 12,
+          isPopular: true,
+          isNew: true,
+          pdfFile: "kurs-podstawy.pdf",
+          createdAt: "2024-01-15T10:30:00Z",
+          updatedAt: "2024-01-15T10:30:00Z",
+        },
+        {
+          id: "2",
+          title: "Budowanie pewności siebie",
+          description:
+            "Naucz się technik zwiększających pewność siebie i samoocenę",
+          duration: "6 godzin",
+          level: "Średniozaawansowany",
+          rating: 4.9,
+          students: 892,
+          price: 129,
+          originalPrice: 179,
+          image: "/public/assets/2.jpg",
+          category: "Psychologia",
+          lessons: 18,
+          isPopular: true,
+          pdfFile: "kurs-pewnosc.pdf",
+          createdAt: "2024-01-14T15:45:00Z",
+          updatedAt: "2024-01-14T15:45:00Z",
+        },
+      ]);
+      setLoading(false);
+    }, 1000);
   }, []);
 
   const categories = [
@@ -49,7 +80,7 @@ export default function CoursesListPage() {
 
   const handleDelete = async (courseId: string) => {
     try {
-      await coursesService.deleteCourse(courseId);
+      // In a real app, you would delete from Firestore
       setCourses(courses.filter((course) => course.id !== courseId));
       setDeleteConfirm(null);
     } catch (error) {

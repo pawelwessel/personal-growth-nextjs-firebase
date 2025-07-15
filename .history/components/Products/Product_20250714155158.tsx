@@ -132,7 +132,6 @@ export default function Product({
                       <div className="mb-8">
                         <MoreProducts
                           setOpenedProduct={setOpenedProduct}
-                          setTest={setTest}
                           products={products}
                           product={product}
                         />

@@ -25,7 +25,7 @@ export default function MoreProducts({
   return (
     <div className="pb-6">
       <h3 className="mt-8 text-black text-lg sm:text-xl xl:text-2xl text-center lg:text-left font-bold flex flex-row items-center">
-        Wypróbuj inne testy
+        Zobacz więcej
       </h3>
       <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
         {displayedProducts?.map((item: any, i: any) => (

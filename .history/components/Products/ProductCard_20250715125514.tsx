@@ -25,12 +25,12 @@ export default function ProductCard({
           {/* Content */}
           <div className="relative h-full flex flex-col items-center justify-center p-8 group-hover:scale-105 transition-transform duration-500">
             {/* Product Image */}
-            <div className="w-48 h-48 mb-8 relative rounded-lg overflow-hidden">
+            <div className="w-48 h-48 mb-8 relative">
               <Image
                 src={product.mainImage || product.images[0].src}
                 alt={product.title}
                 fill
-                className="object-contain"
+                className="object-contain rounded-lg"
               />
             </div>
 

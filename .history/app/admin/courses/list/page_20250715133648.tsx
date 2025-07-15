@@ -49,7 +49,7 @@ export default function CoursesListPage() {
 
   const handleDelete = async (courseId: string) => {
     try {
-      await coursesService.deleteCourse(courseId);
+      // In a real app, you would delete from Firestore
       setCourses(courses.filter((course) => course.id !== courseId));
       setDeleteConfirm(null);
     } catch (error) {

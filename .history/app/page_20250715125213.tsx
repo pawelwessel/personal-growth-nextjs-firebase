@@ -207,7 +207,7 @@ export default async function Home() {
           <h2 className="text-center font-calistoga text-3xl sm:text-4xl lg:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600 mb-12">
             Historie sukcesu
           </h2>
-          <div className="gap-6 grid lg:grid-cols-3">
+          <div className="space-y-6 lg:grid lg:grid-cols-3">
             <div className="bg-white rounded-2xl p-6 shadow-lg">
               <div className="flex items-start space-x-4">
                 <Image

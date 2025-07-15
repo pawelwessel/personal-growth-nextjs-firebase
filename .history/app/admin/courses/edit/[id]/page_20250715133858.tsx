@@ -1,15 +1,19 @@
 "use client";
-import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useState, useEffect } from "react";
+import { useRouter, useParams } from "next/navigation";
 import { FaUpload, FaSave, FaTimes, FaEye } from "react-icons/fa";
 import { Course } from "@/types";
 import { coursesService } from "@/lib/coursesService";
 
-export default function AddCoursePage() {
+export default function EditCoursePage() {
   const router = useRouter();
+  const params = useParams();
+  const courseId = params.id as string;
+
   const [isLoading, setIsLoading] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  const [loading, setLoading] = useState(true);
 
   const [courseData, setCourseData] = useState<Partial<Course>>({
     title: "",
@@ -44,6 +48,30 @@ export default function AddCoursePage() {
 
   const levels = ["Początkujący", "Średniozaawansowany", "Zaawansowany"];
 
+  // Fetch course data
+  useEffect(() => {
+    const fetchCourse = async () => {
+      try {
+        const course = await coursesService.getCourseById(courseId);
+        if (course) {
+          setCourseData(course);
+          setPreviewImage(course.image);
+        } else {
+          setErrorMessage("Kurs nie został znaleziony");
+        }
+      } catch (error) {
+        setErrorMessage("Błąd podczas ładowania kursu");
+        console.error("Error fetching course:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (courseId) {
+      fetchCourse();
+    }
+  }, [courseId]);
+
   const handleInputChange = (field: keyof Course, value: any) => {
     setCourseData((prev) => ({
       ...prev,
@@ -70,8 +98,6 @@ export default function AddCoursePage() {
     const file = e.target.files?.[0];
     if (file && file.type === "application/pdf") {
       setUploadedPdf(file);
-      // In a real app, you would upload this to Firebase Storage
-      // For now, we'll just store the file name
       setCourseData((prev) => ({ ...prev, pdfFile: file.name }));
     } else {
       setErrorMessage("Proszę wybrać plik PDF");
@@ -120,29 +146,37 @@ export default function AddCoursePage() {
         pdfFile: pdfUrl,
       };
 
-      // Save to database
-      await coursesService.addCourse(courseDataForDb);
+      // Update in database
+      await coursesService.updateCourse(courseId, courseDataForDb);
 
-      setSuccessMessage("Kurs został pomyślnie dodany!");
+      setSuccessMessage("Kurs został pomyślnie zaktualizowany!");
       setTimeout(() => {
         router.push("/admin/courses/list");
       }, 2000);
     } catch (error) {
-      setErrorMessage("Wystąpił błąd podczas dodawania kursu");
-      console.error("Error adding course:", error);
+      setErrorMessage("Wystąpił błąd podczas aktualizacji kursu");
+      console.error("Error updating course:", error);
     } finally {
       setIsLoading(false);
     }
   };
 
+  if (loading) {
+    return (
+      <div className="p-6 lg:p-16">
+        <div className="flex justify-center">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-purple-600"></div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="p-6 lg:p-16">
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-800 mb-2">
-          Dodaj nowy kurs
-        </h1>
+        <h1 className="text-3xl font-bold text-gray-800 mb-2">Edytuj kurs</h1>
         <p className="text-gray-600">
-          Utwórz nowy kurs rozwojowy z wszystkimi niezbędnymi informacjami
+          Zaktualizuj informacje o kursie rozwojowym
         </p>
       </div>
 
@@ -502,7 +536,7 @@ export default function AddCoursePage() {
             ) : (
               <div className="flex items-center">
                 <FaSave className="mr-2" />
-                Zapisz kurs
+                Zaktualizuj kurs
               </div>
             )}
           </button>
