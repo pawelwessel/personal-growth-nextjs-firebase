@@ -122,11 +122,11 @@ export default function EditCoursePage() {
         return;
       }
 
-      let imageUrl = courseData.image || "";
-      let pdfUrl = courseData.pdfFile || "";
+      let imageUrl = courseData.image;
+      let pdfUrl = courseData.pdfFile;
 
       // Upload image if provided
-      if (previewImage && imageUrl && !imageUrl.startsWith("http")) {
+      if (previewImage && !imageUrl.startsWith("http")) {
         const imageFile = await fetch(previewImage).then((r) => r.blob());
         const imageFileObj = new File([imageFile], "course-image.jpg", {
           type: "image/jpeg",
@@ -141,19 +141,8 @@ export default function EditCoursePage() {
 
       // Prepare course data for database
       const courseDataForDb = {
-        title: courseData.title || "",
-        description: courseData.description || "",
-        duration: courseData.duration || "",
-        level: courseData.level || "Początkujący",
-        rating: courseData.rating || 0,
-        students: courseData.students || 0,
-        price: courseData.price || 0,
-        originalPrice: courseData.originalPrice || 0,
+        ...courseData,
         image: imageUrl,
-        category: courseData.category || "",
-        lessons: courseData.lessons || 0,
-        isPopular: courseData.isPopular || false,
-        isNew: courseData.isNew || false,
         pdfFile: pdfUrl,
       };
 

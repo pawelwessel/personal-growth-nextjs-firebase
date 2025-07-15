@@ -141,19 +141,8 @@ export default function EditCoursePage() {
 
       // Prepare course data for database
       const courseDataForDb = {
-        title: courseData.title || "",
-        description: courseData.description || "",
-        duration: courseData.duration || "",
-        level: courseData.level || "Początkujący",
-        rating: courseData.rating || 0,
-        students: courseData.students || 0,
-        price: courseData.price || 0,
-        originalPrice: courseData.originalPrice || 0,
+        ...courseData,
         image: imageUrl,
-        category: courseData.category || "",
-        lessons: courseData.lessons || 0,
-        isPopular: courseData.isPopular || false,
-        isNew: courseData.isNew || false,
         pdfFile: pdfUrl,
       };
 
