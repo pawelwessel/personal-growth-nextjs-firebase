@@ -18,6 +18,18 @@ import { useAuth } from "@/components/AuthContext";
 import { coursesService } from "@/lib/coursesService";
 import { userPurchasesService } from "@/lib/userPurchasesService";
 import { Course } from "@/types";
+import { updateDocument } from "@/firebase";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Dashboard - Moje kursy i produkty | MocnyRozwój.pl",
+  description:
+    "Panel użytkownika z dostępem do zakupionych kursów, produktów i narzędzi rozwojowych. Śledź swoje postępy i kontynuuj naukę.",
+  robots: {
+    index: false,
+    follow: false,
+  },
+};
 
 function DashboardContent() {
   const [activeTab, setActiveTab] = useState("shop");
@@ -283,22 +295,19 @@ function ShopSection({
 
   const handlePurchase = async (course: Course) => {
     try {
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_URL}/api/stripe/checkout`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            courseId: course.id,
-            courseTitle: course.title,
-            coursePrice: course.price,
-            userEmail: user?.email,
-            userId: user?.id,
-          }),
-        }
-      );
+      const response = await fetch("/api/stripe/checkout", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          courseId: course.id,
+          courseTitle: course.title,
+          coursePrice: course.price,
+          userEmail: user?.email,
+          userId: user?.id,
+        }),
+      });
 
       const data = await response.json();
 
@@ -396,7 +405,7 @@ function ShopSection({
                     </div>
                     <div className="flex items-center">
                       <FaStar className="text-yellow-400 mr-1" />
-                      <span className="text-sm font-medium text-black">
+                      <span className="text-sm font-medium">
                         {course.rating}
                       </span>
                     </div>

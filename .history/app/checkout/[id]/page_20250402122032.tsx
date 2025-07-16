@@ -1,44 +1,6 @@
 import Link from "next/link";
 import { FaArrowLeft } from "react-icons/fa";
 import ClearCache from "./ClearCache";
-import { Metadata } from "next";
-
-export const metadata: Metadata = {
-  title: "Kasa - Finalizuj zakup | MocnyRozwój.pl",
-  description:
-    "Finalizuj swój zakup kursu lub produktu rozwojowego. Bezpieczna płatność przez Stripe z natychmiastowym dostępem do materiałów.",
-  keywords:
-    "kasa, płatność, zakup kursu, finalizacja zamówienia, bezpieczna płatność",
-  openGraph: {
-    title: "Kasa - Finalizuj zakup | MocnyRozwój.pl",
-    description:
-      "Finalizuj swój zakup kursu lub produktu rozwojowego. Bezpieczna płatność przez Stripe.",
-    type: "website",
-    url: "https://mocnyrozwoj.pl/checkout",
-    images: [
-      {
-        url: "/logo.png",
-        width: 512,
-        height: 512,
-        alt: "Kasa - Finalizuj zakup",
-      },
-    ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Kasa - Finalizuj zakup | MocnyRozwój.pl",
-    description:
-      "Finalizuj swój zakup kursu lub produktu rozwojowego. Bezpieczna płatność przez Stripe.",
-    images: ["/logo.png"],
-  },
-  robots: {
-    index: false,
-    follow: false,
-  },
-  alternates: {
-    canonical: "https://mocnyrozwoj.pl/checkout",
-  },
-};
 
 export default async function Page(props: { params: Promise<{ id: string }> }) {
   const params = await props.params;

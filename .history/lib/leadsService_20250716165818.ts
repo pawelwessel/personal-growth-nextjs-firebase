@@ -121,7 +121,6 @@ export const leadsService = {
     qualified: number;
     converted: number;
     lost: number;
-    newsletter: number;
   }> {
     const allLeads = await this.getLeads();
 
@@ -132,10 +131,6 @@ export const leadsService = {
       qualified: allLeads.filter((lead) => lead.status === "qualified").length,
       converted: allLeads.filter((lead) => lead.status === "converted").length,
       lost: allLeads.filter((lead) => lead.status === "lost").length,
-      newsletter: allLeads.filter(
-        (lead) =>
-          lead.subject === "newsletter" || lead.source === "newsletter_signup"
-      ).length,
     };
   },
 };

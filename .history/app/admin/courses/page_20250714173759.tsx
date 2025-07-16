@@ -1,20 +1,8 @@
-import { Metadata } from "next";
-
-export const metadata: Metadata = {
-  title: "Zarządzanie kursami - Panel administracyjny | MocnyRozwój.pl",
-  description:
-    "Panel administracyjny do zarządzania kursami rozwojowymi. Dodawaj, edytuj i usuwaj kursy oraz materiały edukacyjne.",
-  robots: {
-    index: false,
-    follow: false,
-  },
-};
-
-("use client");
+"use client";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 
-export default function AdminCoursesPage() {
+export default function CoursesPage() {
   const router = useRouter();
 
   useEffect(() => {

@@ -187,7 +187,7 @@ export default async function Home() {
         </div>
       </div>
       {/* Products Section */}
-      <div className="bg-white mt-24" id="shop">
+      <div className="bg-white" id="shop">
         <div className="relative">
           <Image
             src={brain}
@@ -202,17 +202,17 @@ export default async function Home() {
             </div>
           </div>
         </div>
-        <h2 className="text-center font-calistoga text-3xl sm:text-4xl lg:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-pink-600 px-4">
-          Przyszłość należy do Ciebie!
-        </h2>
-        <p className="mx-auto mt-6 text-center px-6 lg:pl-0 sm:text-lg text-gray-700 font-pt max-w-2xl leading-relaxed">
-          Sprawdzone narzędzia, które pomogą Ci w zrozumieniu siebie i
-          osiągnięciu Twoich celów. Rozpocznij swoją transformację już dziś.
-        </p>
-        <Products products={products} />
       </div>
+      <h2 className="text-center font-calistoga text-3xl sm:text-4xl lg:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-pink-600 px-4 mt-12">
+        Przyszłość należy do Ciebie!
+      </h2>
+      <p className="mx-auto mt-6 text-center px-6 lg:pl-0 sm:text-lg text-gray-700 font-pt max-w-2xl leading-relaxed">
+        Sprawdzone narzędzia, które pomogą Ci w zrozumieniu siebie i osiągnięciu
+        Twoich celów. Rozpocznij swoją transformację już dziś.
+      </p>
+      <Products products={products} />
+      <div className="mb-24"></div>
       {/* Courses Section */}
-      <div className="pt-12 bg-white"></div>
       <Courses />
 
       {/* Success Stories Section */}

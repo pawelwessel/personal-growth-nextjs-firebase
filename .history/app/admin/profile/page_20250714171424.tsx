@@ -1,16 +1,4 @@
-import { Metadata } from "next";
-
-export const metadata: Metadata = {
-  title: "Profil administratora - Panel administracyjny | MocnyRozwój.pl",
-  description:
-    "Zarządzaj swoim profilem administratora, ustawieniami konta i preferencjami.",
-  robots: {
-    index: false,
-    follow: false,
-  },
-};
-
-("use client");
+"use client";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "@/firebase";
 import { signOut } from "firebase/auth";
@@ -24,7 +12,7 @@ import {
   FaCog,
 } from "react-icons/fa";
 
-export default function AdminProfilePage() {
+export default function ProfilePage() {
   const [user, loading] = useAuthState(auth);
   const [isChangingPassword, setIsChangingPassword] = useState(false);
   const [newPassword, setNewPassword] = useState("");

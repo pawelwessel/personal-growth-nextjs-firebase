@@ -187,7 +187,7 @@ export default async function Home() {
         </div>
       </div>
       {/* Products Section */}
-      <div className="bg-white mt-24" id="shop">
+      <div className="bg-white lg:mt-24" id="shop">
         <div className="relative">
           <Image
             src={brain}
@@ -202,19 +202,48 @@ export default async function Home() {
             </div>
           </div>
         </div>
-        <h2 className="text-center font-calistoga text-3xl sm:text-4xl lg:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-pink-600 px-4">
-          Przyszłość należy do Ciebie!
-        </h2>
-        <p className="mx-auto mt-6 text-center px-6 lg:pl-0 sm:text-lg text-gray-700 font-pt max-w-2xl leading-relaxed">
-          Sprawdzone narzędzia, które pomogą Ci w zrozumieniu siebie i
-          osiągnięciu Twoich celów. Rozpocznij swoją transformację już dziś.
-        </p>
-        <Products products={products} />
       </div>
+      <h2 className="text-center font-calistoga text-3xl sm:text-4xl lg:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-pink-600 px-4 mt-12">
+        Przyszłość należy do Ciebie!
+      </h2>
+      <p className="mx-auto mt-6 text-center px-6 lg:pl-0 sm:text-lg text-gray-700 font-pt max-w-2xl leading-relaxed">
+        Sprawdzone narzędzia, które pomogą Ci w zrozumieniu siebie i osiągnięciu
+        Twoich celów. Rozpocznij swoją transformację już dziś.
+      </p>
+      <Products products={products} />
+      <div className="mb-24"></div>
       {/* Courses Section */}
-      <div className="pt-12 bg-white"></div>
       <Courses />
+      {/* Newsletter Section */}
+      <div className="py-16 px-6 lg:px-12 bg-gradient-to-r from-purple-100 to-pink-100">
+        <div className="max-w-4xl mx-auto text-center">
+          <h2 className="font-calistoga text-3xl sm:text-4xl lg:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-pink-600 mb-6">
+            Bądź na bieżąco!
+          </h2>
+          <p className="text-xl text-gray-700 mb-8 max-w-2xl mx-auto">
+            Zapisz się do newslettera i otrzymuj informacje o najnowszych
+            kursach, promocjach i wskazówkach rozwojowych prosto na swoją
+            skrzynkę email.
+          </p>
 
+          <NewsletterSignup />
+
+          <div className="mt-8 flex items-center justify-center space-x-6 text-sm text-gray-600">
+            <div className="flex items-center">
+              <span className="text-green-500 mr-2">✓</span>
+              <span>Bezpłatne informacje</span>
+            </div>
+            <div className="flex items-center">
+              <span className="text-green-500 mr-2">✓</span>
+              <span>Możliwość rezygnacji w każdej chwili</span>
+            </div>
+            <div className="flex items-center">
+              <span className="text-green-500 mr-2">✓</span>
+              <span>Bez spamu</span>
+            </div>
+          </div>
+        </div>
+      </div>
       {/* Success Stories Section */}
       <div className="py-16 px-6 lg:px-12 bg-gradient-to-r from-blue-100 to-purple-100">
         <div className="max-w-6xl mx-auto">
@@ -278,35 +307,6 @@ export default async function Home() {
                   </p>
                 </div>
               </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div className="py-16 px-6 lg:px-12 bg-gradient-to-r from-purple-100 to-pink-100">
-        <div className="max-w-4xl mx-auto text-center">
-          <h2 className="font-calistoga text-3xl sm:text-4xl lg:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-pink-600 mb-6">
-            Bądź na bieżąco!
-          </h2>
-          <p className="text-xl text-gray-700 mb-8 max-w-2xl mx-auto">
-            Zapisz się do newslettera i otrzymuj informacje o najnowszych
-            kursach, promocjach i wskazówkach rozwojowych prosto na swoją
-            skrzynkę email.
-          </p>
-
-          <NewsletterSignup />
-
-          <div className="mt-8 flex items-center justify-center space-x-6 text-sm text-gray-600">
-            <div className="flex items-center">
-              <span className="text-green-500 mr-2">✓</span>
-              <span>Bezpłatne informacje</span>
-            </div>
-            <div className="flex items-center">
-              <span className="text-green-500 mr-2">✓</span>
-              <span>Możliwość rezygnacji w każdej chwili</span>
-            </div>
-            <div className="flex items-center">
-              <span className="text-green-500 mr-2">✓</span>
-              <span>Bez spamu</span>
             </div>
           </div>
         </div>

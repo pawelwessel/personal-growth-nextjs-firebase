@@ -1,16 +1,4 @@
-import { Metadata } from "next";
-
-export const metadata: Metadata = {
-  title: "Panel administracyjny - Zarządzanie platformą | MocnyRozwój.pl",
-  description:
-    "Panel administracyjny do zarządzania kursami, produktami, leadami i treścią platformy rozwoju osobistego.",
-  robots: {
-    index: false,
-    follow: false,
-  },
-};
-
-("use client");
+"use client";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "@/firebase";
 import Link from "next/link";
@@ -23,7 +11,7 @@ import {
   FaBook,
 } from "react-icons/fa";
 
-export default function AdminPage() {
+export default function Admin() {
   const [user, loading] = useAuthState(auth);
 
   if (loading) {

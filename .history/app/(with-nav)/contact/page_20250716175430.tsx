@@ -2,6 +2,51 @@
 
 import { useState } from "react";
 import { leadsService } from "@/lib/leadsService";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Kontakt - Skontaktuj się z nami | MocnyRozwój.pl",
+  description:
+    "Masz pytania o rozwój osobisty? Skontaktuj się z nami przez formularz kontaktowy. Otrzymasz spersonalizowane odpowiedzi i wsparcie w ciągu 24 godzin.",
+  keywords:
+    "kontakt, formularz kontaktowy, wsparcie, pomoc, rozwój osobisty, pytania, obsługa klienta",
+  openGraph: {
+    title: "Kontakt - Skontaktuj się z nami | MocnyRozwój.pl",
+    description:
+      "Masz pytania o rozwój osobisty? Skontaktuj się z nami przez formularz kontaktowy. Wsparcie w ciągu 24 godzin.",
+    type: "website",
+    url: "https://mocnyrozwoj.pl/contact",
+    images: [
+      {
+        url: "/logo.png",
+        width: 512,
+        height: 512,
+        alt: "Kontakt - Skontaktuj się z nami",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Kontakt - Skontaktuj się z nami | MocnyRozwój.pl",
+    description:
+      "Masz pytania o rozwój osobisty? Skontaktuj się z nami przez formularz kontaktowy.",
+    images: ["/logo.png"],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
+  alternates: {
+    canonical: "https://mocnyrozwoj.pl/contact",
+  },
+};
 
 export default function Contact() {
   const [formData, setFormData] = useState({

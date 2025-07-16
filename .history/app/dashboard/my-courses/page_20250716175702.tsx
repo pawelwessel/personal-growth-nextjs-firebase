@@ -1,4 +1,17 @@
-"use client";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Moje kursy - Dostęp do zakupionych materiałów | MocnyRozwój.pl",
+  description:
+    "Przeglądaj i korzystaj z zakupionych kursów rozwojowych. Pobieraj materiały PDF i śledź swoje postępy w nauce.",
+  robots: {
+    index: false,
+    follow: false,
+  },
+};
+
+("use client");
+
 import { useAuth } from "@/components/AuthContext";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";

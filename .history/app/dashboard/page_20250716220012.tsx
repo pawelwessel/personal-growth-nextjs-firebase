@@ -284,7 +284,7 @@ function ShopSection({
   const handlePurchase = async (course: Course) => {
     try {
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_URL}/api/stripe/checkout`,
+        `${process.env.NEXT_PUBLIC_API_URL}/api/stripe/checkout`,
         {
           method: "POST",
           headers: {
@@ -396,7 +396,7 @@ function ShopSection({
                     </div>
                     <div className="flex items-center">
                       <FaStar className="text-yellow-400 mr-1" />
-                      <span className="text-sm font-medium text-black">
+                      <span className="text-sm font-medium">
                         {course.rating}
                       </span>
                     </div>

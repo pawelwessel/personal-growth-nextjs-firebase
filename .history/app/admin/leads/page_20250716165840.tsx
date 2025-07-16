@@ -11,23 +11,11 @@ import {
   FaPhone,
   FaEnvelope,
 } from "react-icons/fa";
-import { Metadata } from "next";
-
-export const metadata: Metadata = {
-  title: "Zarządzanie Leadami - Panel administracyjny | MocnyRozwój.pl",
-  description:
-    "Panel administracyjny do zarządzania leadami i subskrybentami newslettera. Przeglądaj, aktualizuj statusy i zarządzaj kontaktami.",
-  robots: {
-    index: false,
-    follow: false,
-  },
-};
 
 export default function AdminLeads() {
   const [leads, setLeads] = useState<Lead[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [selectedLead, setSelectedLead] = useState<Lead | null>(null);
-  const [filter, setFilter] = useState<"all" | "newsletter">("all");
   const [stats, setStats] = useState({
     total: 0,
     new: 0,
@@ -40,19 +28,14 @@ export default function AdminLeads() {
 
   useEffect(() => {
     loadLeads();
-  }, [filter]);
+  }, []);
 
   const loadLeads = async () => {
     try {
-      let leadsData;
-      if (filter === "newsletter") {
-        leadsData = await leadsService.getNewsletterSubscribers();
-      } else {
-        leadsData = await leadsService.getLeads();
-      }
-
-      const statsData = await leadsService.getLeadsStats();
-
+      const [leadsData, statsData] = await Promise.all([
+        leadsService.getLeads(),
+        leadsService.getLeadsStats(),
+      ]);
       setLeads(leadsData);
       setStats(statsData);
     } catch (error) {
@@ -133,32 +116,10 @@ export default function AdminLeads() {
           <h1 className="text-3xl font-bold text-gray-800">
             Zarządzanie Leadami
           </h1>
-          <div className="flex space-x-4">
-            <button
-              onClick={() => setFilter("all")}
-              className={`px-4 py-2 rounded-lg font-medium transition-colors duration-200 ${
-                filter === "all"
-                  ? "bg-purple-600 text-white"
-                  : "bg-gray-200 text-gray-700 hover:bg-gray-300"
-              }`}
-            >
-              Wszystkie
-            </button>
-            <button
-              onClick={() => setFilter("newsletter")}
-              className={`px-4 py-2 rounded-lg font-medium transition-colors duration-200 ${
-                filter === "newsletter"
-                  ? "bg-orange-600 text-white"
-                  : "bg-gray-200 text-gray-700 hover:bg-gray-300"
-              }`}
-            >
-              Newsletter
-            </button>
-          </div>
         </div>
 
         {/* Statistics */}
-        <div className="grid grid-cols-2 md:grid-cols-7 gap-4 mb-8">
+        <div className="grid grid-cols-2 md:grid-cols-6 gap-4 mb-8">
           <div className="bg-white rounded-2xl p-4 shadow-lg text-center">
             <div className="text-2xl font-bold text-gray-800">
               {stats.total}
@@ -190,12 +151,6 @@ export default function AdminLeads() {
           <div className="bg-red-100 rounded-2xl p-4 shadow-lg text-center">
             <div className="text-2xl font-bold text-red-800">{stats.lost}</div>
             <div className="text-sm text-red-600">Stracone</div>
-          </div>
-          <div className="bg-orange-100 rounded-2xl p-4 shadow-lg text-center">
-            <div className="text-2xl font-bold text-orange-800">
-              {stats.newsletter}
-            </div>
-            <div className="text-sm text-orange-600">Newsletter</div>
           </div>
         </div>
 

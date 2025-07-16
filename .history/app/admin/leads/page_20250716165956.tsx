@@ -11,17 +11,6 @@ import {
   FaPhone,
   FaEnvelope,
 } from "react-icons/fa";
-import { Metadata } from "next";
-
-export const metadata: Metadata = {
-  title: "Zarządzanie Leadami - Panel administracyjny | MocnyRozwój.pl",
-  description:
-    "Panel administracyjny do zarządzania leadami i subskrybentami newslettera. Przeglądaj, aktualizuj statusy i zarządzaj kontaktami.",
-  robots: {
-    index: false,
-    follow: false,
-  },
-};
 
 export default function AdminLeads() {
   const [leads, setLeads] = useState<Lead[]>([]);

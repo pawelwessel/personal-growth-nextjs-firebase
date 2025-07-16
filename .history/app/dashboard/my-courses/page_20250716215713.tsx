@@ -1,4 +1,3 @@
-"use client";
 import { useAuth } from "@/components/AuthContext";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
