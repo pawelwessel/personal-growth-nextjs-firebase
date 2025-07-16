@@ -123,7 +123,6 @@ export default function LoginPopup({ isOpen, onClose }: LoginPopupProps) {
 
         login(userData);
         onClose();
-        router.push("/dashboard");
       }
     } catch (error: any) {
       console.error("Google auth error:", error);

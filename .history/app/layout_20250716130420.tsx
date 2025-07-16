@@ -4,7 +4,6 @@ import { AuthProvider } from "@/components/AuthContext";
 import UserActionsTrigger from "@/components/UserActionsTrigger";
 import GoogleAnalytics from "@/components/GoogleAnalytics";
 import Navigation from "@/components/Navigation";
-import Footer from "@/components/Footer";
 
 const calistoga = Calistoga({
   weight: ["400"],

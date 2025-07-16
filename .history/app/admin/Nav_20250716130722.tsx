@@ -83,11 +83,6 @@ export default function Nav({
       icon: <FaQuestionCircle />,
     },
     {
-      title: "Leady",
-      href: `/admin/leads`,
-      icon: <FaUsers />,
-    },
-    {
       title: "Logout",
       href: `/admin/logout`,
       icon: <FaSignOutAlt />,

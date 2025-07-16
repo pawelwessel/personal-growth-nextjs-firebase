@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import hero from "@/public/hero.png";
 import logo from "@/public/logo.png";
 import brain from "@/public/brain.png";
@@ -332,10 +333,30 @@ export default async function Home() {
             <div>
               <h4 className="font-bold text-lg mb-4">Szybkie linki</h4>
               <ul className="space-y-2 text-gray-300">
-                <li>O nas</li>
-                <li>Jak to działa</li>
-                <li>FAQ</li>
-                <li>Kontakt</li>
+                <li>
+                  <Link
+                    href="/how-it-works"
+                    className="hover:text-white transition-colors duration-200"
+                  >
+                    Jak to działa
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="/faq"
+                    className="hover:text-white transition-colors duration-200"
+                  >
+                    FAQ
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="/contact"
+                    className="hover:text-white transition-colors duration-200"
+                  >
+                    Kontakt
+                  </Link>
+                </li>
               </ul>
             </div>
 

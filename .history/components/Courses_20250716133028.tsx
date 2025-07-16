@@ -123,7 +123,7 @@ export default function Courses() {
 
   if (loading) {
     return (
-      <div id="courses" className="bg-white py-16 px-6 lg:px-12">
+      <div className="bg-white py-16 px-6 lg:px-12">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-12">
             <h2 className="font-calistoga text-3xl sm:text-4xl lg:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-pink-600 mb-4">

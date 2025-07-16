@@ -11,7 +11,6 @@ import {
   FaGraduationCap,
   FaBook,
   FaQuestionCircle,
-  FaUsers,
 } from "react-icons/fa";
 import { useState } from "react";
 import Image from "next/image";
@@ -81,11 +80,6 @@ export default function Nav({
       title: "FAQ",
       href: `/admin/faq`,
       icon: <FaQuestionCircle />,
-    },
-    {
-      title: "Leady",
-      href: `/admin/leads`,
-      icon: <FaUsers />,
     },
     {
       title: "Logout",

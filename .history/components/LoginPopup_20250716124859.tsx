@@ -21,7 +21,6 @@ interface LoginPopupProps {
 
 export default function LoginPopup({ isOpen, onClose }: LoginPopupProps) {
   const { login } = useAuth();
-  const router = useRouter();
   const [isLoginMode, setIsLoginMode] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
@@ -43,7 +42,6 @@ export default function LoginPopup({ isOpen, onClose }: LoginPopupProps) {
         if (formData.email && formData.password) {
           await signInWithEmail(formData.email, formData.password);
           onClose();
-          router.push("/dashboard");
         } else {
           setError("Proszę wypełnić wszystkie pola");
         }
@@ -71,7 +69,6 @@ export default function LoginPopup({ isOpen, onClose }: LoginPopupProps) {
 
           login(userData);
           onClose();
-          router.push("/dashboard");
         } else {
           setError("Proszę wypełnić wszystkie pola");
         }
@@ -123,7 +120,6 @@ export default function LoginPopup({ isOpen, onClose }: LoginPopupProps) {
 
         login(userData);
         onClose();
-        router.push("/dashboard");
       }
     } catch (error: any) {
       console.error("Google auth error:", error);

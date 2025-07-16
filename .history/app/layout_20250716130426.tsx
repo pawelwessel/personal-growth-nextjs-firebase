@@ -4,7 +4,6 @@ import { AuthProvider } from "@/components/AuthContext";
 import UserActionsTrigger from "@/components/UserActionsTrigger";
 import GoogleAnalytics from "@/components/GoogleAnalytics";
 import Navigation from "@/components/Navigation";
-import Footer from "@/components/Footer";
 
 const calistoga = Calistoga({
   weight: ["400"],
@@ -27,6 +26,7 @@ export default function RootLayout({
     <html style={{ scrollBehavior: "smooth" }} lang="en">
       <body className={`${calistoga.variable} ${ptSerif.variable} antialiased`}>
         <AuthProvider>
+          <Navigation />
           {children}
           <UserActionsTrigger />
         </AuthProvider>
