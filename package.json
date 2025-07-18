@@ -11,6 +11,7 @@
     "validate-env": "node scripts/validate-env.js"
   },
   "dependencies": {
+    "completions": "^2.9.1",
     "firebase": "^11.5.0",
     "framer-motion": "^12.6.2",
     "moment": "^2.30.1",
