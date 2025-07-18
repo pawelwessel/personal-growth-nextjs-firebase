@@ -20,7 +20,7 @@ export default function ProductDetails({
   setTest,
 }: {
   product: any;
-  setTest: any;
+  setTest: (product: any) => void | Promise<void>;
 }) {
   const features = [
     { icon: pc, text: "100% ONLINE", color: "from-blue-400 to-purple-400" },

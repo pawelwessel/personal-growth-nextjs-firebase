@@ -13,7 +13,7 @@ export default function MoreProducts({
   product: any;
   products: any;
   setOpenedProduct: React.Dispatch<React.SetStateAction<IProduct | null>>;
-  setTest: React.Dispatch<React.SetStateAction<IProduct | null>>;
+  setTest: (product: IProduct) => void | Promise<void>;
 }) {
   const displayedProducts = useMemo(() => {
     return [...products]
@@ -37,7 +37,7 @@ export default function MoreProducts({
               key={i}
               onClick={async () => {
                 setOpenedProduct(null); // Close current product preview
-                setTest(item); // Start new test
+                await setTest(item); // Start new test and increment clickCount
                 // Increment clickCount in the database
                 try {
                   await updateDocument(

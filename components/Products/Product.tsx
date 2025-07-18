@@ -22,7 +22,7 @@ export default function Product({
   products: IProduct[];
   openedProduct: IProduct | null;
   setOpenedProduct: React.Dispatch<React.SetStateAction<IProduct | null>>;
-  setTest: React.Dispatch<React.SetStateAction<IProduct | null>>;
+  setTest: (product: IProduct) => void | Promise<void>;
 }) {
   const [currentIndex, setCurrentIndex] = useState(-1);
   const [isImageOpen, setImageOpen] = useState(false);

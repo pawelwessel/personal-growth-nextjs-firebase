@@ -34,9 +34,9 @@ export default function Products({ products }: { products: IProduct[] }) {
     };
   }, [test]);
 
-  // When a test is opened, dispatch a global event
+  // When a test is opened, dispatch a global event and increment clickCount
   const handleOpenTest = async (product: IProduct) => {
-    setTest(product);
+    setTest(product); // This only sets the state
     if (typeof window !== "undefined") {
       window.dispatchEvent(
         new CustomEvent("test-popup-opened", { detail: { test: product } })
