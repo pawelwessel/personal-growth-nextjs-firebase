@@ -58,12 +58,12 @@ export default function Navigation() {
             >
               Testy
             </Link>
-            <Link
+            {/* <Link
               href="/blog"
               className="text-gray-700 hover:text-purple-600 transition-colors duration-200 font-medium"
             >
               Blog
-            </Link>
+            </Link> */}
             <Link
               href="/faq"
               className="text-gray-700 hover:text-purple-600 transition-colors duration-200 font-medium"

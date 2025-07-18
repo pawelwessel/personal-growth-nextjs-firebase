@@ -3,6 +3,7 @@ import Product from "./Product";
 import { Suspense, useState, useEffect } from "react";
 import Test from "./Test";
 import { IProduct } from "@/types";
+import { updateDocument } from "@/firebase";
 
 export default function Products({ products }: { products: IProduct[] }) {
   const [openedProduct, setOpenedProduct] = useState<IProduct | null>(null);
@@ -33,6 +34,28 @@ export default function Products({ products }: { products: IProduct[] }) {
     };
   }, [test]);
 
+  // When a test is opened, dispatch a global event
+  const handleOpenTest = async (product: IProduct) => {
+    setTest(product);
+    if (typeof window !== "undefined") {
+      window.dispatchEvent(
+        new CustomEvent("test-popup-opened", { detail: { test: product } })
+      );
+    }
+    // Increment clickCount in the database
+    try {
+      await updateDocument(
+        ["clickCount"],
+        [(product.clickCount || 0) + 1],
+        "products",
+        product.id
+      );
+    } catch (e) {
+      // Optionally handle error
+      console.error("Failed to increment clickCount", e);
+    }
+  };
+
   if (!isClient) {
     return null;
   }
@@ -62,7 +85,7 @@ export default function Products({ products }: { products: IProduct[] }) {
                 products={products}
                 openedProduct={openedProduct}
                 setOpenedProduct={setOpenedProduct}
-                setTest={setTest}
+                setTest={handleOpenTest}
               />
             ))
           ) : (

@@ -16,6 +16,7 @@ export type IProduct = {
   price: number;
   tags: string[];
   questions: IQuestion[];
+  clickCount?: number; // Added to track product/test clicks
 };
 
 export interface Course {

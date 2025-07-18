@@ -5,6 +5,10 @@ import Image from "next/image";
 import ReactConfetti from "react-confetti";
 import PersonalReport from "./PersonalReport";
 import Advertisement from "./Advertisement";
+import { useAuth } from "@/components/AuthContext";
+import LoginPopup from "@/components/LoginPopup";
+import { testResultsService } from "@/lib/testResultsService";
+import { useRouter } from "next/navigation";
 
 async function getTestResults({
   prompt,
@@ -41,6 +45,12 @@ export default function Test({
   const [finished, setFinished] = useState(false);
   const [loading, setLoading] = useState(false);
   const [results, setResults] = useState<any>(null);
+  const { user } = useAuth();
+  const [showLogin, setShowLogin] = useState(false);
+  const [saveStatus, setSaveStatus] = useState<
+    null | "success" | "error" | "saving"
+  >(null);
+  const router = useRouter();
 
   // Keyboard event listeners
   useEffect(() => {
@@ -105,6 +115,41 @@ export default function Test({
       }, 7000);
     }
   }, [currentIndex, test?.questions?.length, selected]);
+
+  // Save test result handler
+  const handleSaveResult = async () => {
+    if (!results) return;
+    setSaveStatus("saving");
+    try {
+      await testResultsService.saveTestResult({
+        userId: user?.id || null,
+        testName: test?.title,
+        answers: selected,
+        report: results,
+      });
+      setSaveStatus("success");
+    } catch (e) {
+      setSaveStatus("error");
+    }
+  };
+
+  // If user logs in after test, auto-save
+  useEffect(() => {
+    if (user && showLogin && results && saveStatus !== "success") {
+      handleSaveResult();
+      setShowLogin(false);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user, showLogin, results]);
+
+  // Redirect to dashboard after successful save if logged in
+  useEffect(() => {
+    if (saveStatus === "success" && user) {
+      setTimeout(() => {
+        router.push("/dashboard");
+      }, 1200); // short delay to show confirmation
+    }
+  }, [saveStatus, user, router]);
 
   return (
     <div className="z-50 w-full h-full bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 rounded-3xl flex flex-col">
@@ -364,6 +409,47 @@ export default function Test({
                 >
                   <Advertisement />
                   <PersonalReport data={results} />
+                  <div className="mt-6 flex flex-col items-center gap-4">
+                    {!user ? (
+                      <>
+                        <button
+                          className="bg-gradient-to-r from-purple-600 to-pink-600 text-white px-6 py-3 rounded-lg font-bold text-lg shadow-lg hover:from-purple-700 hover:to-pink-700 transition-all duration-300"
+                          onClick={() => setShowLogin(true)}
+                          disabled={saveStatus === "saving"}
+                        >
+                          Zaloguj i zapisz wyniki
+                        </button>
+                        <LoginPopup
+                          isOpen={showLogin}
+                          onClose={() => setShowLogin(false)}
+                        />
+                      </>
+                    ) : (
+                      <button
+                        className="bg-gradient-to-r from-green-600 to-blue-600 text-white px-6 py-3 rounded-lg font-bold text-lg shadow-lg hover:from-green-700 hover:to-blue-700 transition-all duration-300"
+                        onClick={handleSaveResult}
+                        disabled={
+                          saveStatus === "saving" || saveStatus === "success"
+                        }
+                      >
+                        {saveStatus === "saving"
+                          ? "Zapisywanie..."
+                          : saveStatus === "success"
+                          ? "Wyniki zapisane!"
+                          : "Zapisz wyniki"}
+                      </button>
+                    )}
+                    {saveStatus === "error" && (
+                      <div className="text-red-600 font-medium">
+                        Błąd podczas zapisywania wyników. Spróbuj ponownie.
+                      </div>
+                    )}
+                    {saveStatus === "success" && (
+                      <div className="text-green-600 font-medium">
+                        Wyniki zostały zapisane!
+                      </div>
+                    )}
+                  </div>
                 </motion.div>
               )}
             </div>

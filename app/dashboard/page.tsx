@@ -18,6 +18,7 @@ import { useAuth } from "@/components/AuthContext";
 import { coursesService } from "@/lib/coursesService";
 import { userPurchasesService } from "@/lib/userPurchasesService";
 import { Course } from "@/types";
+import { testResultsService, TestResult } from "@/lib/testResultsService";
 
 function DashboardContent() {
   const [activeTab, setActiveTab] = useState("shop");
@@ -27,6 +28,7 @@ function DashboardContent() {
   const [userPurchasedCourses, setUserPurchasedCourses] = useState<string[]>(
     []
   );
+  const [testResults, setTestResults] = useState<TestResult[]>([]);
   const { user, logout } = useAuth();
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -152,9 +154,16 @@ function DashboardContent() {
     loadCourses();
   }, [user]);
 
+  useEffect(() => {
+    if (activeTab === "test-results" && user?.id) {
+      testResultsService.getUserTestResults(user.id).then(setTestResults);
+    }
+  }, [activeTab, user?.id]);
+
   const tabs = [
     { id: "shop", name: "Sklep", icon: FaShoppingCart },
     { id: "my-courses", name: "Moje kursy", icon: FaBook },
+    { id: "test-results", name: "Wyniki testów", icon: FaStar },
   ];
 
   const renderContent = () => {
@@ -174,6 +183,13 @@ function DashboardContent() {
             loading={loading}
             userPurchasedCourses={userPurchasedCourses}
             showSuccessMessage={showSuccessMessage}
+          />
+        );
+      case "test-results":
+        return (
+          <TestResultsSection
+            testResults={testResults}
+            loading={activeTab === "test-results" && !testResults}
           />
         );
       default:
@@ -621,6 +637,74 @@ function MyCoursesSection({
                     <FaDownload className="mr-2" />
                     Pobierz PDF
                   </button>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+function TestResultsSection({
+  testResults,
+  loading,
+}: {
+  testResults: TestResult[];
+  loading: boolean;
+}) {
+  if (loading) {
+    return (
+      <div className="bg-white rounded-2xl p-8 shadow-lg">
+        <h2 className="text-3xl font-bold text-gray-800 mb-6">Wyniki testów</h2>
+        <div className="text-center py-12">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600 mx-auto mb-4"></div>
+          <p className="text-gray-600">Ładowanie wyników testów...</p>
+        </div>
+      </div>
+    );
+  }
+  return (
+    <div className="bg-white rounded-2xl p-8 shadow-lg">
+      <h2 className="text-3xl font-bold text-gray-800 mb-6">Wyniki testów</h2>
+      {testResults.length === 0 ? (
+        <div className="text-center py-12">
+          <div className="w-24 h-24 bg-gradient-to-r from-purple-400 to-pink-400 rounded-full flex items-center justify-center mx-auto mb-6">
+            <FaStar size={40} className="text-white" />
+          </div>
+          <h3 className="text-xl font-semibold text-gray-700 mb-4">
+            Brak zapisanych wyników testów
+          </h3>
+          <p className="text-gray-600 max-w-md mx-auto">
+            Wypełnij testy i zapisz swoje wyniki, aby zobaczyć je tutaj.
+          </p>
+        </div>
+      ) : (
+        <div className="space-y-6">
+          {testResults.map((result) => (
+            <div
+              key={result.id}
+              className="border rounded-lg p-4 bg-gradient-to-br from-purple-50 to-pink-50"
+            >
+              <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-2">
+                <div>
+                  <div className="font-bold text-lg text-purple-700">
+                    {result.testName}
+                  </div>
+                  <div className="text-gray-500 text-sm">
+                    {new Date(result.createdAt).toLocaleString()}
+                  </div>
+                </div>
+                <div className="mt-2 md:mt-0">
+                  <span className="text-gray-700 font-medium">
+                    Podsumowanie:
+                  </span>
+                  <pre className="bg-white rounded p-2 text-xs mt-1 max-w-xl overflow-x-auto border border-gray-200">
+                    {typeof result.report === "string"
+                      ? result.report
+                      : JSON.stringify(result.report, null, 2)}
+                  </pre>
                 </div>
               </div>
             </div>

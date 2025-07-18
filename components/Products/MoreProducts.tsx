@@ -35,9 +35,21 @@ export default function MoreProducts({
           >
             <button
               key={i}
-              onClick={() => {
+              onClick={async () => {
                 setOpenedProduct(null); // Close current product preview
                 setTest(item); // Start new test
+                // Increment clickCount in the database
+                try {
+                  await updateDocument(
+                    ["clickCount"],
+                    [(item.clickCount || 0) + 1],
+                    "products",
+                    item.id
+                  );
+                } catch (e) {
+                  // Optionally handle error
+                  console.error("Failed to increment clickCount", e);
+                }
               }}
               className="flex flex-col relative overflow-hidden rounded-2xl group drop-shadow-sm shadow-black"
             >

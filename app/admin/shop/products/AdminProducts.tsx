@@ -111,6 +111,9 @@ export default function AdminProducts({
                 className="border border-gray-200"
                 alt={product?.title}
               />
+              <div className="absolute top-2 left-2 bg-white/80 text-black text-xs px-2 py-1 rounded shadow">
+                Kliknięcia: {product.clickCount || 0}
+              </div>
             </div>
           ))}
       </div>

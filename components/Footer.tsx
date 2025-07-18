@@ -48,14 +48,14 @@ export default function Footer() {
                   Jak to działa
                 </Link>
               </li>
-              <li>
+              {/* <li>
                 <Link
                   href="/blog"
                   className="hover:text-white transition-colors duration-200"
                 >
                   Blog
                 </Link>
-              </li>
+              </li> */}
               <li>
                 <Link
                   href="/faq"

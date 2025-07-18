@@ -42,6 +42,7 @@ export default function ProductEditor({
     addDocument("products", id, {
       ...product,
       id,
+      clickCount: product.clickCount ?? 0, // Ensure clickCount is initialized
     }).then(() => {
       toast.success("Dodano do sklepu pomyślnie!", {
         position: "top-right",
