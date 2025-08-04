@@ -97,7 +97,7 @@ export default function Product({
                       {/* Description */}
                       <div className="mb-8">
                         <h3 className="text-2xl font-bold text-gray-800 mb-4">
-                          O teście
+                          O planie dietetycznym
                         </h3>
                         <div className="prose prose-lg max-w-none">
                           <Viewer value={product.description} />

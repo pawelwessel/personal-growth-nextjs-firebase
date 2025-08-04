@@ -99,14 +99,6 @@ export const blogService = {
         }
       );
 
-      if (!response.ok) {
-        const errorData = await response.json().catch(() => ({}));
-        console.error("API Error:", errorData);
-        throw new Error(
-          `Failed to generate blog post: ${response.status} ${response.statusText}`
-        );
-      }
-
       const generatedData = await response.json();
       console.log("Generated data:", generatedData);
 

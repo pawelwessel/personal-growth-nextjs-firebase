@@ -23,7 +23,7 @@ export default function BasicInformationSection({
             type="text"
             value={post.title}
             onChange={(e) => handleInputChange("title", e.target.value)}
-            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-transparent"
+            className="w-full px-4 py-3 border border-gray-300 rounded-lg text-black focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-transparent"
             placeholder="Wprowadź tytuł posta"
           />
         </div>
@@ -35,7 +35,7 @@ export default function BasicInformationSection({
             type="text"
             value={post.url}
             onChange={(e) => handleInputChange("url", e.target.value)}
-            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-transparent"
+            className="w-full px-4 py-3 border border-gray-300 rounded-lg text-black focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-transparent"
             placeholder="url-sluga"
           />
         </div>
@@ -49,7 +49,7 @@ export default function BasicInformationSection({
           value={post.shortDesc}
           onChange={(e) => handleInputChange("shortDesc", e.target.value)}
           rows={3}
-          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-transparent"
+          className="w-full px-4 py-3 border border-gray-300 rounded-lg text-black focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-transparent"
           placeholder="Krótki opis posta"
         />
       </div>
@@ -63,7 +63,7 @@ export default function BasicInformationSection({
             type="text"
             value={post.category}
             onChange={(e) => handleInputChange("category", e.target.value)}
-            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-transparent"
+            className="w-full px-4 py-3 border border-gray-300 rounded-lg text-black focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-transparent"
             placeholder="Rozwój osobisty"
           />
         </div>
@@ -75,7 +75,7 @@ export default function BasicInformationSection({
             type="text"
             value={post.tags}
             onChange={(e) => handleInputChange("tags", e.target.value)}
-            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-transparent"
+            className="w-full px-4 py-3 border border-gray-300 rounded-lg text-black focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-transparent"
             placeholder="tag1,tag2,tag3"
           />
         </div>
@@ -87,7 +87,7 @@ export default function BasicInformationSection({
             type="text"
             value={post.urlLabel}
             onChange={(e) => handleInputChange("urlLabel", e.target.value)}
-            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-transparent"
+            className="w-full px-4 py-3 border border-gray-300 rounded-lg text-black focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-transparent"
             placeholder="Dowiedz się więcej"
           />
         </div>

@@ -8,7 +8,7 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        calistoga: ["var(--font-calistoga)", "serif"],
+        calistoga: ["var(--)", "serif"],
         "pt-serif": ["var(--font-pt-serif)", "serif"],
         ubuntu: ["Ubuntu", "sans-serif"],
         cardo: ["Cardo", "serif"],

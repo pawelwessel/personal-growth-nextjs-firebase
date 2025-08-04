@@ -134,7 +134,7 @@ export default function ProductEditor({
           <div className="flex flex-col">
             <span className="font-bold mb-3 text-xl text-black">Nazwa</span>
             <input
-              className={`border text-zinc-700 p-2 bg-white ${
+              className={`border text-black p-2 bg-white ${
                 product.title ? "border-green-500" : "border-gray-300"
               }`}
               type="text"
@@ -263,7 +263,7 @@ export default function ProductEditor({
                 type="text"
                 name="tagInput"
                 placeholder="Dodaj tag"
-                className="bg-white border text-zinc-700 p-2 border-gray-300"
+                className="bg-white border text-black p-2 border-gray-300"
               />
               <div className="flex flex-wrap gap-2 mt-2"></div>
               {product?.tags?.map((tag: string, i: number) => (
@@ -301,7 +301,7 @@ export default function ProductEditor({
                 <input
                   type="text"
                   placeholder="Dodaj pytanie"
-                  className="bg-white border text-zinc-700 p-2 border-gray-300"
+                  className="bg-white border text-black p-2 border-gray-300"
                   value={newQuestion || ""}
                   onChange={(e) => setNewQuestion(e.target.value)}
                 />
@@ -314,7 +314,7 @@ export default function ProductEditor({
                       <input
                         type="text"
                         placeholder={`Odpowiedź ${index + 1}`}
-                        className="bg-white border text-zinc-700 p-2 border-gray-300 mt-2 flex-1"
+                        className="bg-white border text-black p-2 border-gray-300 mt-2 flex-1"
                         value={newAnswers[index] || ""}
                         onChange={(e) => {
                           setNewAnswers((prevAnswers) =>
@@ -376,7 +376,7 @@ export default function ProductEditor({
                       {question.question}
                     </span>
                     <ul className="list-disc ml-5">
-                      {question.answers.map((answer: string) => (
+                      {question?.answers?.map((answer: string) => (
                         <li key={answer} className="text-black">
                           {answer}
                         </li>
@@ -405,7 +405,7 @@ export default function ProductEditor({
             <div className="flex flex-col">
               <span className="font-bold text-xl text-black">Cena</span>
               <input
-                className={`border bg-white mt-1.5 font-bold text-zinc-700 p-2  ${
+                className={`border bg-white mt-1.5 font-bold text-black p-2  ${
                   product.price ? "border-green-500" : "border-gray-300"
                 }`}
                 min={0}

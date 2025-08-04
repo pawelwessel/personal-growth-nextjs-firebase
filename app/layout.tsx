@@ -8,7 +8,7 @@ import Footer from "@/components/Footer";
 
 const calistoga = Calistoga({
   weight: ["400"],
-  variable: "--font-calistoga",
+  variable: "--",
   subsets: ["latin"],
 });
 

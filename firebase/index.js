@@ -81,16 +81,9 @@ async function removeDocument(collectionName, uniqueId) {
   await deleteDoc(doc(db, collectionName, uniqueId));
 }
 
-async function updateDocument(keys, values, collectionName, id) {
+async function updateDocument(collectionName, id, data) {
   const docRef = doc(db, collectionName, id);
-  const docSnapshot = await getDoc(docRef);
-
-  const existingData = docSnapshot.data();
-  const updatedData = { ...existingData };
-  keys.forEach((key, index) => {
-    updatedData[key] = values[index];
-  });
-  await updateDoc(docRef, updatedData);
+  await updateDoc(docRef, data);
 }
 
 // Storage functions

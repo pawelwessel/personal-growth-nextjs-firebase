@@ -44,7 +44,7 @@ export default function Navigation() {
               href="/how-it-works"
               className="text-gray-700 hover:text-purple-600 transition-colors duration-200 font-medium"
             >
-              Jak to działa
+              Dieta
             </Link>
             <Link
               href="/#courses"
@@ -133,7 +133,7 @@ export default function Navigation() {
                 className="block px-3 py-2 text-gray-700 hover:text-purple-600 hover:bg-gray-50 rounded-md font-medium transition-colors duration-200"
                 onClick={closeMobileMenu}
               >
-                Jak to działa
+                Dieta
               </Link>
               <Link
                 href="/#courses"

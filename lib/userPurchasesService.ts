@@ -17,6 +17,7 @@ interface UserPurchase {
   status: "completed" | "pending" | "failed";
   stripeSessionId?: string;
   expiresAt?: string; // For subscription-based access
+  type?: "course" | "diet" | "subscription"; // Type of purchase
 }
 
 const COLLECTION_NAME = "user_purchases";

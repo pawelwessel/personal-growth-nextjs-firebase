@@ -16,41 +16,32 @@ export default function ProductCard({
       className="group relative cursor-pointer"
       onClick={() => setOpenedProduct(product)}
     >
-      <div className="h-[500px] rounded-2xl overflow-hidden bg-gradient-to-br from-purple-500 via-pink-500 to-red-500 p-1">
-        <div className="bg-white h-full w-full rounded-xl relative">
-          {/* Decorative elements */}
-          <div className="absolute -top-6 -right-6 w-24 h-24 bg-gradient-to-br from-blue-400 to-purple-400 rounded-full blur-xl opacity-70" />
-          <div className="absolute -bottom-6 -left-6 w-24 h-24 bg-gradient-to-br from-pink-400 to-red-400 rounded-full blur-xl opacity-70" />
-
+      <div className="h-[500px]">
+        <div className="h-full w-full relative">
           {/* Content */}
-          <div className="relative h-full flex flex-col items-center justify-center p-8 group-hover:scale-105 transition-transform duration-500">
+          <div className="relative h-full flex flex-col items-center justify-center">
             {/* Product Image */}
-            <div className="w-48 h-48 mb-8 relative rounded-lg overflow-hidden">
+            <div className="w-full h-full relative">
+              <div className="absolute top-0 left-0 w-full h-full bg-black/50 group-hover:bg-black/80 duration-100 rounded-lg z-[10]">
+                <div className="flex items-center justify-center h-full">
+                  <span className="text-white text-2xl font-bold">
+                    {product.title}
+                  </span>
+                </div>
+              </div>
               <Image
                 src={product.mainImage || product.images[0].src}
                 alt={product.title}
                 fill
-                className="object-contain"
+                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                priority
+                className="w-full h-full object-cover rounded-lg"
               />
             </div>
 
-            {/* Title */}
-            <h2 className="font-pt text-2xl text-gray-800 text-center line-clamp-2 mb-4 group-hover:text-purple-600 transition-colors">
-              Test - {product.title}
-            </h2>
-
-            {/* Stars */}
-            <div className="flex gap-2 text-yellow-400">
-              <FaStar />
-              <FaStar />
-              <FaStar />
-              <FaStar />
-              <FaStar />
-            </div>
-
             {/* Hover overlay */}
-            <div className="absolute inset-0 bg-white/80 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-              <span className="px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-full font-semibold shadow-lg">
+            <div className="absolute z-[20] transition-opacity bottom-0 left-0 duration-300 flex items-center justify-center w-full">
+              <span className="px-6 py-3 bg-gradient-to-r from-green-700 to-teal-700 text-white rounded-t-xl font-semibold shadow-lg group-hover:bg-green-800 group-hover:to-teal-800 duration-100">
                 Zobacz więcej
               </span>
             </div>

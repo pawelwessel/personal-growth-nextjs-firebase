@@ -1,137 +1,130 @@
 "use client";
-// const courses: Course[] = [
-//   {
-//     id: "1",
-//     title: "Podstawy rozwoju osobistego",
-//     description:
-//       "Poznaj fundamenty rozwoju osobistego i rozpocznij swoją transformację",
-//     duration: "4 godziny",
-//     level: "Początkujący",
-//     rating: 4.8,
-//     students: 1247,
-//     price: 99,
-//     originalPrice: 149,
-//     image: "/public/assets/1.jpg",
-//     category: "Rozwój osobisty",
-//     lessons: 12,
-//     isPopular: true,
-//     isNew: true,
-//   },
-//   {
-//     id: "2",
-//     title: "Budowanie pewności siebie",
-//     description: "Naucz się technik zwiększających pewność siebie i samoocenę",
-//     duration: "6 godzin",
-//     level: "Średniozaawansowany",
-//     rating: 4.9,
-//     students: 892,
-//     price: 129,
-//     originalPrice: 179,
-//     image: "/public/assets/2.jpg",
-//     category: "Psychologia",
-//     lessons: 18,
-//     isPopular: true,
-//   },
-//   {
-//     id: "3",
-//     title: "Zarządzanie czasem i produktywność",
-//     description:
-//       "Opanuj sztukę efektywnego zarządzania czasem i zwiększ swoją produktywność",
-//     duration: "5 godzin",
-//     level: "Początkujący",
-//     rating: 4.7,
-//     students: 1563,
-//     price: 89,
-//     originalPrice: 129,
-//     image: "/public/assets/3.jpg",
-//     category: "Produktywność",
-//     lessons: 15,
-//   },
-//   {
-//     id: "4",
-//     title: "Komunikacja interpersonalna",
-//     description: "Rozwijaj umiejętności komunikacyjne i buduj lepsze relacje",
-//     duration: "7 godzin",
-//     level: "Średniozaawansowany",
-//     rating: 4.6,
-//     students: 734,
-//     price: 119,
-//     originalPrice: 159,
-//     image: "/public/assets/4.jpg",
-//     category: "Komunikacja",
-//     lessons: 20,
-//     isNew: true,
-//   },
-//   {
-//     id: "5",
-//     title: "Motywacja i wyznaczanie celów",
-//     description: "Naucz się wyznaczać i osiągać cele oraz utrzymywać motywację",
-//     duration: "5.5 godzin",
-//     level: "Początkujący",
-//     rating: 4.8,
-//     students: 1102,
-//     price: 109,
-//     originalPrice: 149,
-//     image: "/public/assets/5.jpg",
-//     category: "Motywacja",
-//     lessons: 16,
-//   },
-// ];
-
 import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { FaChevronDown } from "react-icons/fa";
-import CourseCard from "./CourseCard";
+import { motion } from "framer-motion";
+import DietPlanCard from "./CourseCard";
+import DietDetailModal from "./DietDetailModal";
 import { coursesService } from "@/lib/coursesService";
-import { Course } from "@/types";
+import { dietService } from "@/lib/dietService";
+import { Course, Diet } from "@/types";
+import { useAuth } from "./AuthContext";
 
 export default function Courses() {
-  const [courses, setCourses] = useState<Course[]>([]);
+  const [dietPlans, setDietPlans] = useState<Course[]>([]);
+  const [diets, setDiets] = useState<Diet[]>([]);
   const [loading, setLoading] = useState(true);
-  const [isExpanded, setIsExpanded] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<string>("Wszystkie");
+  const [selectedDiet, setSelectedDiet] = useState<Diet | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const { user } = useAuth();
+  const [checkoutLoading, setCheckoutLoading] = useState<string | null>(null);
 
-  // Fetch visible courses from database
+  // Fetch visible diet plans and diets from database
   useEffect(() => {
-    const fetchCourses = async () => {
+    const fetchData = async () => {
       try {
-        const fetchedCourses = await coursesService.getVisibleCourses();
-        setCourses(fetchedCourses);
+        const [fetchedDietPlans, fetchedDiets] = await Promise.all([
+          coursesService.getVisibleCourses(),
+          dietService.getAllDiets(),
+        ]);
+        setDietPlans(fetchedDietPlans);
+        setDiets(fetchedDiets);
       } catch (error) {
-        console.error("Error fetching courses:", error);
+        console.error("Error fetching data:", error);
       } finally {
         setLoading(false);
       }
     };
 
-    fetchCourses();
+    fetchData();
   }, []);
 
   const categories = [
     "Wszystkie",
-    "Rozwój osobisty",
-    "Psychologia",
-    "Produktywność",
-    "Komunikacja",
-    "Motywacja",
+    "Dieta redukcyjna",
+    "Dieta keto",
+    "Dieta wegetariańska",
+    "Dieta dla sportowców",
+    "Dieta na jelita",
   ];
 
-  const filteredCourses =
+  // Filter diets based on selected category
+  const filteredDiets =
     selectedCategory === "Wszystkie"
-      ? courses
-      : courses.filter((course) => course.category === selectedCategory);
+      ? diets
+      : diets.filter((diet) => diet.category === selectedCategory);
+
+  const handleDietCheckout = async (diet: Diet) => {
+    setCheckoutLoading(diet.id);
+    try {
+      const response = await fetch("/api/stripe/diet-checkout", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          dietId: diet.id,
+          dietTitle: diet.title,
+          dietPrice: diet.price,
+          userEmail: user?.email || "",
+          userId: user?.id || null,
+          dietData: {
+            duration: diet.duration,
+            difficulty: diet.difficulty,
+            calories: diet.calories,
+            meals: diet.meals,
+            category: diet.category,
+            nutritionistName: diet.nutritionistName,
+            nutritionistCredentials: diet.nutritionistCredentials,
+            benefits: diet.benefits,
+            targetAudience: diet.targetAudience,
+            mealPlanStructure: diet.mealPlanStructure,
+            shoppingList: diet.shoppingList,
+            preparationTips: diet.preparationTips,
+            progressTracking: diet.progressTracking,
+            maintenancePhase: diet.maintenancePhase,
+            scientificReferences: diet.scientificReferences,
+            clinicalStudies: diet.clinicalStudies,
+            averageWeightLoss: diet.averageWeightLoss,
+            averageTimeToResults: diet.averageTimeToResults,
+            successRate: diet.successRate,
+            faq: diet.faq,
+            testimonials: diet.testimonials,
+            beforeAfterStories: diet.beforeAfterStories,
+            image: diet.image,
+          },
+        }),
+      });
+
+      const data = await response.json();
+
+      if (data.success && data.url) {
+        // Redirect to Stripe Checkout
+        window.location.href = data.url;
+      } else {
+        console.error("Checkout error:", data.error);
+        alert(
+          "Wystąpił błąd podczas przetwarzania płatności. Spróbuj ponownie."
+        );
+      }
+    } catch (error) {
+      console.error("Checkout error:", error);
+      alert("Wystąpił błąd podczas przetwarzania płatności. Spróbuj ponownie.");
+    } finally {
+      setCheckoutLoading(null);
+    }
+  };
 
   if (loading) {
     return (
       <div id="courses" className="bg-white py-16 px-6 lg:px-12">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-12">
-            <h2 className="font-calistoga text-3xl sm:text-4xl lg:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-pink-600 mb-4">
-              Kursy rozwojowe
+            <h2 className=" text-3xl sm:text-4xl lg:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-pink-600 mb-4">
+              Plany dietetyczne
             </h2>
             <p className="text-gray-600 text-lg max-w-2xl mx-auto">
-              Wybierz kurs dopasowany do Twoich potrzeb i rozpocznij swoją
-              podróż do lepszej wersji siebie
+              Wybierz plan dietetyczny dopasowany do Twoich celów i rozpocznij
+              zdrowe odżywianie
             </p>
           </div>
           <div className="flex justify-center">
@@ -147,72 +140,182 @@ export default function Courses() {
       <div className="max-w-6xl mx-auto">
         {/* Header */}
         <div className="text-center mb-12">
-          <h2 className="font-calistoga text-3xl sm:text-4xl lg:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-pink-600 mb-4">
-            Kursy rozwojowe
+          <h2 className=" text-3xl sm:text-4xl lg:text-5xl font-bold text-black mb-4">
+            Zdrowie, dieta i rozwój osobisty
           </h2>
           <p className="text-gray-600 text-lg max-w-2xl mx-auto">
-            Wybierz kurs dopasowany do Twoich potrzeb i rozpocznij swoją podróż
-            do lepszej wersji siebie
+            Plany dietetyczne i kursy rozwoju osobistego przygotowane przez
+            profesjonalistów
           </p>
         </div>
 
         {/* Category Filter */}
-        <div className="flex flex-wrap justify-center gap-3 mb-8">
-          {categories.map((category) => (
-            <button
-              key={category}
-              onClick={() => setSelectedCategory(category)}
-              className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
-                selectedCategory === category
-                  ? "bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg"
-                  : "bg-gray-100 text-gray-700 hover:bg-gray-200"
-              }`}
-            >
-              {category}
-            </button>
-          ))}
+        <div className="mb-8">
+          <div className="flex flex-wrap justify-center gap-2">
+            {categories.map((category) => (
+              <button
+                key={category}
+                onClick={() => setSelectedCategory(category)}
+                className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
+                  selectedCategory === category
+                    ? "bg-purple-600 text-white"
+                    : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+                }`}
+              >
+                {category}
+              </button>
+            ))}
+          </div>
         </div>
+
+        {/* Diets Grid */}
+        {filteredDiets.length > 0 && (
+          <div className="mb-12">
+            <h3 className="text-2xl font-bold text-gray-800 mb-6 text-center">
+              Plany dietetyczne
+            </h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {filteredDiets.map((diet, index) => (
+                <motion.div
+                  key={diet.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                  className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow"
+                >
+                  {diet.image && (
+                    <div className="h-48 bg-gray-200 relative">
+                      <img
+                        src={diet.image}
+                        alt={diet.title}
+                        className="w-full h-full object-cover"
+                      />
+                      {diet.isPopular && (
+                        <div className="absolute top-2 left-2 bg-red-500 text-white px-2 py-1 rounded text-xs font-medium">
+                          Popularne
+                        </div>
+                      )}
+                      {diet.isNew && (
+                        <div className="absolute top-2 right-2 bg-green-500 text-white px-2 py-1 rounded text-xs font-medium">
+                          Nowe
+                        </div>
+                      )}
+                    </div>
+                  )}
+
+                  <div className="p-6">
+                    <h3 className="text-xl font-bold text-gray-800 mb-2">
+                      {diet.title}
+                    </h3>
+                    <p className="text-gray-600 text-sm mb-4 line-clamp-2">
+                      {diet.description}
+                    </p>
+
+                    <div className="flex items-center justify-between text-sm text-gray-500 mb-4">
+                      <span>📅 {diet.duration}</span>
+                      <span>🔥 {diet.calories} kcal</span>
+                      <span>🍽️ {diet.meals} posiłków</span>
+                    </div>
+
+                    <div className="flex items-center justify-between mb-4">
+                      <div className="flex items-center">
+                        <span className="text-yellow-500">★</span>
+                        <span className="ml-1 text-sm text-gray-600">
+                          {diet.rating.toFixed(1)}
+                        </span>
+                      </div>
+                      <div className="text-sm text-gray-600">
+                        {diet.followers} obserwujących
+                      </div>
+                    </div>
+
+                    <div className="flex items-center justify-between">
+                      <div className="text-lg font-bold text-purple-600">
+                        {diet.price} PLN
+                      </div>
+                      <div className="flex gap-2">
+                        <button
+                          onClick={() => {
+                            setSelectedDiet(diet);
+                            setIsModalOpen(true);
+                          }}
+                          className="bg-gray-600 text-white px-3 py-2 rounded-md hover:bg-gray-700 transition-colors text-sm"
+                        >
+                          Zobacz szczegóły
+                        </button>
+                        <button
+                          onClick={() => handleDietCheckout(diet)}
+                          disabled={checkoutLoading === diet.id}
+                          className="bg-purple-600 text-white px-3 py-2 rounded-md hover:bg-purple-700 transition-colors text-sm disabled:opacity-50 disabled:cursor-not-allowed flex items-center"
+                        >
+                          {checkoutLoading === diet.id ? (
+                            <>
+                              <div className="animate-spin rounded-full h-3 w-3 border-b-2 border-white mr-1"></div>
+                              ...
+                            </>
+                          ) : (
+                            "Kup teraz"
+                          )}
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        )}
 
         {/* Courses Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-          {filteredCourses
-            .slice(0, isExpanded ? filteredCourses.length : 3)
-            .map((course, index) => (
-              <motion.div
-                key={course.id}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-              >
-                <CourseCard
-                  course={course}
-                  onClick={() => {
-                    // Handle course click - could open course details or redirect
-                    console.log("Course clicked:", course.title);
-                  }}
-                />
-              </motion.div>
-            ))}
-        </div>
+        {dietPlans.length > 0 && (
+          <div>
+            <h3 className="text-2xl font-bold text-gray-800 mb-6 text-center">
+              Kursy rozwoju osobistego
+            </h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 gap-6">
+              {dietPlans.map((dietPlan, index) => (
+                <motion.div
+                  key={dietPlan.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                >
+                  <DietPlanCard
+                    course={dietPlan}
+                    onClick={() => {
+                      // Handle diet plan click - could open diet plan details or redirect
+                      console.log("Diet plan clicked:", dietPlan.title);
+                    }}
+                  />
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        )}
 
-        {/* Expand/Collapse Button */}
-        {filteredCourses.length > 3 && (
-          <div className="text-center">
-            <button
-              onClick={() => setIsExpanded(!isExpanded)}
-              className="inline-flex items-center space-x-2 bg-gradient-to-r from-purple-600 to-pink-600 text-white px-6 py-3 rounded-full font-medium hover:from-purple-700 hover:to-pink-700 transition-all duration-300 transform hover:scale-105"
-            >
-              <span>{isExpanded ? "Pokaż mniej" : "Pokaż więcej"}</span>
-              <motion.div
-                animate={{ rotate: isExpanded ? 180 : 0 }}
-                transition={{ duration: 0.3 }}
-              >
-                <FaChevronDown />
-              </motion.div>
-            </button>
+        {/* No content message */}
+        {filteredDiets.length === 0 && dietPlans.length === 0 && (
+          <div className="text-center py-12">
+            <div className="text-gray-400 text-6xl mb-4">🥗</div>
+            <h3 className="text-xl font-semibold text-gray-600 mb-2">
+              Brak dostępnych planów
+            </h3>
+            <p className="text-gray-500">
+              Nie ma jeszcze żadnych planów dietetycznych w tej kategorii.
+            </p>
           </div>
         )}
       </div>
+
+      {/* Diet Detail Modal */}
+      <DietDetailModal
+        diet={selectedDiet}
+        isOpen={isModalOpen}
+        onClose={() => {
+          setIsModalOpen(false);
+          setSelectedDiet(null);
+        }}
+      />
     </div>
   );
 }

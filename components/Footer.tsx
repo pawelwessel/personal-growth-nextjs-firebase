@@ -45,7 +45,7 @@ export default function Footer() {
                   href="/how-it-works"
                   className="hover:text-white transition-colors duration-200"
                 >
-                  Jak to działa
+                  Dieta
                 </Link>
               </li>
               {/* <li>

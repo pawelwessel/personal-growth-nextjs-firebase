@@ -14,7 +14,7 @@ function SuccessPageContent() {
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [purchaseType, setPurchaseType] = useState<
-    "course" | "subscription" | null
+    "course" | "subscription" | "diet" | null
   >(null);
 
   useEffect(() => {
@@ -37,7 +37,7 @@ function SuccessPageContent() {
         const data = await response.json();
 
         if (data.success) {
-          // Check if this is a course purchase or subscription
+          // Check if this is a course purchase, subscription, or diet purchase
           if (data.purchaseType === "course") {
             setPurchaseType("course");
             setSuccessMessage("Kurs został zakupiony pomyślnie!");
@@ -78,6 +78,54 @@ function SuccessPageContent() {
               // Set a flag to indicate successful payment
               sessionStorage.setItem("paymentSuccess", "true");
               sessionStorage.setItem("purchasedCourseId", data.courseId);
+              console.log(
+                "Payment successful, redirecting to dashboard with session_id:",
+                session_id
+              );
+              router.push(
+                `${process.env.NEXT_PUBLIC_URL}/dashboard?session_id=${session_id}`
+              );
+            }, 3000);
+          } else if (data.purchaseType === "diet") {
+            setPurchaseType("diet");
+            setSuccessMessage("Plan dietetyczny został zakupiony pomyślnie!");
+
+            // Track conversion for diet purchase
+            const transactionId = `${Date.now()}-${Math.random()
+              .toString(36)
+              .substr(2, 9)}`;
+            trackConversion(
+              "diet_purchase_conversion",
+              "diet_purchase",
+              data.session?.amount_total / 100,
+              "PLN"
+            );
+            trackPurchase(
+              transactionId,
+              data.session?.amount_total / 100,
+              "PLN",
+              [
+                {
+                  item_id: data.dietId,
+                  item_name: data.session?.metadata?.dietTitle || "Diet Plan",
+                  price: data.session?.amount_total / 100,
+                  quantity: 1,
+                },
+              ]
+            );
+
+            console.log("Diet purchase successful:", {
+              dietId: data.dietId,
+              dietTitle: data.session?.metadata?.dietTitle,
+              userId: data.userId,
+              sessionId: session_id,
+            });
+
+            // Redirect to dashboard after a short delay
+            setTimeout(() => {
+              // Set a flag to indicate successful payment
+              sessionStorage.setItem("paymentSuccess", "true");
+              sessionStorage.setItem("purchasedDietId", data.dietId);
               console.log(
                 "Payment successful, redirecting to dashboard with session_id:",
                 session_id
@@ -167,7 +215,7 @@ function SuccessPageContent() {
         </h1>
         <p className="text-gray-600 mb-6">{successMessage}</p>
 
-        {purchaseType === "course" && (
+        {(purchaseType === "course" || purchaseType === "diet") && (
           <div className="mb-6 p-4 bg-purple-50 rounded-lg">
             <p className="text-sm text-purple-700">
               Zostaniesz przekierowany do dashboard za kilka sekund...
@@ -176,7 +224,7 @@ function SuccessPageContent() {
         )}
 
         <div className="space-y-3">
-          {purchaseType === "course" ? (
+          {purchaseType === "course" || purchaseType === "diet" ? (
             <Link
               href="/dashboard"
               className="inline-flex items-center bg-gradient-to-r from-purple-600 to-pink-600 text-white px-6 py-3 rounded-lg font-medium hover:from-purple-700 hover:to-pink-700 transition-all duration-300"

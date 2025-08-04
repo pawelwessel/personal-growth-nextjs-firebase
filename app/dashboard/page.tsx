@@ -19,15 +19,15 @@ import { coursesService } from "@/lib/coursesService";
 import { userPurchasesService } from "@/lib/userPurchasesService";
 import { Course } from "@/types";
 import { testResultsService, TestResult } from "@/lib/testResultsService";
+import PersonalReport from "@/components/Products/PersonalReport";
+import DietTest from "@/components/DietTest";
 
 function DashboardContent() {
   const [activeTab, setActiveTab] = useState("shop");
-  const [allCourses, setAllCourses] = useState<Course[]>([]);
+  const [allDietPlans, setAllDietPlans] = useState<Course[]>([]);
   const [loading, setLoading] = useState(true);
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
-  const [userPurchasedCourses, setUserPurchasedCourses] = useState<string[]>(
-    []
-  );
+  const [userPurchasedDiets, setUserPurchasedDiets] = useState<string[]>([]);
   const [testResults, setTestResults] = useState<TestResult[]>([]);
   const { user, logout } = useAuth();
   const router = useRouter();
@@ -36,43 +36,43 @@ function DashboardContent() {
   // Redirect to login if not authenticated
   useEffect(() => {
     if (!user) {
-      router.push("/login?redirect=/dashboard");
+      router.push(`${process.env.NEXT_PUBLIC_URL}/login?redirect=/dashboard`);
     }
   }, [user, router]);
 
-  // Load user's purchased courses
+  // Load user's purchased diet plans
   useEffect(() => {
-    const loadUserPurchasedCourses = async () => {
+    const loadUserPurchasedDiets = async () => {
       if (!user?.id) return;
 
       try {
         const userDoc = await userPurchasesService.getUserDocument(user.id);
-        const purchasedCourses = userDoc?.purchasedCourses || [];
-        setUserPurchasedCourses(purchasedCourses);
-        console.log("User purchased courses:", purchasedCourses);
+        const purchasedDiets = userDoc?.purchasedCourses || [];
+        setUserPurchasedDiets(purchasedDiets);
+        console.log("User purchased diet plans:", purchasedDiets);
       } catch (error) {
-        console.error("Error loading user purchased courses:", error);
+        console.error("Error loading user purchased diet plans:", error);
       }
     };
 
-    loadUserPurchasedCourses();
+    loadUserPurchasedDiets();
   }, [user?.id]);
 
-  // Handle payment success and refresh user courses
+  // Handle payment success and refresh user diet plans
   useEffect(() => {
     if (user) {
       // Check if user just completed a payment
       const paymentSuccess = sessionStorage.getItem("paymentSuccess");
       const sessionId = searchParams.get("session_id");
-      const purchasedCourseId = sessionStorage.getItem("purchasedCourseId");
+      const purchasedDietId = sessionStorage.getItem("purchasedCourseId");
 
       if (paymentSuccess === "true" || sessionId) {
         console.log(
-          "Dashboard: Payment success detected, refreshing user courses...",
+          "Dashboard: Payment success detected, refreshing user diet plans...",
           {
             paymentSuccess,
             sessionId,
-            purchasedCourseId,
+            purchasedDietId,
           }
         );
 
@@ -87,44 +87,44 @@ function DashboardContent() {
           window.history.replaceState({}, "", newUrl.toString());
         }
 
-        // Switch to "Moje kursy" tab and refresh user courses
-        setActiveTab("my-courses");
+        // Switch to "Moje diety" tab and refresh user diet plans
+        setActiveTab("my-diets");
         setShowSuccessMessage(true);
 
-        // Force a complete refresh of user courses
+        // Force a complete refresh of user diet plans
         setTimeout(() => {
-          const loadUserPurchasedCourses = async () => {
+          const loadUserPurchasedDiets = async () => {
             try {
               const userDoc = await userPurchasesService.getUserDocument(
                 user.id
               );
-              const purchasedCourses = userDoc?.purchasedCourses || [];
-              setUserPurchasedCourses(purchasedCourses);
+              const purchasedDiets = userDoc?.purchasedCourses || [];
+              setUserPurchasedDiets(purchasedDiets);
               console.log(
-                "Refreshed user purchased courses:",
-                purchasedCourses
+                "Refreshed user purchased diet plans:",
+                purchasedDiets
               );
 
-              // Check if the purchased course is now in the array
-              if (
-                purchasedCourseId &&
-                purchasedCourses.includes(purchasedCourseId)
-              ) {
+              // Check if the purchased diet is now in the array
+              if (purchasedDietId && purchasedDiets.includes(purchasedDietId)) {
                 console.log(
-                  "✅ Purchased course confirmed in user's courses:",
-                  purchasedCourseId
+                  "✅ Purchased diet plan confirmed in user's plans:",
+                  purchasedDietId
                 );
-              } else if (purchasedCourseId) {
+              } else if (purchasedDietId) {
                 console.log(
-                  "❌ Purchased course not found in user's courses:",
-                  purchasedCourseId
+                  "❌ Purchased diet plan not found in user's plans:",
+                  purchasedDietId
                 );
               }
             } catch (error) {
-              console.error("Error refreshing user purchased courses:", error);
+              console.error(
+                "Error refreshing user purchased diet plans:",
+                error
+              );
             }
           };
-          loadUserPurchasedCourses();
+          loadUserPurchasedDiets();
         }, 1000); // Small delay to ensure the purchase is fully processed
 
         // Hide success message after 5 seconds
@@ -135,23 +135,23 @@ function DashboardContent() {
     }
   }, [user?.id, searchParams.toString()]);
 
-  // Load courses on component mount
+  // Load diet plans on component mount
   useEffect(() => {
-    const loadCourses = async () => {
+    const loadDietPlans = async () => {
       if (!user) return;
 
       try {
         setLoading(true);
-        const allCoursesData = await coursesService.getAllCourses();
-        setAllCourses(allCoursesData);
+        const allDietPlansData = await coursesService.getAllCourses();
+        setAllDietPlans(allDietPlansData);
       } catch (error) {
-        console.error("Error loading courses:", error);
+        console.error("Error loading diet plans:", error);
       } finally {
         setLoading(false);
       }
     };
 
-    loadCourses();
+    loadDietPlans();
   }, [user]);
 
   useEffect(() => {
@@ -162,7 +162,7 @@ function DashboardContent() {
 
   const tabs = [
     { id: "shop", name: "Sklep", icon: FaShoppingCart },
-    { id: "my-courses", name: "Moje kursy", icon: FaBook },
+    { id: "my-diets", name: "Moje diety", icon: FaBook },
     { id: "test-results", name: "Wyniki testów", icon: FaStar },
   ];
 
@@ -171,17 +171,17 @@ function DashboardContent() {
       case "shop":
         return (
           <ShopSection
-            courses={allCourses}
+            dietPlans={allDietPlans}
             loading={loading}
-            userPurchasedCourses={userPurchasedCourses}
+            userPurchasedDiets={userPurchasedDiets}
           />
         );
-      case "my-courses":
+      case "my-diets":
         return (
-          <MyCoursesSection
-            courses={allCourses}
+          <MyDietsSection
+            dietPlans={allDietPlans}
             loading={loading}
-            userPurchasedCourses={userPurchasedCourses}
+            userPurchasedDiets={userPurchasedDiets}
             showSuccessMessage={showSuccessMessage}
           />
         );
@@ -195,9 +195,9 @@ function DashboardContent() {
       default:
         return (
           <ShopSection
-            courses={allCourses}
+            dietPlans={allDietPlans}
             loading={loading}
-            userPurchasedCourses={userPurchasedCourses}
+            userPurchasedDiets={userPurchasedDiets}
           />
         );
     }
@@ -219,8 +219,8 @@ function DashboardContent() {
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50">
       {/* Header */}
       <div className="bg-white shadow-lg">
-        <div className="max-w-7xl mx-auto px-6 py-4">
-          <div className="flex items-center justify-between">
+        <div className="max-w-7xl mx-auto px-2 sm:px-4 md:px-6 py-4">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div className="flex items-center">
               <Image
                 src={logo}
@@ -234,11 +234,11 @@ function DashboardContent() {
               </h1>
             </div>
             <div className="flex items-center space-x-4">
-              <div className="text-right">
-                <p className="text-sm text-gray-600">Witaj,</p>
-                <p className="font-semibold text-black">
+              <div className="flex flex-row items-center gap-1">
+                <div className="text-sm text-gray-600">Witaj,</div>
+                <div className="font-semibold text-black">
                   {user?.name || "Użytkownik"}
-                </p>
+                </div>
               </div>
               <button
                 onClick={() => {
@@ -256,15 +256,15 @@ function DashboardContent() {
 
       {/* Navigation Tabs */}
       <div className="bg-white border-b">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="flex space-x-8">
+        <div className="max-w-7xl mx-auto px-2 sm:px-4 md:px-6">
+          <div className="flex space-x-8 overflow-x-auto scrollbar-hide">
             {tabs.map((tab) => {
               const Icon = tab.icon;
               return (
                 <button
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id)}
-                  className={`flex items-center space-x-2 py-4 px-2 border-b-2 transition-colors ${
+                  className={`flex items-center min-w-max space-x-2 py-4 px-2 border-b-2 transition-colors ${
                     activeTab === tab.id
                       ? "border-purple-600 text-purple-600"
                       : "border-transparent text-gray-600 hover:text-gray-900"
@@ -280,24 +280,33 @@ function DashboardContent() {
       </div>
 
       {/* Content */}
-      <div className="max-w-7xl mx-auto px-6 py-8">{renderContent()}</div>
+      <div className="max-w-7xl mx-auto px-2 sm:px-4 md:px-6 py-4 md:py-8">
+        {renderContent()}
+      </div>
     </div>
   );
 }
 
 // Shop Section
 function ShopSection({
-  courses,
+  dietPlans,
   loading,
-  userPurchasedCourses,
+  userPurchasedDiets,
 }: {
-  courses: Course[];
+  dietPlans: Course[];
   loading: boolean;
-  userPurchasedCourses: string[];
+  userPurchasedDiets: string[];
 }) {
   const { user } = useAuth();
+  const [showTest, setShowTest] = useState(false);
+  const [selectedDietPlan, setSelectedDietPlan] = useState<Course | null>(null);
 
-  const handlePurchase = async (course: Course) => {
+  const handleStartTest = (dietPlan: Course) => {
+    setSelectedDietPlan(dietPlan);
+    setShowTest(true);
+  };
+
+  const handlePurchase = async (dietPlan: Course) => {
     try {
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_URL}/api/stripe/checkout`,
@@ -307,9 +316,9 @@ function ShopSection({
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            courseId: course.id,
-            courseTitle: course.title,
-            coursePrice: course.price,
+            courseId: dietPlan.id,
+            courseTitle: dietPlan.title,
+            coursePrice: dietPlan.price,
             userEmail: user?.email,
             userId: user?.id,
           }),
@@ -334,7 +343,7 @@ function ShopSection({
         <h2 className="text-3xl font-bold text-gray-800 mb-6">Sklep</h2>
         <div className="text-center py-12">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600 mx-auto mb-4"></div>
-          <p className="text-gray-600">Ładowanie kursów...</p>
+          <p className="text-gray-600">Ładowanie planów dietetycznych...</p>
         </div>
       </div>
     );
@@ -344,33 +353,33 @@ function ShopSection({
     <div className="bg-white rounded-2xl p-8 shadow-lg">
       <h2 className="text-3xl font-bold text-gray-800 mb-6">Sklep</h2>
 
-      {courses.length === 0 ? (
+      {dietPlans.length === 0 ? (
         <div className="text-center py-12">
           <div className="w-24 h-24 bg-gradient-to-r from-purple-400 to-pink-400 rounded-full flex items-center justify-center mx-auto mb-6">
             <FaShoppingCart size={40} className="text-white" />
           </div>
           <h3 className="text-xl font-semibold text-gray-700 mb-4">
-            Brak dostępnych kursów
+            Brak dostępnych planów dietetycznych
           </h3>
           <p className="text-gray-600 max-w-md mx-auto">
-            Wkrótce pojawią się nowe kursy rozwojowe.
+            Wkrótce pojawią się nowe plany dietetyczne.
           </p>
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {courses.map((course) => {
-            const isOwned = userPurchasedCourses.includes(course.id);
+          {dietPlans.map((dietPlan) => {
+            const isOwned = userPurchasedDiets.includes(dietPlan.id);
 
             return (
               <div
-                key={course.id}
-                className="bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-shadow"
+                key={dietPlan.id}
+                className="bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-shadow min-w-0"
               >
                 <div className="relative h-48 bg-gradient-to-br from-purple-100 to-pink-100 rounded-t-xl overflow-hidden">
-                  {course.image && (
+                  {dietPlan.image && (
                     <img
-                      src={course.image}
-                      alt={course.title}
+                      src={dietPlan.image}
+                      alt={dietPlan.title}
                       className="w-full h-full object-cover"
                     />
                   )}
@@ -385,42 +394,42 @@ function ShopSection({
                 <div className="p-6">
                   <div className="flex items-center justify-between mb-3">
                     <span className="text-xs font-medium text-purple-600 bg-purple-100 px-2 py-1 rounded-full">
-                      {course.category}
+                      {dietPlan.category}
                     </span>
                     <span className="text-xs font-medium text-gray-600">
-                      {course.level}
+                      {dietPlan.level}
                     </span>
                   </div>
 
                   <h3 className="text-lg font-bold text-gray-800 mb-2 line-clamp-2">
-                    {course.title}
+                    {dietPlan.title}
                   </h3>
                   <p className="text-gray-600 text-sm mb-4 line-clamp-2">
-                    {course.description}
+                    {dietPlan.description}
                   </p>
 
                   <div className="flex items-center justify-between mb-4">
                     <div className="flex items-center space-x-4 text-sm text-gray-500">
                       <div className="flex items-center">
                         <FaClock className="mr-1" />
-                        <span>{course.duration}</span>
+                        <span>{dietPlan.duration}</span>
                       </div>
                       <div className="flex items-center">
                         <FaUsers className="mr-1" />
-                        <span>{course.students}</span>
+                        <span>{dietPlan.students}</span>
                       </div>
                     </div>
                     <div className="flex items-center">
                       <FaStar className="text-yellow-400 mr-1" />
                       <span className="text-sm font-medium text-black">
-                        {course.rating}
+                        {dietPlan.rating}
                       </span>
                     </div>
                   </div>
 
                   <div className="flex items-center justify-between">
                     <span className="text-xl font-bold text-gray-800">
-                      {course.price} PLN
+                      {dietPlan.price} PLN
                     </span>
                     {isOwned ? (
                       <span className="text-sm text-green-600 font-medium">
@@ -428,10 +437,10 @@ function ShopSection({
                       </span>
                     ) : (
                       <button
-                        onClick={() => handlePurchase(course)}
+                        onClick={() => handleStartTest(dietPlan)}
                         className="bg-gradient-to-r from-purple-600 to-pink-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:from-purple-700 hover:to-pink-700 transition-all duration-300"
                       >
-                        Kup teraz
+                        Rozpocznij test
                       </button>
                     )}
                   </div>
@@ -441,35 +450,44 @@ function ShopSection({
           })}
         </div>
       )}
+
+      {/* Diet Test Modal */}
+      {showTest && selectedDietPlan && (
+        <DietTest
+          setShowTest={setShowTest}
+          dietPlan={selectedDietPlan}
+          onPurchase={handlePurchase}
+        />
+      )}
     </div>
   );
 }
 
-// My Courses Section
-function MyCoursesSection({
-  courses,
+// My Diets Section
+function MyDietsSection({
+  dietPlans,
   loading,
-  userPurchasedCourses,
+  userPurchasedDiets,
   showSuccessMessage,
 }: {
-  courses: Course[];
+  dietPlans: Course[];
   loading: boolean;
-  userPurchasedCourses: string[];
+  userPurchasedDiets: string[];
   showSuccessMessage: boolean;
 }) {
   const { user } = useAuth();
 
-  const handleDownloadPdf = async (course: Course) => {
-    if (!course.pdfFile) {
-      alert("PDF nie jest dostępny dla tego kursu.");
+  const handleDownloadPdf = async (dietPlan: Course) => {
+    if (!dietPlan.pdfFile) {
+      alert("PDF nie jest dostępny dla tego planu dietetycznego.");
       return;
     }
 
     try {
       // Create a temporary link to download the PDF
       const link = document.createElement("a");
-      link.href = course.pdfFile;
-      link.download = `${course.title}.pdf`;
+      link.href = dietPlan.pdfFile;
+      link.download = `${dietPlan.title}.pdf`;
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
@@ -480,7 +498,7 @@ function MyCoursesSection({
   };
 
   const handleRefresh = () => {
-    // Reload the page to refresh user courses
+    // Reload the page to refresh user diet plans
     window.location.reload();
   };
 
@@ -488,7 +506,7 @@ function MyCoursesSection({
     return (
       <div className="bg-white rounded-2xl p-8 shadow-lg">
         <div className="flex items-center justify-between mb-6">
-          <h2 className="text-3xl font-bold text-gray-800">Moje kursy</h2>
+          <h2 className="text-3xl font-bold text-gray-800">Moje diety</h2>
           <button
             onClick={handleRefresh}
             disabled={loading}
@@ -499,30 +517,30 @@ function MyCoursesSection({
         </div>
         <div className="text-center py-12">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600 mx-auto mb-4"></div>
-          <p className="text-gray-600">Ładowanie kursów...</p>
+          <p className="text-gray-600">Ładowanie planów dietetycznych...</p>
         </div>
       </div>
     );
   }
 
-  // Filter only courses that user owns
-  const ownedCourses = courses.filter((course) =>
-    userPurchasedCourses.includes(course.id)
+  // Filter only diet plans that user owns
+  const ownedDiets = dietPlans.filter((dietPlan) =>
+    userPurchasedDiets.includes(dietPlan.id)
   );
 
-  console.log("MyCoursesSection Debug:", {
-    totalCourses: courses.length,
-    ownedCourses: ownedCourses.length,
-    userOwnedCourses: ownedCourses.map((c) => ({ id: c.id, title: c.title })),
+  console.log("MyDietsSection Debug:", {
+    totalDietPlans: dietPlans.length,
+    ownedDiets: ownedDiets.length,
+    userOwnedDiets: ownedDiets.map((d) => ({ id: d.id, title: d.title })),
     currentUserId: user?.id,
-    userPurchasedCoursesCount: userPurchasedCourses.length,
-    userPurchasedCourses: userPurchasedCourses,
+    userPurchasedDietsCount: userPurchasedDiets.length,
+    userPurchasedDiets: userPurchasedDiets,
   });
 
   return (
     <div className="bg-white rounded-2xl p-8 shadow-lg">
       <div className="flex items-center justify-between mb-6">
-        <h2 className="text-3xl font-bold text-gray-800">Moje kursy</h2>
+        <h2 className="text-3xl font-bold text-gray-800">Moje diety</h2>
         <button
           onClick={handleRefresh}
           disabled={loading}
@@ -550,37 +568,39 @@ function MyCoursesSection({
             </div>
             <div className="ml-3">
               <p className="text-sm font-medium text-green-800">
-                Kurs został zakupiony pomyślnie! Możesz teraz pobrać PDF.
+                Plan dietetyczny został zakupiony pomyślnie! Możesz teraz pobrać
+                PDF.
               </p>
             </div>
           </div>
         </div>
       )}
 
-      {ownedCourses.length === 0 ? (
+      {ownedDiets.length === 0 ? (
         <div className="text-center py-12">
           <div className="w-24 h-24 bg-gradient-to-r from-purple-400 to-pink-400 rounded-full flex items-center justify-center mx-auto mb-6">
             <FaBook size={40} className="text-white" />
           </div>
           <h3 className="text-xl font-semibold text-gray-700 mb-4">
-            Nie masz jeszcze żadnych kursów
+            Nie masz jeszcze żadnych planów dietetycznych
           </h3>
           <p className="text-gray-600 max-w-md mx-auto">
-            Kup swój pierwszy kurs w sekcji Sklep, aby rozpocząć naukę!
+            Kup swój pierwszy plan dietetyczny w sekcji Sklep, aby rozpocząć
+            zdrowe odżywianie!
           </p>
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {ownedCourses.map((course) => (
+          {ownedDiets.map((dietPlan) => (
             <div
-              key={course.id}
+              key={dietPlan.id}
               className="bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-shadow"
             >
               <div className="relative h-48 bg-gradient-to-br from-purple-100 to-pink-100 rounded-t-xl overflow-hidden">
-                {course.image && (
+                {dietPlan.image && (
                   <img
-                    src={course.image}
-                    alt={course.title}
+                    src={dietPlan.image}
+                    alt={dietPlan.title}
                     className="w-full h-full object-cover"
                   />
                 )}
@@ -595,34 +615,36 @@ function MyCoursesSection({
               <div className="p-6">
                 <div className="flex items-center justify-between mb-3">
                   <span className="text-xs font-medium text-purple-600 bg-purple-100 px-2 py-1 rounded-full">
-                    {course.category}
+                    {dietPlan.category}
                   </span>
                   <span className="text-xs font-medium text-gray-600">
-                    {course.level}
+                    {dietPlan.level}
                   </span>
                 </div>
 
                 <h3 className="text-lg font-bold text-gray-800 mb-2 line-clamp-2">
-                  {course.title}
+                  {dietPlan.title}
                 </h3>
                 <p className="text-gray-600 text-sm mb-4 line-clamp-2">
-                  {course.description}
+                  {dietPlan.description}
                 </p>
 
                 <div className="flex items-center justify-between mb-4">
                   <div className="flex items-center space-x-4 text-sm text-gray-500">
                     <div className="flex items-center">
                       <FaClock className="mr-1" />
-                      <span>{course.duration}</span>
+                      <span>{dietPlan.duration}</span>
                     </div>
                     <div className="flex items-center">
                       <FaUsers className="mr-1" />
-                      <span>{course.students}</span>
+                      <span>{dietPlan.students}</span>
                     </div>
                   </div>
                   <div className="flex items-center">
                     <FaStar className="text-yellow-400 mr-1" />
-                    <span className="text-sm font-medium">{course.rating}</span>
+                    <span className="text-sm font-medium">
+                      {dietPlan.rating}
+                    </span>
                   </div>
                 </div>
 
@@ -631,7 +653,7 @@ function MyCoursesSection({
                     ✓ Zakupiony
                   </span>
                   <button
-                    onClick={() => handleDownloadPdf(course)}
+                    onClick={() => handleDownloadPdf(dietPlan)}
                     className="bg-gradient-to-r from-green-600 to-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:from-green-700 hover:to-blue-700 transition-all duration-300 flex items-center"
                   >
                     <FaDownload className="mr-2" />
@@ -654,6 +676,8 @@ function TestResultsSection({
   testResults: TestResult[];
   loading: boolean;
 }) {
+  const [openResult, setOpenResult] = useState<TestResult | null>(null);
+
   if (loading) {
     return (
       <div className="bg-white rounded-2xl p-8 shadow-lg">
@@ -681,13 +705,14 @@ function TestResultsSection({
           </p>
         </div>
       ) : (
-        <div className="space-y-6">
+        <div className="space-y-4">
           {testResults.map((result) => (
             <div
               key={result.id}
-              className="border rounded-lg p-4 bg-gradient-to-br from-purple-50 to-pink-50"
+              className="border rounded-lg p-4 bg-gradient-to-br from-purple-50 to-pink-50 w-full cursor-pointer hover:shadow-lg transition-shadow"
+              onClick={() => setOpenResult(result)}
             >
-              <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-2">
+              <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-2 w-full">
                 <div>
                   <div className="font-bold text-lg text-purple-700">
                     {result.testName}
@@ -696,19 +721,41 @@ function TestResultsSection({
                     {new Date(result.createdAt).toLocaleString()}
                   </div>
                 </div>
-                <div className="mt-2 md:mt-0">
-                  <span className="text-gray-700 font-medium">
-                    Podsumowanie:
-                  </span>
-                  <pre className="bg-white rounded p-2 text-xs mt-1 max-w-xl overflow-x-auto border border-gray-200">
-                    {typeof result.report === "string"
-                      ? result.report
-                      : JSON.stringify(result.report, null, 2)}
-                  </pre>
-                </div>
               </div>
             </div>
           ))}
+        </div>
+      )}
+      {/* Modal Popup for full result */}
+      {openResult && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm">
+          <div className="bg-white rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto relative p-6">
+            <button
+              className="absolute top-4 right-4 text-gray-500 hover:text-red-500 text-2xl font-bold"
+              onClick={() => setOpenResult(null)}
+              aria-label="Zamknij"
+            >
+              ×
+            </button>
+            <div className="mb-4">
+              <div className="font-bold text-xl text-purple-700">
+                {openResult.testName}
+              </div>
+              <div className="text-gray-500 text-sm mb-2">
+                {new Date(openResult.createdAt).toLocaleString()}
+              </div>
+            </div>
+            {/* Render report using PersonalReport if possible, else fallback to JSON */}
+            {openResult.report && typeof openResult.report === "object" ? (
+              <PersonalReport data={openResult.report} />
+            ) : (
+              <pre className="bg-gray-100 rounded p-4 text-xs overflow-x-auto border border-gray-200">
+                {typeof openResult.report === "string"
+                  ? openResult.report
+                  : JSON.stringify(openResult.report, null, 2)}
+              </pre>
+            )}
+          </div>
         </div>
       )}
     </div>

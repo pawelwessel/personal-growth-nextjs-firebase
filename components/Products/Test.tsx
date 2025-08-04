@@ -10,12 +10,12 @@ import LoginPopup from "@/components/LoginPopup";
 import { testResultsService } from "@/lib/testResultsService";
 import { useRouter } from "next/navigation";
 
-async function getTestResults({
+async function getDietPlanResults({
   prompt,
-  testName,
+  dietPlanName,
 }: {
   prompt: { question: string; answer: string }[];
-  testName: string;
+  dietPlanName: string;
 }) {
   const response = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/test`, {
     method: "POST",
@@ -24,14 +24,14 @@ async function getTestResults({
     },
     body: JSON.stringify({
       prompt,
-      testName,
+      testName: dietPlanName,
     }),
   });
   const data = await response.json();
   return data;
 }
 
-export default function Test({
+export default function DietPlan({
   setTest,
   test,
 }: {
@@ -65,7 +65,7 @@ export default function Test({
         setCurrentIndex(test.questions.length - 1);
       }
 
-      // 'Escape' key to close test
+      // 'Escape' key to close diet plan
       if (event.key === "Escape") {
         handleClose();
       }
@@ -92,11 +92,11 @@ export default function Test({
       setLoading(true);
 
       const fetchResults = async () => {
-        const results = await getTestResults({
+        const results = await getDietPlanResults({
           prompt: selected,
-          testName: test?.title,
+          dietPlanName: test?.title,
         });
-        console.log("Test Results:", results);
+        console.log("Diet Plan Results:", results);
         setResults(results);
       };
 
@@ -116,7 +116,7 @@ export default function Test({
     }
   }, [currentIndex, test?.questions?.length, selected]);
 
-  // Save test result handler
+  // Save diet plan result handler
   const handleSaveResult = async () => {
     if (!results) return;
     setSaveStatus("saving");
@@ -133,7 +133,7 @@ export default function Test({
     }
   };
 
-  // If user logs in after test, auto-save
+  // If user logs in after diet plan, auto-save
   useEffect(() => {
     if (user && showLogin && results && saveStatus !== "success") {
       handleSaveResult();
@@ -153,7 +153,7 @@ export default function Test({
 
   return (
     <div className="z-50 w-full h-full bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 rounded-3xl flex flex-col">
-      {/* Test Container */}
+      {/* Diet Plan Container */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -176,7 +176,7 @@ export default function Test({
           <button
             onClick={handleClose}
             className="absolute top-4 right-4 z-50 p-2 rounded-full bg-white/20 hover:bg-white/30 transition-colors duration-200"
-            aria-label="Zamknij test"
+            aria-label="Zamknij plan dietetyczny"
           >
             <FaTimes className="text-white text-lg" />
           </button>
@@ -382,18 +382,18 @@ export default function Test({
                     <FaStar className="text-white text-xl lg:text-3xl" />
                   </div>
                   <h3 className="text-lg lg:text-2xl font-bold text-gray-800 mb-3 lg:mb-4">
-                    Test ukończony!
+                    Plan dietetyczny ukończony!
                   </h3>
                   <p className="text-gray-600 mb-4 lg:mb-6 text-sm lg:text-base">
-                    Dziękujemy za wypełnienie testu. Generujemy Twój
-                    spersonalizowany raport...
+                    Dziękujemy za wypełnienie ankiety. Generujemy Twój
+                    spersonalizowany plan dietetyczny...
                   </p>
 
                   {loading && (
                     <div className="flex flex-col items-center">
                       <div className="w-10 h-10 lg:w-16 lg:h-16 border-4 border-purple-200 border-t-purple-600 rounded-full animate-spin mb-3 lg:mb-4"></div>
                       <p className="text-gray-600 text-sm lg:text-base">
-                        Analizujemy Twoje odpowiedzi...
+                        Analizujemy Twoje preferencje...
                       </p>
                     </div>
                   )}
@@ -417,7 +417,7 @@ export default function Test({
                           onClick={() => setShowLogin(true)}
                           disabled={saveStatus === "saving"}
                         >
-                          Zaloguj i zapisz wyniki
+                          Zaloguj i zapisz plan
                         </button>
                         <LoginPopup
                           isOpen={showLogin}
@@ -435,18 +435,18 @@ export default function Test({
                         {saveStatus === "saving"
                           ? "Zapisywanie..."
                           : saveStatus === "success"
-                          ? "Wyniki zapisane!"
-                          : "Zapisz wyniki"}
+                          ? "Plan zapisany!"
+                          : "Zapisz plan"}
                       </button>
                     )}
                     {saveStatus === "error" && (
                       <div className="text-red-600 font-medium">
-                        Błąd podczas zapisywania wyników. Spróbuj ponownie.
+                        Błąd podczas zapisywania planu. Spróbuj ponownie.
                       </div>
                     )}
                     {saveStatus === "success" && (
                       <div className="text-green-600 font-medium">
-                        Wyniki zostały zapisane!
+                        Plan został zapisany!
                       </div>
                     )}
                   </div>
@@ -462,7 +462,7 @@ export default function Test({
             onClick={handleClose}
             className="text-gray-500 hover:text-gray-700 font-medium transition-colors duration-300 text-sm lg:text-base"
           >
-            Zamknij test
+            Zamknij plan dietetyczny
           </button>
         </div>
       </motion.div>

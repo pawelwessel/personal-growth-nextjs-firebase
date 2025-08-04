@@ -24,14 +24,22 @@ export default function ProductDetails({
 }) {
   const features = [
     { icon: pc, text: "100% ONLINE", color: "from-blue-400 to-purple-400" },
-    { icon: mug, text: "W TWOIM TEMPIE", color: "from-green-400 to-blue-400" },
+    {
+      icon: mug,
+      text: "GOTOWE DO WYDRUKU",
+      color: "from-green-400 to-blue-400",
+    },
     { icon: clock, text: "BEZ LIMITU", color: "from-purple-400 to-pink-400" },
     {
       icon: calendar,
       text: "KIEDY CHCESZ",
       color: "from-orange-400 to-red-400",
     },
-    { icon: hat, text: "OD EKSPERTÓW", color: "from-indigo-400 to-purple-400" },
+    {
+      icon: hat,
+      text: "OD DIETETYKÓW",
+      color: "from-indigo-400 to-purple-400",
+    },
   ];
 
   return (
@@ -109,7 +117,7 @@ export default function ProductDetails({
             className="inline-flex items-center space-x-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-full px-8 py-4 font-bold text-lg shadow-lg hover:from-purple-700 hover:to-pink-700 transition-all duration-300"
           >
             <FaPlay className="text-sm" />
-            <span>Rozpocznij test za darmo</span>
+            <span>Kup plan dietetyczny</span>
             <FaArrowRight className="text-sm" />
           </motion.button>
 
@@ -121,7 +129,7 @@ export default function ProductDetails({
             className="mt-4 inline-flex items-center space-x-2 bg-white/20 backdrop-blur-sm rounded-full px-4 py-2"
           >
             <FaCheck className="text-green-300" />
-            <span className="text-white/90 font-medium">100% ZA DARMO</span>
+            <span className="text-white/90 font-medium">PDF DO WYDRUKU</span>
           </motion.div>
         </div>
       </motion.div>

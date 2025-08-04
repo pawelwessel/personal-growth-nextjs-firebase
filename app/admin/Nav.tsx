@@ -45,6 +45,11 @@ export default function Nav({
           href: `/admin/courses/list`,
           icon: <FaBook />,
         },
+        {
+          title: "Dodaj pytania",
+          href: `/admin/courses/add-questions`,
+          icon: <FaQuestionCircle />,
+        },
       ],
     },
     {
@@ -67,6 +72,24 @@ export default function Nav({
           title: "Edytuj post",
           href: `/admin/blog/edit`, // This can be a placeholder or a landing page for editing
           icon: <FaEdit />,
+        },
+      ],
+    },
+    {
+      title: "Diety",
+      href: `/admin/diet`,
+      expandable: true,
+      icon: <FaImages />,
+      subItems: [
+        {
+          title: "Dodaj dietę",
+          href: `/admin/diet/add`,
+          icon: <FaPlus />,
+        },
+        {
+          title: "Wszystkie diety",
+          href: `/admin/diet`,
+          icon: <FaImages />,
         },
       ],
     },

@@ -7,13 +7,13 @@ import Link from "next/link";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Jak to działa? - Proces rozwoju osobistego | MocnyRozwój.pl",
+  title: "Dieta? - Proces rozwoju osobistego | MocnyRozwój.pl",
   description:
     "Poznaj nasz 4-etapowy proces rozwoju osobistego: utwórz konto, wykonaj testy osobowości, otrzymaj spersonalizowane raporty i działaj. Rozpocznij swoją transformację już dziś!",
   keywords:
-    "jak to działa, rozwój osobisty, testy osobowości, spersonalizowane raporty, transformacja osobista, proces rozwoju",
+    "Dieta, rozwój osobisty, testy osobowości, spersonalizowane raporty, transformacja osobista, proces rozwoju",
   openGraph: {
-    title: "Jak to działa? - Proces rozwoju osobistego | MocnyRozwój.pl",
+    title: "Dieta? - Proces rozwoju osobistego | MocnyRozwój.pl",
     description:
       "Poznaj nasz 4-etapowy proces rozwoju osobistego. Od utworzenia konta po spersonalizowane raporty - wszystko co potrzebujesz do transformacji.",
     type: "website",
@@ -23,13 +23,13 @@ export const metadata: Metadata = {
         url: "/assets2/1.jpg",
         width: 1200,
         height: 630,
-        alt: "Proces rozwoju osobistego - Jak to działa",
+        alt: "Proces rozwoju osobistego - Dieta",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Jak to działa? - Proces rozwoju osobistego | MocnyRozwój.pl",
+    title: "Dieta? - Proces rozwoju osobistego | MocnyRozwój.pl",
     description:
       "Poznaj nasz 4-etapowy proces rozwoju osobistego. Od utworzenia konta po spersonalizowane raporty.",
     images: ["/assets2/1.jpg"],
@@ -56,8 +56,8 @@ export default function HowItWorks() {
       {/* Hero Section */}
       <div className="pt-16 pb-12 px-6 lg:px-12">
         <div className="max-w-6xl mx-auto text-center">
-          <h1 className="font-calistoga text-4xl sm:text-5xl lg:text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 via-pink-600 to-blue-600 mb-6">
-            Jak to działa?
+          <h1 className=" text-4xl sm:text-5xl lg:text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 via-pink-600 to-blue-600 mb-6">
+            Dieta?
           </h1>
           <p className="text-xl text-gray-700 max-w-3xl mx-auto leading-relaxed">
             Poznaj nasz proces i dowiedz się, jak możesz rozpocząć swoją podróż

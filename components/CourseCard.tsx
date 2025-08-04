@@ -6,7 +6,7 @@ import { useAuth } from "./AuthContext";
 import LoginPopup from "./LoginPopup";
 import { trackBeginCheckout } from "@/lib/conversionTracking";
 
-interface Course {
+interface DietPlan {
   id: string;
   title: string;
   description: string;
@@ -23,13 +23,13 @@ interface Course {
   isNew?: boolean;
 }
 
-interface CourseCardProps {
-  course: Course;
+interface DietPlanCardProps {
+  course: DietPlan;
   variant?: "default" | "compact" | "horizontal";
   onClick?: () => void;
 }
 
-const CourseCard: React.FC<CourseCardProps> = ({
+const DietPlanCard: React.FC<DietPlanCardProps> = ({
   course,
   variant = "default",
   onClick,
@@ -38,24 +38,19 @@ const CourseCard: React.FC<CourseCardProps> = ({
   const [showLoginPopup, setShowLoginPopup] = useState(false);
 
   const handleBuyClick = () => {
-    if (user) {
-      // Handle purchase for logged in user
-      handlePurchase();
-    } else {
-      setShowLoginPopup(true);
-    }
+    handlePurchase();
   };
 
   const handlePlayClick = () => {
     if (user) {
-      // Check if user owns this course
+      // Check if user owns this diet plan
       if (user?.purchasedCourses?.includes(course.id)) {
-        // User owns the course, navigate to course content
-        console.log("User owns course, navigating to content");
-        // You can implement navigation to course content here
+        // User owns the diet plan, navigate to diet plan content
+        console.log("User owns diet plan, navigating to content");
+        // You can implement navigation to diet plan content here
         if (onClick) onClick();
       } else {
-        // User doesn't own the course, trigger purchase
+        // User doesn't own the diet plan, trigger purchase
         handlePurchase();
       }
     } else {
@@ -120,8 +115,8 @@ const CourseCard: React.FC<CourseCardProps> = ({
 
   const cardContent = (
     <>
-      {/* Course Image */}
-      <div className="relative h-[400px] bg-gradient-to-br from-purple-100 to-pink-100 overflow-hidden">
+      {/* Diet Plan Image */}
+      <div className="relative h-[400px] lg:h-[500px] bg-gradient-to-br from-purple-100 to-pink-100 overflow-hidden">
         {course.image ? (
           <Image
             src={course.image}
@@ -147,16 +142,11 @@ const CourseCard: React.FC<CourseCardProps> = ({
           </div>
         )}
         <div className="absolute inset-0 flex items-center justify-center">
-          <div
-            onClick={handlePlayClick}
-            className="w-12 h-12 lg:w-16 lg:h-16 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white/30 transition-all duration-300 cursor-pointer"
-          >
-            {user?.purchasedCourses?.includes(course.id) ? (
+          {user?.purchasedCourses?.includes(course.id) && (
+            <div className="w-12 h-12 lg:w-16 lg:h-16 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white/30 transition-all duration-300 cursor-pointer">
               <FaCheck className="text-white text-lg lg:text-xl" />
-            ) : (
-              <FaPlay className="text-white text-lg lg:text-xl ml-1" />
-            )}
-          </div>
+            </div>
+          )}
         </div>
 
         {/* Ownership indicator */}
@@ -165,68 +155,53 @@ const CourseCard: React.FC<CourseCardProps> = ({
             Zakupiony
           </div>
         )}
-      </div>
+        {/* Diet Plan Content */}
+        <div className="p-3 lg:p-6 absolute bottom-0 left-0 w-full h-max bg-black/50 justify-center items-start flex flex-col">
+          <div className="flex items-center justify-between mb-2 lg:mb-3"></div>
 
-      {/* Course Content */}
-      <div className="p-3 lg:p-6">
-        <div className="flex items-center justify-between mb-2 lg:mb-3">
-          <span className="text-xs font-medium text-purple-600 bg-purple-100 px-2 py-1 rounded-full">
-            {course.category}
-          </span>
-          <span
-            className={`text-xs font-medium px-2 py-1 rounded-full ${getLevelColor(
-              course.level
-            )}`}
-          >
-            {course.level}
-          </span>
-        </div>
+          <h3 className="text-sm lg:text-lg font-bold text-white mb-2 transition-colors line-clamp-2">
+            {course.title}
+          </h3>
 
-        <h3 className="text-sm lg:text-lg font-bold text-gray-800 mb-2 group-hover:text-purple-600 transition-colors line-clamp-2">
-          {course.title}
-        </h3>
-        <p className="text-gray-600 text-xs lg:text-sm mb-3 lg:mb-4 line-clamp-2">
-          {course.description}
-        </p>
-
-        {/* Course Stats */}
-        <div className="flex items-center justify-between mb-3 lg:mb-4">
-          <div className="flex items-center space-x-2 lg:space-x-4 text-xs lg:text-sm text-gray-500">
-            <div className="flex items-center">
-              <FaClock className="mr-1" />
-              <span>{course.duration}</span>
+          {/* Diet Plan Stats */}
+          <div className="flex items-center justify-between mb-3 lg:mb-4 w-full">
+            <div className="flex items-center space-x-2 lg:space-x-4 text-xs lg:text-sm text-white">
+              <div className="flex items-center">
+                <FaClock className="mr-1" />
+                <span>{course.duration}</span>
+              </div>
+              <div className="flex items-center">
+                <FaUsers className="mr-1" />
+                <span>{course.students}</span>
+              </div>
             </div>
             <div className="flex items-center">
-              <FaUsers className="mr-1" />
-              <span>{course.students}</span>
-            </div>
-          </div>
-          <div className="flex items-center">
-            <FaStar className="text-yellow-400 mr-1" />
-            <span className="text-xs lg:text-sm font-medium text-black">
-              {course.rating}
-            </span>
-          </div>
-        </div>
-
-        {/* Price */}
-        <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-2">
-            <span className="text-lg lg:text-2xl font-bold text-gray-800">
-              {course.price} PLN
-            </span>
-            {course.originalPrice && (
-              <span className="text-xs lg:text-sm text-gray-500 line-through">
-                {course.originalPrice} PLN
+              <FaStar className="text-yellow-400 mr-1" />
+              <span className="text-xs lg:text-sm font-medium text-white">
+                {course.rating}
               </span>
-            )}
+            </div>
           </div>
-          <button
-            onClick={handleBuyClick}
-            className="bg-gradient-to-r from-purple-600 to-pink-600 text-white px-3 lg:px-4 py-2 rounded-lg text-xs lg:text-sm font-medium hover:from-purple-700 hover:to-pink-700 transition-all duration-300 transform hover:scale-105"
-          >
-            Kup teraz
-          </button>
+
+          {/* Price */}
+          <div className="flex items-center justify-between w-full">
+            <div className="flex items-center space-x-2">
+              <span className="text-lg lg:text-2xl font-bold text-white">
+                {course.price} PLN
+              </span>
+              {course.originalPrice && (
+                <span className="text-xs lg:text-sm text-white line-through">
+                  {course.originalPrice} PLN
+                </span>
+              )}
+            </div>
+            <button
+              onClick={handleBuyClick}
+              className="bg-gradient-to-r from-purple-600 to-pink-600 text-white px-3 lg:px-4 py-2 rounded-lg text-xs lg:text-sm font-medium hover:from-purple-700 hover:to-pink-700 transition-all duration-300 transform hover:scale-105"
+            >
+              Kup teraz
+            </button>
+          </div>
         </div>
       </div>
     </>
@@ -260,14 +235,6 @@ const CourseCard: React.FC<CourseCardProps> = ({
                 Popularny
               </div>
             )}
-            <div className="absolute inset-0 flex items-center justify-center">
-              <div
-                onClick={handlePlayClick}
-                className="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white/30 transition-all duration-300 cursor-pointer"
-              >
-                <FaPlay className="text-white text-lg ml-1" />
-              </div>
-            </div>
           </div>
         </div>
         <div className="w-2/3 p-4">
@@ -332,4 +299,4 @@ const CourseCard: React.FC<CourseCardProps> = ({
   );
 };
 
-export default CourseCard;
+export default DietPlanCard;

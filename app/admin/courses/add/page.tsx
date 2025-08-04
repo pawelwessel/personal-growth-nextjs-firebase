@@ -187,7 +187,7 @@ export default function AddCoursePage() {
                     type="text"
                     value={courseData.title}
                     onChange={(e) => handleInputChange("title", e.target.value)}
-                    className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-400"
+                    className="w-full p-3 border border-gray-300 rounded-md text-black focus:outline-none focus:ring-2 focus:ring-purple-400"
                     placeholder="np. Podstawy rozwoju osobistego"
                     required
                   />
@@ -203,7 +203,7 @@ export default function AddCoursePage() {
                       handleInputChange("description", e.target.value)
                     }
                     rows={4}
-                    className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-400"
+                    className="w-full p-3 border border-gray-300 rounded-md text-black focus:outline-none focus:ring-2 focus:ring-purple-400"
                     placeholder="Opisz szczegółowo czego nauczy się uczestnik kursu"
                     required
                   />
@@ -218,7 +218,7 @@ export default function AddCoursePage() {
                     onChange={(e) =>
                       handleInputChange("category", e.target.value)
                     }
-                    className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-400"
+                    className="w-full p-3 border border-gray-300 rounded-md text-black focus:outline-none focus:ring-2 focus:ring-purple-400"
                     required
                   >
                     <option value="">Wybierz kategorię</option>
@@ -240,7 +240,7 @@ export default function AddCoursePage() {
                       onChange={(e) =>
                         handleInputChange("level", e.target.value)
                       }
-                      className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-400"
+                      className="w-full p-3 border border-gray-300 rounded-md text-black focus:outline-none focus:ring-2 focus:ring-purple-400"
                     >
                       {levels.map((level) => (
                         <option key={level} value={level}>
@@ -260,7 +260,7 @@ export default function AddCoursePage() {
                       onChange={(e) =>
                         handleInputChange("duration", e.target.value)
                       }
-                      className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-400"
+                      className="w-full p-3 border border-gray-300 rounded-md text-black focus:outline-none focus:ring-2 focus:ring-purple-400"
                       placeholder="np. 4 godziny"
                     />
                   </div>
@@ -283,7 +283,7 @@ export default function AddCoursePage() {
                     onChange={(e) =>
                       handleInputChange("price", Number(e.target.value))
                     }
-                    className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-400"
+                    className="w-full p-3 border border-gray-300 rounded-md text-black focus:outline-none focus:ring-2 focus:ring-purple-400"
                     placeholder="99"
                     min="0"
                     required
@@ -300,7 +300,7 @@ export default function AddCoursePage() {
                     onChange={(e) =>
                       handleInputChange("originalPrice", Number(e.target.value))
                     }
-                    className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-400"
+                    className="w-full p-3 border border-gray-300 rounded-md text-black focus:outline-none focus:ring-2 focus:ring-purple-400"
                     placeholder="149"
                     min="0"
                   />
@@ -326,7 +326,7 @@ export default function AddCoursePage() {
                     type="file"
                     accept="image/*"
                     onChange={handleImageUpload}
-                    className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-400"
+                    className="w-full p-3 border border-gray-300 rounded-md text-black focus:outline-none focus:ring-2 focus:ring-purple-400"
                   />
                 </div>
 
@@ -367,7 +367,7 @@ export default function AddCoursePage() {
                     type="file"
                     accept=".pdf"
                     onChange={handlePdfUpload}
-                    className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-400"
+                    className="w-full p-3 border border-gray-300 rounded-md text-black focus:outline-none focus:ring-2 focus:ring-purple-400"
                   />
                 </div>
 
@@ -412,7 +412,7 @@ export default function AddCoursePage() {
                       onChange={(e) =>
                         handleInputChange("lessons", Number(e.target.value))
                       }
-                      className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-400"
+                      className="w-full p-3 border border-gray-300 rounded-md text-black focus:outline-none focus:ring-2 focus:ring-purple-400"
                       placeholder="12"
                       min="0"
                     />
@@ -428,7 +428,7 @@ export default function AddCoursePage() {
                       onChange={(e) =>
                         handleInputChange("rating", Number(e.target.value))
                       }
-                      className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-400"
+                      className="w-full p-3 border border-gray-300 rounded-md text-black focus:outline-none focus:ring-2 focus:ring-purple-400"
                       placeholder="4.8"
                       min="0"
                       max="5"
@@ -447,7 +447,7 @@ export default function AddCoursePage() {
                     onChange={(e) =>
                       handleInputChange("students", Number(e.target.value))
                     }
-                    className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-400"
+                    className="w-full p-3 border border-gray-300 rounded-md text-black focus:outline-none focus:ring-2 focus:ring-purple-400"
                     placeholder="1247"
                     min="0"
                   />

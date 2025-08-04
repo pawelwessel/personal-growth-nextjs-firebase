@@ -25,7 +25,7 @@ export default function SEOInformationSection({
             type="text"
             value={post.googleTitle}
             onChange={(e) => handleInputChange("googleTitle", e.target.value)}
-            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-transparent"
+            className="w-full px-4 py-3 border border-gray-300 rounded-lg text-black focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-transparent"
             placeholder="Tytuł dla Google"
           />
         </div>
@@ -39,7 +39,7 @@ export default function SEOInformationSection({
             onChange={(e) =>
               handleInputChange("googleKeywords", e.target.value)
             }
-            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-transparent"
+            className="w-full px-4 py-3 border border-gray-300 rounded-lg text-black focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-transparent"
             placeholder="słowa kluczowe"
           />
         </div>
@@ -54,7 +54,7 @@ export default function SEOInformationSection({
             handleInputChange("googleDescription", e.target.value)
           }
           rows={3}
-          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-transparent"
+          className="w-full px-4 py-3 border border-gray-300 rounded-lg text-black focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-transparent"
           placeholder="Opis dla Google"
         />
       </div>

@@ -51,7 +51,7 @@ export default async function FAQ() {
       {/* Hero Section */}
       <div className="pt-16 pb-12 px-6 lg:px-12">
         <div className="max-w-6xl mx-auto text-center">
-          <h1 className="font-calistoga text-4xl sm:text-5xl lg:text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 via-pink-600 to-blue-600 mb-6">
+          <h1 className=" text-4xl sm:text-5xl lg:text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 via-pink-600 to-blue-600 mb-6">
             Często zadawane pytania
           </h1>
           <p className="text-xl text-gray-700 max-w-3xl mx-auto leading-relaxed">
@@ -163,7 +163,7 @@ export default async function FAQ() {
               href="/how-it-works"
               className="border-2 border-purple-600 text-purple-600 px-8 py-4 rounded-full hover:bg-purple-600 hover:text-white transition-all duration-300 font-bold"
             >
-              Jak to działa
+              Dieta
             </Link>
           </div>
         </div>

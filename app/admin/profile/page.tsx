@@ -178,7 +178,7 @@ export default function AdminProfilePage() {
                   type="password"
                   value={newPassword}
                   onChange={(e) => setNewPassword(e.target.value)}
-                  className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-400"
+                  className="w-full p-2 border border-gray-300 rounded-md text-black focus:outline-none focus:ring-2 focus:ring-green-400"
                   placeholder="Wprowadź nowe hasło"
                   required
                 />
@@ -192,7 +192,7 @@ export default function AdminProfilePage() {
                   type="password"
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
-                  className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-400"
+                  className="w-full p-2 border border-gray-300 rounded-md text-black focus:outline-none focus:ring-2 focus:ring-green-400"
                   placeholder="Potwierdź nowe hasło"
                   required
                 />
