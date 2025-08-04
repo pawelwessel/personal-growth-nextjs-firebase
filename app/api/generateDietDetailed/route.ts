@@ -131,20 +131,24 @@ export async function POST(req: NextRequest) {
     });
 
     // Extract JSON from the response content
-    let jsonContent = response.content;
-    
+    let jsonContent: string = String(response.content);
+
     // Ensure jsonContent is a string
-    if (typeof jsonContent !== 'string') {
-      console.error("Response content is not a string:", typeof jsonContent, jsonContent);
+    if (typeof response.content !== "string") {
+      console.error(
+        "Response content is not a string:",
+        typeof response.content,
+        response.content
+      );
       // If it's already an object, return it directly
-      if (typeof jsonContent === 'object' && jsonContent !== null) {
-        return NextResponse.json(jsonContent);
+      if (typeof response.content === "object" && response.content !== null) {
+        return NextResponse.json(response.content);
       }
       return NextResponse.json(
         {
           error: "Invalid response format from AI",
           details: "Response content is not a string",
-          rawContent: String(jsonContent).substring(0, 500) + "..."
+          rawContent: String(response.content).substring(0, 500) + "...",
         },
         { status: 500 }
       );
