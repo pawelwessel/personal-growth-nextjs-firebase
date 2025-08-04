@@ -28,11 +28,15 @@ export const dietService = {
   // Update an existing diet
   async updateDiet(id: string, dietData: Partial<Diet>): Promise<void> {
     const now = new Date().toISOString();
-
-    await updateDocument("diets", id, {
+    const updateData = {
       ...dietData,
       updatedAt: now,
-    });
+    };
+
+    const keys = Object.keys(updateData);
+    const values = Object.values(updateData);
+
+    await updateDocument(keys, values, "diets", id);
   },
 
   // Delete a diet
