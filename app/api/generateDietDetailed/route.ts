@@ -181,7 +181,7 @@ export async function POST(req: NextRequest) {
         {
           error: "Invalid response format from AI",
           details: "Failed to parse JSON response",
-          rawContent: response.content.substring(0, 500) + "...",
+          rawContent: String(response.content).substring(0, 500) + "...",
         },
         { status: 500 }
       );
