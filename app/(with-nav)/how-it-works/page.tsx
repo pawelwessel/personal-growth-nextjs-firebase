@@ -5,6 +5,14 @@ import asset3 from "@/public/assets2/3.jpg";
 import asset4 from "@/public/assets2/4.jpg";
 import Link from "next/link";
 import { Metadata } from "next";
+import {
+  FaCheck,
+  FaChartBar,
+  FaBullseye,
+  FaLightbulb,
+  FaChartLine,
+  FaEdit,
+} from "react-icons/fa";
 
 export const metadata: Metadata = {
   title: "Dieta? - Proces rozwoju osobistego | MocnyRozwój.pl",
@@ -89,13 +97,13 @@ export default function HowItWorks() {
                 <div className="space-y-3">
                   <div className="flex items-center space-x-3">
                     <div className="w-6 h-6 bg-green-400 rounded-full flex items-center justify-center">
-                      <span className="text-white text-sm">✓</span>
+                      <FaCheck className="text-white text-sm" />
                     </div>
                     <span className="text-gray-700">Imię i nazwisko</span>
                   </div>
                   <div className="flex items-center space-x-3">
                     <div className="w-6 h-6 bg-green-400 rounded-full flex items-center justify-center">
-                      <span className="text-white text-sm">✓</span>
+                      <FaCheck className="text-white text-sm" />
                     </div>
                     <span className="text-gray-700">Adres email</span>
                   </div>
@@ -139,40 +147,11 @@ export default function HowItWorks() {
                 Krok 2
               </div>
               <h2 className="text-3xl font-bold text-gray-800 mb-6">
-                Wykonaj testy osobowości
+                Wykup dostęp do treści
               </h2>
               <p className="text-gray-600 text-lg leading-relaxed mb-6">
-                Po zalogowaniu otrzymasz dostęp do naszych spersonalizowanych
-                testów osobowości, które pomogą Ci lepiej zrozumieć siebie.
+                Po zalogowaniu otrzymasz dostęp do zakupu naszych treści.
               </p>
-
-              <div className="bg-white rounded-2xl p-6 shadow-lg">
-                <h3 className="font-bold text-gray-800 mb-4">
-                  Dostępne po zalogowaniu:
-                </h3>
-                <div className="space-y-3">
-                  <div className="flex items-center space-x-3">
-                    <div className="w-6 h-6 bg-blue-400 rounded-full flex items-center justify-center">
-                      <span className="text-white text-sm">🔒</span>
-                    </div>
-                    <span className="text-gray-700">Test osobowości MBTI</span>
-                  </div>
-                  <div className="flex items-center space-x-3">
-                    <div className="w-6 h-6 bg-blue-400 rounded-full flex items-center justify-center">
-                      <span className="text-white text-sm">🔒</span>
-                    </div>
-                    <span className="text-gray-700">
-                      Test inteligencji emocjonalnej
-                    </span>
-                  </div>
-                  <div className="flex items-center space-x-3">
-                    <div className="w-6 h-6 bg-blue-400 rounded-full flex items-center justify-center">
-                      <span className="text-white text-sm">🔒</span>
-                    </div>
-                    <span className="text-gray-700">Test motywacji</span>
-                  </div>
-                </div>
-              </div>
             </div>
             <div className="lg:order-1">
               <Image
@@ -210,19 +189,19 @@ export default function HowItWorks() {
                 <div className="space-y-3">
                   <div className="flex items-center space-x-3">
                     <div className="w-6 h-6 bg-purple-400 rounded-full flex items-center justify-center">
-                      <span className="text-white text-sm">📊</span>
+                      <FaChartBar className="text-white text-sm" />
                     </div>
                     <span className="text-gray-700">Analiza mocnych stron</span>
                   </div>
                   <div className="flex items-center space-x-3">
                     <div className="w-6 h-6 bg-purple-400 rounded-full flex items-center justify-center">
-                      <span className="text-white text-sm">🎯</span>
+                      <FaBullseye className="text-white text-sm" />
                     </div>
                     <span className="text-gray-700">Obszary do rozwoju</span>
                   </div>
                   <div className="flex items-center space-x-3">
                     <div className="w-6 h-6 bg-purple-400 rounded-full flex items-center justify-center">
-                      <span className="text-white text-sm">💡</span>
+                      <FaLightbulb className="text-white text-sm" />
                     </div>
                     <span className="text-gray-700">Praktyczne wskazówki</span>
                   </div>
@@ -265,19 +244,19 @@ export default function HowItWorks() {
                 <div className="space-y-3">
                   <div className="flex items-center space-x-3">
                     <div className="w-6 h-6 bg-green-400 rounded-full flex items-center justify-center">
-                      <span className="text-white text-sm">📈</span>
+                      <FaChartLine className="text-white text-sm" />
                     </div>
                     <span className="text-gray-700">Śledzenie postępów</span>
                   </div>
                   <div className="flex items-center space-x-3">
                     <div className="w-6 h-6 bg-green-400 rounded-full flex items-center justify-center">
-                      <span className="text-white text-sm">📝</span>
+                      <FaEdit className="text-white text-sm" />
                     </div>
                     <span className="text-gray-700">Dziennik rozwoju</span>
                   </div>
                   <div className="flex items-center space-x-3">
                     <div className="w-6 h-6 bg-green-400 rounded-full flex items-center justify-center">
-                      <span className="text-white text-sm">🎯</span>
+                      <FaBullseye className="text-white text-sm" />
                     </div>
                     <span className="text-gray-700">Ustalanie celów</span>
                   </div>

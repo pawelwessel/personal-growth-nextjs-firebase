@@ -1,7 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { FaPlus, FaEdit, FaTrash, FaEye } from "react-icons/fa";
+import { FaPlus, FaEdit, FaTrash, FaEye, FaCalendar, FaFire, FaUtensils } from "react-icons/fa";
 import { Diet } from "@/types";
 import { dietService } from "@/lib/dietService";
 
@@ -75,7 +75,9 @@ export default function AdminDietPage() {
 
       {diets.length === 0 ? (
         <div className="text-center py-12">
-          <div className="text-gray-400 text-6xl mb-4">🥗</div>
+          <div className="text-gray-400 text-6xl mb-4 flex justify-center">
+            <FaUtensils />
+          </div>
           <h3 className="text-xl font-semibold text-gray-600 mb-2">
             Brak diet
           </h3>
@@ -126,9 +128,18 @@ export default function AdminDietPage() {
                 </p>
                 
                 <div className="flex items-center justify-between text-sm text-gray-500 mb-4">
-                  <span>📅 {diet.duration}</span>
-                  <span>🔥 {diet.calories} kcal</span>
-                  <span>🍽️ {diet.meals} posiłków</span>
+                  <span className="flex items-center gap-1">
+                    <FaCalendar />
+                    {diet.duration}
+                  </span>
+                  <span className="flex items-center gap-1">
+                    <FaFire />
+                    {diet.calories} kcal
+                  </span>
+                  <span className="flex items-center gap-1">
+                    <FaUtensils />
+                    {diet.meals} posiłków
+                  </span>
                 </div>
                 
                 <div className="flex items-center justify-between mb-4">

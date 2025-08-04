@@ -12,41 +12,16 @@ export async function POST(req: Request) {
       .toString(36)
       .substr(2, 9)}`;
 
-    // Prepare metadata with all necessary order information
+    // Prepare metadata with only essential order information (Stripe has 500 char limit)
     const metadata: any = {
       orderId,
       dietId,
       dietTitle,
       type: "diet_purchase",
-      orderData: JSON.stringify({
-        dietId,
-        dietTitle,
-        dietPrice,
-        dietData: {
-          duration: dietData.duration,
-          difficulty: dietData.difficulty,
-          calories: dietData.calories,
-          meals: dietData.meals,
-          category: dietData.category,
-          nutritionistName: dietData.nutritionistName,
-          nutritionistCredentials: dietData.nutritionistCredentials,
-          benefits: dietData.benefits,
-          targetAudience: dietData.targetAudience,
-          mealPlanStructure: dietData.mealPlanStructure,
-          shoppingList: dietData.shoppingList,
-          preparationTips: dietData.preparationTips,
-          progressTracking: dietData.progressTracking,
-          maintenancePhase: dietData.maintenancePhase,
-          scientificReferences: dietData.scientificReferences,
-          clinicalStudies: dietData.clinicalStudies,
-          averageWeightLoss: dietData.averageWeightLoss,
-          averageTimeToResults: dietData.averageTimeToResults,
-          successRate: dietData.successRate,
-          faq: dietData.faq,
-          testimonials: dietData.testimonials,
-          beforeAfterStories: dietData.beforeAfterStories,
-        },
-      }),
+      dietPrice: dietPrice.toString(),
+      dietDuration: dietData.duration,
+      dietDifficulty: dietData.difficulty,
+      dietCategory: dietData.category,
     };
 
     // If user is logged in, add user information

@@ -11,6 +11,7 @@ import {
   FaCheckCircle,
   FaMagic,
   FaSpinner,
+  FaLightbulb,
 } from "react-icons/fa";
 import { Diet, IQuestion, ITestimonial, IBeforeAfterStory } from "@/types";
 import { dietService } from "@/lib/dietService";
@@ -615,7 +616,7 @@ export default function AddNewDietPage() {
                       {dietData.contraindications.map(
                         (contraindication, index) => (
                           <li key={index} className="flex items-start">
-                            <span className="text-red-500 mr-2">⚠</span>
+                            <FaExclamationTriangle className="text-red-500 mr-2" />
                             <span className="text-gray-700">
                               {contraindication}
                             </span>
@@ -673,7 +674,7 @@ export default function AddNewDietPage() {
                   <div className="space-y-2">
                     {dietData.preparationTips.map((tip, index) => (
                       <div key={index} className="flex items-start">
-                        <span className="text-yellow-500 mr-2">💡</span>
+                        <FaLightbulb className="text-yellow-500 mr-2" />
                         <span className="text-gray-700">{tip}</span>
                       </div>
                     ))}

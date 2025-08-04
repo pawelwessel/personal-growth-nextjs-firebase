@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { leadsService } from "@/lib/leadsService";
+import { MdEmail } from "react-icons/md";
 
 export default function NewsletterSignup() {
   const [email, setEmail] = useState("");
@@ -52,16 +53,16 @@ export default function NewsletterSignup() {
   };
 
   return (
-    <div className="max-w-md mx-auto">
+    <div className="max-w-lg mx-auto">
       {submitStatus === "success" && (
-        <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded-lg mb-4">
+        <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded-lg mb-6">
           Dziękujemy za zapisanie się do newslettera! Wkrótce otrzymasz pierwsze
           informacje.
         </div>
       )}
 
       {submitStatus === "error" && (
-        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg mb-4">
+        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg mb-6">
           Wystąpił błąd podczas zapisywania. Spróbuj ponownie.
         </div>
       )}
@@ -72,15 +73,22 @@ export default function NewsletterSignup() {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           placeholder="Twój adres email"
-          className="flex-1 px-6 py-4 border border-gray-300 rounded-full focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-colors duration-200 !text-black"
+          className="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-500 focus:border-transparent transition-colors duration-200 !text-black text-center sm:text-left"
           disabled={isSubmitting}
         />
         <button
           type="submit"
           disabled={isSubmitting}
-          className="bg-gradient-to-r from-purple-600 to-pink-600 text-white px-8 py-4 rounded-full hover:from-purple-700 hover:to-pink-700 transform hover:scale-105 transition-all duration-300 font-bold shadow-lg disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap"
+          className="bg-gray-800 hover:bg-gray-700 text-white px-6 py-4 rounded-lg transition-all duration-200 font-medium shadow-sm disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap flex items-center justify-center gap-2"
         >
-          {isSubmitting ? "Zapisywanie..." : "📧 Zapisz się"}
+          {isSubmitting ? (
+            "Zapisywanie..."
+          ) : (
+            <>
+              <MdEmail className="text-base" />
+              Zapisz się
+            </>
+          )}
         </button>
       </form>
     </div>

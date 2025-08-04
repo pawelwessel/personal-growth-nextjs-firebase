@@ -160,7 +160,7 @@ export default async function FAQ() {
               📧 Skontaktuj się z nami
             </Link>
             <Link
-              href="/how-it-works"
+              href="/dieta"
               className="border-2 border-purple-600 text-purple-600 px-8 py-4 rounded-full hover:bg-purple-600 hover:text-white transition-all duration-300 font-bold"
             >
               Dieta

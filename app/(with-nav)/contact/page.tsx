@@ -2,6 +2,13 @@
 
 import { useState } from "react";
 import { leadsService } from "@/lib/leadsService";
+import {
+  FaEnvelope,
+  FaClock,
+  FaComments,
+  FaCheck,
+  FaQuestion,
+} from "react-icons/fa";
 
 export default function Contact() {
   const [formData, setFormData] = useState({
@@ -213,7 +220,7 @@ export default function Contact() {
                 <div className="space-y-4">
                   <div className="flex items-center space-x-4">
                     <div className="w-12 h-12 bg-gradient-to-r from-purple-400 to-pink-400 rounded-full flex items-center justify-center">
-                      <span className="text-white text-xl">📧</span>
+                      <FaEnvelope className="text-white text-xl" />
                     </div>
                     <div>
                       <p className="font-semibold text-gray-800">Email</p>
@@ -223,7 +230,7 @@ export default function Contact() {
 
                   <div className="flex items-center space-x-4">
                     <div className="w-12 h-12 bg-gradient-to-r from-blue-400 to-purple-400 rounded-full flex items-center justify-center">
-                      <span className="text-white text-xl">⏰</span>
+                      <FaClock className="text-white text-xl" />
                     </div>
                     <div>
                       <p className="font-semibold text-gray-800">
@@ -235,7 +242,7 @@ export default function Contact() {
 
                   <div className="flex items-center space-x-4">
                     <div className="w-12 h-12 bg-gradient-to-r from-green-400 to-blue-400 rounded-full flex items-center justify-center">
-                      <span className="text-white text-xl">💬</span>
+                      <FaComments className="text-white text-xl" />
                     </div>
                     <div>
                       <p className="font-semibold text-gray-800">
@@ -254,7 +261,7 @@ export default function Contact() {
                 <div className="space-y-4">
                   <div className="flex items-start space-x-3">
                     <div className="w-6 h-6 bg-green-400 rounded-full flex items-center justify-center mt-1">
-                      <span className="text-white text-sm">✓</span>
+                      <FaCheck className="text-white text-sm" />
                     </div>
                     <p className="text-gray-600">
                       Otrzymasz spersonalizowane odpowiedzi na swoje pytania
@@ -262,7 +269,7 @@ export default function Contact() {
                   </div>
                   <div className="flex items-start space-x-3">
                     <div className="w-6 h-6 bg-green-400 rounded-full flex items-center justify-center mt-1">
-                      <span className="text-white text-sm">✓</span>
+                      <FaCheck className="text-white text-sm" />
                     </div>
                     <p className="text-gray-600">
                       Pomożemy Ci wybrać najlepsze narzędzia rozwojowe
@@ -270,7 +277,7 @@ export default function Contact() {
                   </div>
                   <div className="flex items-start space-x-3">
                     <div className="w-6 h-6 bg-green-400 rounded-full flex items-center justify-center mt-1">
-                      <span className="text-white text-sm">✓</span>
+                      <FaCheck className="text-white text-sm" />
                     </div>
                     <p className="text-gray-600">
                       Otrzymasz wsparcie techniczne w razie problemów
@@ -297,7 +304,8 @@ export default function Contact() {
             href="/faq"
             className="inline-block bg-gradient-to-r from-purple-600 to-pink-600 text-white px-8 py-3 rounded-full hover:from-purple-700 hover:to-pink-700 transform hover:scale-105 transition-all duration-300 font-bold shadow-lg"
           >
-            ❓ Zobacz FAQ
+            <FaQuestion className="mr-2" />
+            Zobacz FAQ
           </a>
         </div>
       </div>

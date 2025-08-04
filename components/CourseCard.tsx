@@ -38,6 +38,12 @@ const DietPlanCard: React.FC<DietPlanCardProps> = ({
   const [showLoginPopup, setShowLoginPopup] = useState(false);
 
   const handleBuyClick = () => {
+    // If user is not logged in, show login popup
+    if (!user) {
+      setShowLoginPopup(true);
+      return;
+    }
+
     handlePurchase();
   };
 

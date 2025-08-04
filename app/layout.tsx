@@ -25,7 +25,9 @@ export default function RootLayout({
 }>) {
   return (
     <html style={{ scrollBehavior: "smooth" }} lang="en">
-      <body className={`${calistoga.variable} ${ptSerif.variable} antialiased`}>
+      <body
+        className={`${calistoga.variable} ${ptSerif.variable} antialiased max-w-full overflow-x-hidden`}
+      >
         <AuthProvider>
           {children}
           <UserActionsTrigger />

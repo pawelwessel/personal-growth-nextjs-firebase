@@ -7,6 +7,7 @@ import { coursesService } from "@/lib/coursesService";
 import { dietService } from "@/lib/dietService";
 import { Course, Diet } from "@/types";
 import { useAuth } from "./AuthContext";
+import { FaCalendar, FaFire, FaUtensils } from "react-icons/fa";
 
 export default function Courses() {
   const [dietPlans, setDietPlans] = useState<Course[]>([]);
@@ -54,6 +55,12 @@ export default function Courses() {
       : diets.filter((diet) => diet.category === selectedCategory);
 
   const handleDietCheckout = async (diet: Diet) => {
+    // If user is not logged in, redirect to login
+    if (!user) {
+      window.location.href = "/login";
+      return;
+    }
+
     setCheckoutLoading(diet.id);
     try {
       const response = await fetch("/api/stripe/diet-checkout", {
@@ -212,9 +219,18 @@ export default function Courses() {
                     </p>
 
                     <div className="flex items-center justify-between text-sm text-gray-500 mb-4">
-                      <span>📅 {diet.duration}</span>
-                      <span>🔥 {diet.calories} kcal</span>
-                      <span>🍽️ {diet.meals} posiłków</span>
+                      <span className="flex items-center gap-1">
+                        <FaCalendar />
+                        {diet.duration}
+                      </span>
+                      <span className="flex items-center gap-1">
+                        <FaFire />
+                        {diet.calories} kcal
+                      </span>
+                      <span className="flex items-center gap-1">
+                        <FaUtensils />
+                        {diet.meals} posiłków
+                      </span>
                     </div>
 
                     <div className="flex items-center justify-between mb-4">
@@ -229,35 +245,30 @@ export default function Courses() {
                       </div>
                     </div>
 
-                    <div className="flex items-center justify-between">
-                      <div className="text-lg font-bold text-purple-600">
-                        {diet.price} PLN
-                      </div>
-                      <div className="flex gap-2">
-                        <button
-                          onClick={() => {
-                            setSelectedDiet(diet);
-                            setIsModalOpen(true);
-                          }}
-                          className="bg-gray-600 text-white px-3 py-2 rounded-md hover:bg-gray-700 transition-colors text-sm"
-                        >
-                          Zobacz szczegóły
-                        </button>
-                        <button
-                          onClick={() => handleDietCheckout(diet)}
-                          disabled={checkoutLoading === diet.id}
-                          className="bg-purple-600 text-white px-3 py-2 rounded-md hover:bg-purple-700 transition-colors text-sm disabled:opacity-50 disabled:cursor-not-allowed flex items-center"
-                        >
-                          {checkoutLoading === diet.id ? (
-                            <>
-                              <div className="animate-spin rounded-full h-3 w-3 border-b-2 border-white mr-1"></div>
-                              ...
-                            </>
-                          ) : (
-                            "Kup teraz"
-                          )}
-                        </button>
-                      </div>
+                    <div className="grid grid-cols-2 w-full gap-4">
+                      <button
+                        onClick={() => {
+                          setSelectedDiet(diet);
+                          setIsModalOpen(true);
+                        }}
+                        className="w-full bg-gray-600 text-white px-3 py-2 rounded-md hover:bg-gray-700 transition-colors text-sm"
+                      >
+                        Zobacz szczegóły
+                      </button>
+                      <button
+                        onClick={() => handleDietCheckout(diet)}
+                        disabled={checkoutLoading === diet.id}
+                        className="text-center block w-full bg-purple-600 text-white px-3 py-2 rounded-md hover:bg-purple-700 transition-colors text-sm disabled:opacity-50 disabled:cursor-not-allowed"
+                      >
+                        {checkoutLoading === diet.id ? (
+                          <>
+                            <div className="animate-spin rounded-full h-3 w-3 border-b-2 border-white mr-1"></div>
+                            ...
+                          </>
+                        ) : (
+                          "Kup teraz"
+                        )}
+                      </button>
                     </div>
                   </div>
                 </motion.div>
@@ -268,7 +279,7 @@ export default function Courses() {
 
         {/* Courses Grid */}
         {dietPlans.length > 0 && (
-          <div>
+          <div id="shop">
             <h3 className="text-2xl font-bold text-gray-800 mb-6 text-center">
               Kursy rozwoju osobistego
             </h3>
@@ -296,7 +307,9 @@ export default function Courses() {
         {/* No content message */}
         {filteredDiets.length === 0 && dietPlans.length === 0 && (
           <div className="text-center py-12">
-            <div className="text-gray-400 text-6xl mb-4">🥗</div>
+            <div className="text-gray-400 text-6xl mb-4 flex justify-center">
+              <FaUtensils />
+            </div>
             <h3 className="text-xl font-semibold text-gray-600 mb-2">
               Brak dostępnych planów
             </h3>
