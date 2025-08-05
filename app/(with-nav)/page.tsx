@@ -10,6 +10,7 @@ import asset4 from "@/public/assets/4.jpg";
 import asset5 from "@/public/assets/5.jpg";
 import Products from "@/components/Products";
 import Courses from "@/components/Courses";
+import CounterAnimation from "@/components/CounterAnimation";
 import { getProducts } from "@/lib/getProducts";
 import { blogService } from "@/lib/blogService";
 import { Metadata } from "next";
@@ -24,11 +25,12 @@ import {
   FaSeedling,
   FaBullseye,
 } from "react-icons/fa";
+import { Diet } from "@/types";
 
 export const dynamic = "force-dynamic";
 
 export default async function Home() {
-  const products = await getProducts();
+  const products: Diet[] = await getProducts();
   const recentPosts = await blogService.getAllBlogPosts();
   const latestPosts = recentPosts.slice(0, 3); // Get the 3 most recent posts
 
@@ -89,8 +91,46 @@ export default async function Home() {
           </div>
         </div>
       </div>
+      {/* Statistics Section */}
+      <div className="bg-white py-16 px-6 lg:px-12">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-black mb-4">
+              Zaufali nam już tysiące osób
+            </h2>
+            <p className="text-gray-600 text-lg max-w-2xl mx-auto">
+              Dołącz do grona zadowolonych klientów, którzy osiągnęli swoje cele
+            </p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div className="text-center">
+              <div className="text-4xl lg:text-5xl font-bold text-purple-600 mb-2">
+                <CounterAnimation target={15420} suffix="+" />
+              </div>
+              <p className="text-gray-600">Zadowolonych klientów</p>
+            </div>
+            <div className="text-center">
+              <div className="text-4xl lg:text-5xl font-bold text-green-600 mb-2">
+                <CounterAnimation target={98} suffix="%" />
+              </div>
+              <p className="text-gray-600">Skuteczność diet</p>
+            </div>
+            <div className="text-center">
+              <div className="text-4xl lg:text-5xl font-bold text-blue-600 mb-2">
+                <CounterAnimation target={25000} suffix="+" />
+              </div>
+              <p className="text-gray-600">Sprzedanych planów</p>
+            </div>
+            <div className="text-center">
+              <div className="text-4xl lg:text-5xl font-bold text-orange-600 mb-2">
+                <CounterAnimation target={4.8} />
+              </div>
+              <p className="text-gray-600">Średnia ocena</p>
+            </div>
+          </div>
+        </div>
+      </div>
       {/* Courses Section */}
-      <div className="pt-12 bg-white" />
       <Courses />
       {/* Why Choose Us Section */}
       <div className="bg-black/75 backdrop-blur-sm rounded-3xl p-6 lg:p-12 m-6 lg:m-12 lg:my-24">

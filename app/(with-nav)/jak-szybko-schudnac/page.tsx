@@ -9,6 +9,7 @@ import asset3 from "@/public/assets/3.jpg";
 import asset4 from "@/public/assets/4.jpg";
 import asset5 from "@/public/assets/5.jpg";
 import Products from "@/components/Products";
+import CounterAnimation from "@/components/CounterAnimation";
 import { getProducts } from "@/lib/getProducts";
 import { Metadata } from "next";
 import {
@@ -23,11 +24,12 @@ import {
   FaHeart,
   FaClock,
 } from "react-icons/fa";
+import { Diet } from "@/types";
 
 export const dynamic = "force-dynamic";
 
 export default async function JakSzybkoSchudnac() {
-  const products = await getProducts();
+  const products: Diet[] = await getProducts();
 
   return (
     <div className="relative min-h-screen">
@@ -83,6 +85,46 @@ export default async function JakSzybkoSchudnac() {
               >
                 Kup teraz
               </Link>
+            </div>
+          </div>
+        </div>
+      </div>
+      {/* Statistics Section */}
+      <div className="bg-white py-16 px-6 lg:px-12">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-black mb-4">
+              Zaufali nam już tysiące osób
+            </h2>
+            <p className="text-gray-600 text-lg max-w-2xl mx-auto">
+              Dołącz do grona zadowolonych klientów, którzy schudli z naszymi
+              planami
+            </p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div className="text-center">
+              <div className="text-4xl lg:text-5xl font-bold text-purple-600 mb-2">
+                <CounterAnimation target={15420} suffix="+" />
+              </div>
+              <p className="text-gray-600">Zadowolonych klientów</p>
+            </div>
+            <div className="text-center">
+              <div className="text-4xl lg:text-5xl font-bold text-green-600 mb-2">
+                <CounterAnimation target={98} suffix="%" />
+              </div>
+              <p className="text-gray-600">Skuteczność odchudzania</p>
+            </div>
+            <div className="text-center">
+              <div className="text-4xl lg:text-5xl font-bold text-blue-600 mb-2">
+                <CounterAnimation target={25000} suffix="+" />
+              </div>
+              <p className="text-gray-600">Sprzedanych planów</p>
+            </div>
+            <div className="text-center">
+              <div className="text-4xl lg:text-5xl font-bold text-orange-600 mb-2">
+                <CounterAnimation target={4.8} />
+              </div>
+              <p className="text-gray-600">Średnia ocena</p>
             </div>
           </div>
         </div>
@@ -364,6 +406,33 @@ export default async function JakSzybkoSchudnac() {
             </div>
           </div>
         </div>
+      </div>
+
+      {/* Products Section */}
+      <div className="bg-white py-24" id="shop">
+        <div className="relative">
+          <Image
+            src={brain}
+            width={512}
+            height={512}
+            alt="Plany Dietetyczne"
+            className="brain pt-12 pb-6 w-[100px] mx-auto animate-bounce"
+          />
+          <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+            <div className="text-nowrap bg-black text-white px-6 py-2 rounded-full text-sm font-bold">
+              Profesjonalne plany
+            </div>
+          </div>
+        </div>
+        <h2 className="text-center  text-3xl sm:text-4xl lg:text-5xl font-bold text-black px-4">
+          Wybierz swoją dietę redukcyjną!
+        </h2>
+        <p className="mx-auto mt-6 text-center px-6 lg:pl-0 sm:text-lg text-gray-700 font-pt max-w-2xl leading-relaxed">
+          Profesjonalne plany dietetyczne stworzone przez dietetyków. Gotowe
+          jadłospisy do wydruku z listami zakupów i przepisami. Zacznij zdrowe
+          odżywianie już dziś!
+        </p>
+        <Products products={products} />
       </div>
 
       {/* Customer Reviews Section */}

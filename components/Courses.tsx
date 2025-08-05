@@ -14,21 +14,24 @@ export default function Courses() {
   const [diets, setDiets] = useState<Diet[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState<string>("Wszystkie");
+  const [categories, setCategories] = useState<string[]>(["Wszystkie"]);
   const [selectedDiet, setSelectedDiet] = useState<Diet | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { user } = useAuth();
   const [checkoutLoading, setCheckoutLoading] = useState<string | null>(null);
 
-  // Fetch visible diet plans and diets from database
+  // Fetch visible diet plans, diets, and categories from database
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [fetchedDietPlans, fetchedDiets] = await Promise.all([
+        const [fetchedDietPlans, fetchedDiets, fetchedCategories] = await Promise.all([
           coursesService.getVisibleCourses(),
           dietService.getAllDiets(),
+          dietService.getDietCategories(),
         ]);
         setDietPlans(fetchedDietPlans);
         setDiets(fetchedDiets);
+        setCategories(["Wszystkie", ...fetchedCategories]);
       } catch (error) {
         console.error("Error fetching data:", error);
       } finally {
@@ -38,15 +41,6 @@ export default function Courses() {
 
     fetchData();
   }, []);
-
-  const categories = [
-    "Wszystkie",
-    "Dieta redukcyjna",
-    "Dieta keto",
-    "Dieta wegetariańska",
-    "Dieta dla sportowców",
-    "Dieta na jelita",
-  ];
 
   // Filter diets based on selected category
   const filteredDiets =

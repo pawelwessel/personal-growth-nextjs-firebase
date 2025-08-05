@@ -50,6 +50,14 @@ export const dietService = {
     return diets as Diet[];
   },
 
+  // Get unique categories from diets
+  async getDietCategories(): Promise<string[]> {
+    const diets = await getDocuments("diets");
+    const categories = diets.map((diet: Diet) => diet.category);
+    const uniqueCategories = [...new Set(categories)].filter(Boolean);
+    return uniqueCategories;
+  },
+
   // Get a single diet by ID
   async getDietById(id: string): Promise<Diet | null> {
     const diets: any = await getDocuments("diets");

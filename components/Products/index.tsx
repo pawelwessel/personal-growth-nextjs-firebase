@@ -2,16 +2,33 @@
 import Product from "./Product";
 import { Suspense, useState, useEffect } from "react";
 import Test from "./Test";
-import { IProduct } from "@/types";
+import { IProduct, Diet } from "@/types";
 import { updateDocument } from "@/firebase";
+import { dietService } from "@/lib/dietService";
 
-export default function Products({ products }: { products: IProduct[] }) {
-  const [openedProduct, setOpenedProduct] = useState<IProduct | null>(null);
-  const [test, setTest] = useState<IProduct | null>(null);
+export default function Products({ products }: { products: (IProduct | Diet)[] }) {
+  const [openedProduct, setOpenedProduct] = useState<IProduct | Diet | null>(null);
+  const [test, setTest] = useState<IProduct | Diet | null>(null);
   const [isClient, setIsClient] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState<string>("Wszystkie");
+  const [categories, setCategories] = useState<string[]>(["Wszystkie"]);
 
   useEffect(() => {
     setIsClient(typeof window !== "undefined");
+  }, []);
+
+  // Fetch categories from database
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const fetchedCategories = await dietService.getDietCategories();
+        setCategories(["Wszystkie", ...fetchedCategories]);
+      } catch (error) {
+        console.error("Error fetching categories:", error);
+      }
+    };
+
+    fetchCategories();
   }, []);
 
   // Handle escape key to close test
@@ -35,7 +52,7 @@ export default function Products({ products }: { products: IProduct[] }) {
   }, [test]);
 
   // When a test is opened, dispatch a global event and increment clickCount
-  const handleOpenTest = async (product: IProduct) => {
+  const handleOpenTest = async (product: IProduct | Diet) => {
     setTest(product); // This only sets the state
     if (typeof window !== "undefined") {
       window.dispatchEvent(
@@ -46,9 +63,9 @@ export default function Products({ products }: { products: IProduct[] }) {
     try {
       await updateDocument(
         ["clickCount"],
-        [(product.clickCount || 0) + 1],
+        [((product as any).clickCount || 0) + 1],
         "products",
-        product.id
+        (product as any).id
       );
     } catch (e) {
       // Optionally handle error
@@ -56,12 +73,36 @@ export default function Products({ products }: { products: IProduct[] }) {
     }
   };
 
+  // Filter products based on selected category
+  const filteredProducts = selectedCategory === "Wszystkie" 
+    ? products 
+    : products.filter((product: any) => product.category === selectedCategory);
+
   if (!isClient) {
     return null;
   }
 
   return (
     <div className="mx-5 lg:mx-[8vw] xl:mx-[12vw]">
+      {/* Category Filter */}
+      <div className="mb-8">
+        <div className="flex flex-wrap justify-center gap-2">
+          {categories.map((category) => (
+            <button
+              key={category}
+              onClick={() => setSelectedCategory(category)}
+              className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
+                selectedCategory === category
+                  ? "bg-purple-600 text-white"
+                  : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+              }`}
+            >
+              {category}
+            </button>
+          ))}
+        </div>
+      </div>
+
       {/* Test Modal */}
       {test && (
         <div className="fixed inset-0 z-[9999] flex items-center justify-center p-2 sm:p-4">
@@ -77,8 +118,8 @@ export default function Products({ products }: { products: IProduct[] }) {
 
       <Suspense fallback={<div>Loading...</div>}>
         <div className="mt-12 grid grid-cols-1 sm:grid-cols-2 gap-3">
-          {products.length > 0 ? (
-            products.map((product: any, i: number) => (
+          {filteredProducts.length > 0 ? (
+            filteredProducts.map((product: any, i: number) => (
               <Product
                 product={product}
                 key={i}

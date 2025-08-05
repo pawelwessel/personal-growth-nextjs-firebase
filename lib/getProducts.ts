@@ -1,6 +1,8 @@
 "use server";
 import { getDocuments } from "@/firebase";
-export async function getProducts() {
+import { Diet } from "@/types";
+
+export async function getProducts(): Promise<Diet[]> {
   const products: any = await getDocuments("products");
-  return products;
+  return products as Diet[];
 }
