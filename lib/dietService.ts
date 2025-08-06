@@ -53,7 +53,7 @@ export const dietService = {
   // Get unique categories from diets
   async getDietCategories(): Promise<string[]> {
     const diets = await getDocuments("diets");
-    const categories = diets.map((diet: Diet) => diet.category);
+    const categories = diets.map((diet: any) => diet.category);
     const uniqueCategories = [...new Set(categories)].filter(Boolean);
     return uniqueCategories;
   },
