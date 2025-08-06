@@ -18,6 +18,7 @@ interface UserPurchase {
   stripeSessionId?: string;
   expiresAt?: string; // For subscription-based access
   type?: "course" | "diet" | "subscription"; // Type of purchase
+  transferredFromGuest?: boolean; // Indicates if purchase was transferred from guest session
 }
 
 const COLLECTION_NAME = "user_purchases";
