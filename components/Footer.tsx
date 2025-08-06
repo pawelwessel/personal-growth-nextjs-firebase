@@ -53,6 +53,14 @@ export default function Footer() {
               </li>
               <li>
                 <Link
+                  href="/jak-szybko-schudnac"
+                  className="hover:text-white transition-colors duration-200"
+                >
+                  Jak szybko schudnąć?
+                </Link>
+              </li>
+              <li>
+                <Link
                   href="/faq"
                   className="hover:text-white transition-colors duration-200"
                 >

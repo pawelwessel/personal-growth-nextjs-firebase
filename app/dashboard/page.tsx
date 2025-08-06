@@ -22,6 +22,7 @@ import { Course, Diet } from "@/types";
 import { testResultsService, TestResult } from "@/lib/testResultsService";
 import PersonalReport from "@/components/Products/PersonalReport";
 import DietTest from "@/components/DietTest";
+import KcalCalculator from "@/components/KcalCalculator";
 
 function DashboardContent() {
   const [activeTab, setActiveTab] = useState("shop");
@@ -169,6 +170,7 @@ function DashboardContent() {
   const tabs = [
     { id: "shop", name: "Sklep", icon: FaShoppingCart },
     { id: "my-diets", name: "Moje zasoby", icon: FaBook },
+    { id: "kcal-calculator", name: "Kalkulator KCAL", icon: FaClock },
     { id: "test-results", name: "Wyniki testów", icon: FaStar },
   ];
 
@@ -193,6 +195,8 @@ function DashboardContent() {
             showSuccessMessage={showSuccessMessage}
           />
         );
+      case "kcal-calculator":
+        return <KcalCalculator />;
       case "test-results":
         return (
           <TestResultsSection

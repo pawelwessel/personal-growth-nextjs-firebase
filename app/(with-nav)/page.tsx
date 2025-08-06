@@ -50,6 +50,7 @@ export default async function Home() {
         >
           <source src="/herovid.mp4" type="video/mp4" />
         </video>
+        <div className="backdrop-blur-sm bg-black/50 w-full h-full fixed left-0 top-0"></div>
       </div>
       <div className="relative lg:mt-0 h-[95vh] flex items-center justify-center">
         <div className="mx-6 pt-8 bg-black/75 backdrop-blur-sm p-4 lg:p-12 rounded-3xl flex flex-col items-center justify-center text-center lg:text-left lg:flex-row-reverse ">
