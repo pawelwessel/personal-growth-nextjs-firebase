@@ -9,7 +9,7 @@ import Disclaimer from "./Disclaimer";
 import ProductDetails from "./ProductDetails";
 import MoreProducts from "./MoreProducts";
 import { polishToEnglish } from "@/lib/polishToEnglish";
-import { IProduct } from "@/types";
+import { Diet, IProduct } from "@/types";
 
 export default function Product({
   product,
@@ -18,11 +18,13 @@ export default function Product({
   setOpenedProduct,
   setTest,
 }: {
-  product: IProduct;
-  products: IProduct[];
-  openedProduct: IProduct | null;
-  setOpenedProduct: React.Dispatch<React.SetStateAction<IProduct | null>>;
-  setTest: (product: IProduct) => void | Promise<void>;
+  product: IProduct | Diet;
+  products: (Diet | IProduct)[];
+  openedProduct: IProduct | Diet | null;
+  setOpenedProduct: React.Dispatch<
+    React.SetStateAction<IProduct | Diet | null>
+  >;
+  setTest: (product: IProduct | Diet) => void | Promise<void>;
 }) {
   const [currentIndex, setCurrentIndex] = useState(-1);
   const [isImageOpen, setImageOpen] = useState(false);

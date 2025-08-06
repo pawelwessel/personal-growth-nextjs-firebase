@@ -2,14 +2,16 @@ import Image from "next/image";
 import { getPolishCurrency } from "@/lib/getPolishCurrency";
 import { useState } from "react";
 import { FaStar } from "react-icons/fa6";
-import { IProduct } from "@/types";
+import { Diet, IProduct } from "@/types";
 
 export default function ProductCard({
   setOpenedProduct,
   product,
 }: {
-  setOpenedProduct: React.Dispatch<React.SetStateAction<IProduct | null>>;
-  product: IProduct;
+  setOpenedProduct: React.Dispatch<
+    React.SetStateAction<IProduct | Diet | null>
+  >;
+  product: any;
 }) {
   return (
     <div

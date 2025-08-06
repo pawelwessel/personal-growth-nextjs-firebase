@@ -2,7 +2,7 @@ import Image from "next/image";
 import { useMemo } from "react";
 import { getPolishCurrency } from "@/lib/getPolishCurrency";
 import { updateDocument } from "@/firebase";
-import { IProduct } from "@/types";
+import { Diet, IProduct } from "@/types";
 
 export default function MoreProducts({
   product,
@@ -12,8 +12,10 @@ export default function MoreProducts({
 }: {
   product: any;
   products: any;
-  setOpenedProduct: React.Dispatch<React.SetStateAction<IProduct | null>>;
-  setTest: (product: IProduct) => void | Promise<void>;
+  setOpenedProduct: React.Dispatch<
+    React.SetStateAction<IProduct | Diet | null>
+  >;
+  setTest: (product: IProduct | Diet) => void | Promise<void>;
 }) {
   const displayedProducts = useMemo(() => {
     return [...products]
