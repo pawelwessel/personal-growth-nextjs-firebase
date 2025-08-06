@@ -25,6 +25,17 @@ const COLLECTION_NAME = "user_purchases";
 export const userPurchasesService = {
   // Add a new purchase record
   async addPurchase(purchaseData: Omit<UserPurchase, "id">): Promise<string> {
+    // Validate that userId is provided and not null/undefined
+    if (
+      !purchaseData.userId ||
+      purchaseData.userId === "null" ||
+      purchaseData.userId === "undefined"
+    ) {
+      throw new Error(
+        `Invalid userId provided: ${purchaseData.userId}. Cannot create purchase record without valid user ID.`
+      );
+    }
+
     const id = Date.now().toString();
     const purchase: UserPurchase = {
       ...purchaseData,

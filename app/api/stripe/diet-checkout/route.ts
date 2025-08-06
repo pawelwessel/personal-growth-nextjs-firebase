@@ -4,8 +4,15 @@ const stripe = require("stripe")(process.env.STRIPE_SECRET);
 
 export async function POST(req: Request) {
   try {
-    const { dietId, dietTitle, dietPrice, userEmail, userId, dietData } =
-      await req.json();
+    const {
+      dietId,
+      dietTitle,
+      dietPrice,
+      userEmail,
+      userId,
+      dietData,
+      guestSessionId,
+    } = await req.json();
 
     // Generate a unique order ID
     const orderId = `diet_${Date.now()}_${Math.random()
@@ -28,12 +35,14 @@ export async function POST(req: Request) {
     if (userId) {
       metadata.userId = userId;
       metadata.userEmail = userEmail;
+      metadata.isGuestPurchase = "false";
     } else {
-      // For anonymous users, generate a temporary user ID
-      metadata.anonymousUserId = `anon_${Date.now()}_${Math.random()
-        .toString(36)
-        .substr(2, 9)}`;
-      metadata.userEmail = userEmail || "anonymous@example.com";
+      // For guest users, use the guest session ID
+      metadata.guestSessionId =
+        guestSessionId ||
+        `guest_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+      metadata.userEmail = userEmail || "guest@example.com";
+      metadata.isGuestPurchase = "true";
     }
 
     // Create a Checkout Session for diet purchase

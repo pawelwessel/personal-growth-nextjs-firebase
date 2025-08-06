@@ -5,8 +5,12 @@ import { useSearchParams, useRouter } from "next/navigation";
 import { FaCheckCircle, FaArrowRight, FaHome } from "react-icons/fa";
 import { trackConversion, trackPurchase } from "@/lib/conversionTracking";
 import ConversionTracker from "@/components/ConversionTracker";
+import { PurchaseSessionManager } from "@/lib/purchaseSessionManager";
+import PostPurchaseSignup from "@/components/PostPurchaseSignup";
+import { useAuth } from "@/components/AuthContext";
 
 function SuccessPageContent() {
+  const { user } = useAuth();
   const searchParams = useSearchParams();
   const router = useRouter();
   const session_id = searchParams.get("session_id");
@@ -16,6 +20,8 @@ function SuccessPageContent() {
   const [purchaseType, setPurchaseType] = useState<
     "course" | "subscription" | "diet" | null
   >(null);
+  const [showSignup, setShowSignup] = useState(false);
+  const [isGuestPurchase, setIsGuestPurchase] = useState(false);
 
   useEffect(() => {
     const fetchSessionData = async () => {
@@ -37,6 +43,21 @@ function SuccessPageContent() {
         const data = await response.json();
 
         if (data.success) {
+          // Check if this is a guest purchase
+          const isGuest = data.session?.metadata?.isGuestPurchase === "true";
+          setIsGuestPurchase(isGuest);
+
+          // Mark session as completed and handle guest signup flow
+          if (isGuest && !user) {
+            PurchaseSessionManager.completeSession(session_id!);
+            const guestSession = PurchaseSessionManager.getCurrentSession();
+            if (guestSession) {
+              setShowSignup(true);
+              setLoading(false);
+              return;
+            }
+          }
+
           // Check if this is a course purchase, subscription, or diet purchase
           if (data.purchaseType === "course") {
             setPurchaseType("course");
@@ -160,7 +181,20 @@ function SuccessPageContent() {
     };
 
     fetchSessionData();
-  }, [session_id, router]);
+  }, [session_id, router, user]);
+
+  // Show post-purchase signup for guest users
+  if (showSignup && !user) {
+    const guestSession = PurchaseSessionManager.getCurrentSession();
+    if (guestSession) {
+      return (
+        <PostPurchaseSignup
+          purchaseSession={guestSession}
+          onComplete={() => setShowSignup(false)}
+        />
+      );
+    }
+  }
 
   if (loading) {
     return (

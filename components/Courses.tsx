@@ -8,6 +8,7 @@ import { dietService } from "@/lib/dietService";
 import { Course, Diet } from "@/types";
 import { useAuth } from "./AuthContext";
 import { FaCalendar, FaFire, FaUtensils } from "react-icons/fa";
+import PurchaseButton from "./PurchaseButton";
 
 export default function Courses() {
   const [dietPlans, setDietPlans] = useState<Course[]>([]);
@@ -18,17 +19,17 @@ export default function Courses() {
   const [selectedDiet, setSelectedDiet] = useState<Diet | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { user } = useAuth();
-  const [checkoutLoading, setCheckoutLoading] = useState<string | null>(null);
 
   // Fetch visible diet plans, diets, and categories from database
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [fetchedDietPlans, fetchedDiets, fetchedCategories] = await Promise.all([
-          coursesService.getVisibleCourses(),
-          dietService.getAllDiets(),
-          dietService.getDietCategories(),
-        ]);
+        const [fetchedDietPlans, fetchedDiets, fetchedCategories] =
+          await Promise.all([
+            coursesService.getVisibleCourses(),
+            dietService.getAllDiets(),
+            dietService.getDietCategories(),
+          ]);
         setDietPlans(fetchedDietPlans);
         setDiets(fetchedDiets);
         setCategories(["Wszystkie", ...fetchedCategories]);
@@ -212,21 +213,6 @@ export default function Courses() {
                       {diet.description}
                     </p>
 
-                    <div className="flex items-center justify-between text-sm text-gray-500 mb-4">
-                      <span className="flex items-center gap-1">
-                        <FaCalendar />
-                        {diet.duration}
-                      </span>
-                      <span className="flex items-center gap-1">
-                        <FaFire />
-                        {diet.calories} kcal
-                      </span>
-                      <span className="flex items-center gap-1">
-                        <FaUtensils />
-                        {diet.meals} posiłków
-                      </span>
-                    </div>
-
                     <div className="flex items-center justify-between mb-4">
                       <div className="flex items-center">
                         <span className="text-yellow-500">★</span>
@@ -249,20 +235,23 @@ export default function Courses() {
                       >
                         Zobacz szczegóły
                       </button>
-                      <button
-                        onClick={() => handleDietCheckout(diet)}
-                        disabled={checkoutLoading === diet.id}
-                        className="text-center block w-full bg-purple-600 text-white px-3 py-2 rounded-md hover:bg-purple-700 transition-colors text-sm disabled:opacity-50 disabled:cursor-not-allowed"
+                      <PurchaseButton
+                        item={{
+                          id: diet.id,
+                          title: diet.title,
+                          price: diet.price,
+                          type: "diet",
+                          data: {
+                            duration: diet.duration,
+                            difficulty: diet.difficulty,
+                            category: diet.category,
+                            image: diet.image,
+                          },
+                        }}
+                        variant="primary"
                       >
-                        {checkoutLoading === diet.id ? (
-                          <>
-                            <div className="animate-spin rounded-full h-3 w-3 border-b-2 border-white mr-1"></div>
-                            ...
-                          </>
-                        ) : (
-                          "Kup teraz"
-                        )}
-                      </button>
+                        Kup teraz
+                      </PurchaseButton>
                     </div>
                   </div>
                 </motion.div>

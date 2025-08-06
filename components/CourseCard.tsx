@@ -5,6 +5,7 @@ import Image from "next/image";
 import { useAuth } from "./AuthContext";
 import LoginPopup from "./LoginPopup";
 import { trackBeginCheckout } from "@/lib/conversionTracking";
+import PurchaseButton from "./PurchaseButton";
 
 interface DietPlan {
   id: string;
@@ -37,14 +38,9 @@ const DietPlanCard: React.FC<DietPlanCardProps> = ({
   const { user } = useAuth();
   const [showLoginPopup, setShowLoginPopup] = useState(false);
 
+  // Placeholder for future functionality
   const handleBuyClick = () => {
-    // If user is not logged in, show login popup
-    if (!user) {
-      setShowLoginPopup(true);
-      return;
-    }
-
-    handlePurchase();
+    console.log("Buy button clicked");
   };
 
   const handlePlayClick = () => {
@@ -201,12 +197,17 @@ const DietPlanCard: React.FC<DietPlanCardProps> = ({
                 </span>
               )}
             </div>
-            <button
-              onClick={handleBuyClick}
-              className="bg-gradient-to-r from-purple-600 to-pink-600 text-white px-3 lg:px-4 py-2 rounded-lg text-xs lg:text-sm font-medium hover:from-purple-700 hover:to-pink-700 transition-all duration-300 transform hover:scale-105"
+            <PurchaseButton
+              item={{
+                id: course.id,
+                title: course.title,
+                price: course.price,
+                type: "course",
+              }}
+              variant="secondary"
             >
               Kup teraz
-            </button>
+            </PurchaseButton>
           </div>
         </div>
       </div>

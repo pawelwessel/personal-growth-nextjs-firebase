@@ -4,8 +4,14 @@ const stripe = require("stripe")(process.env.STRIPE_SECRET);
 
 export async function POST(req: Request) {
   try {
-    const { courseId, courseTitle, coursePrice, userEmail, userId } =
-      await req.json();
+    const {
+      courseId,
+      courseTitle,
+      coursePrice,
+      userEmail,
+      userId,
+      guestSessionId,
+    } = await req.json();
 
     // Create a Checkout Session for individual course purchase
     const session = await stripe.checkout.sessions.create({
@@ -28,8 +34,10 @@ export async function POST(req: Request) {
       metadata: {
         courseId,
         courseTitle,
-        userId,
+        userId: userId || null,
+        guestSessionId: guestSessionId || null,
         type: "course_purchase",
+        isGuestPurchase: !userId ? "true" : "false",
       },
       success_url: `${process.env.NEXT_PUBLIC_URL}/success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${process.env.NEXT_PUBLIC_URL}/`,

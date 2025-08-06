@@ -17,6 +17,7 @@ import {
   FaCheckCircle,
   FaQuestionCircle,
 } from "react-icons/fa";
+import PurchaseButton from "./PurchaseButton";
 
 interface DietDetailModalProps {
   diet: Diet | null;
@@ -31,76 +32,8 @@ export default function DietDetailModal({
 }: DietDetailModalProps) {
   const [activeTab, setActiveTab] = useState("overview");
   const { user } = useAuth();
-  const [isLoading, setIsLoading] = useState(false);
 
   if (!diet) return null;
-
-  const handleCheckout = async () => {
-    // If user is not logged in, redirect to login
-    if (!user) {
-      window.location.href = "/login";
-      return;
-    }
-
-    setIsLoading(true);
-    try {
-      const response = await fetch("/api/stripe/diet-checkout", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          dietId: diet.id,
-          dietTitle: diet.title,
-          dietPrice: diet.price,
-          userEmail: user?.email || "",
-          userId: user?.id || null,
-          dietData: {
-            duration: diet.duration,
-            difficulty: diet.difficulty,
-            calories: diet.calories,
-            meals: diet.meals,
-            category: diet.category,
-            nutritionistName: diet.nutritionistName,
-            nutritionistCredentials: diet.nutritionistCredentials,
-            benefits: diet.benefits,
-            targetAudience: diet.targetAudience,
-            mealPlanStructure: diet.mealPlanStructure,
-            shoppingList: diet.shoppingList,
-            preparationTips: diet.preparationTips,
-            progressTracking: diet.progressTracking,
-            maintenancePhase: diet.maintenancePhase,
-            scientificReferences: diet.scientificReferences,
-            clinicalStudies: diet.clinicalStudies,
-            averageWeightLoss: diet.averageWeightLoss,
-            averageTimeToResults: diet.averageTimeToResults,
-            successRate: diet.successRate,
-            faq: diet.faq,
-            testimonials: diet.testimonials,
-            beforeAfterStories: diet.beforeAfterStories,
-            image: diet.image,
-          },
-        }),
-      });
-
-      const data = await response.json();
-
-      if (data.success && data.url) {
-        // Redirect to Stripe Checkout
-        window.location.href = data.url;
-      } else {
-        console.error("Checkout error:", data.error);
-        alert(
-          "Wystąpił błąd podczas przetwarzania płatności. Spróbuj ponownie."
-        );
-      }
-    } catch (error) {
-      console.error("Checkout error:", error);
-      alert("Wystąpił błąd podczas przetwarzania płatności. Spróbuj ponownie.");
-    } finally {
-      setIsLoading(false);
-    }
-  };
 
   const parseJsonArray = (data: string | string[]) => {
     if (Array.isArray(data)) {
@@ -128,59 +61,6 @@ export default function DietDetailModal({
       case "overview":
         return (
           <div className="space-y-6">
-            <div>
-              <h3 className="text-lg font-semibold mb-3 text-black">
-                Opis diety
-              </h3>
-              <p className="text-gray-700">{diet.description}</p>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="bg-gray-50 p-4 rounded-lg">
-                <h4 className="font-semibold mb-2 text-black">
-                  Struktura planu
-                </h4>
-                {typeof diet.mealPlanStructure === "object" &&
-                diet.mealPlanStructure ? (
-                  <div className="space-y-3">
-                    {Object.entries(diet.mealPlanStructure).map(
-                      ([meal, details]: [string, any]) => (
-                        <div
-                          key={meal}
-                          className="border-l-4 border-gray-600 pl-3"
-                        >
-                          <h5 className="font-medium text-gray-800">{meal}</h5>
-                          <div className="text-sm text-gray-600">
-                            <div className="flex items-center gap-2">
-                              <FaClock className="text-gray-500" />
-                              <span>{details.Time}</span>
-                            </div>
-                            <div className="flex items-center gap-2">
-                              <FaFire className="text-gray-500" />
-                              <span>{details.Calories} kcal</span>
-                            </div>
-                            <div className="flex items-center gap-2">
-                              <FaUtensils className="text-gray-500" />
-                              <span>{details.Example}</span>
-                            </div>
-                          </div>
-                        </div>
-                      )
-                    )}
-                  </div>
-                ) : (
-                  <p className="text-gray-700">{diet.mealPlanStructure}</p>
-                )}
-              </div>
-
-              <div className="bg-gray-50 p-4 rounded-lg">
-                <h4 className="font-semibold mb-2 text-black">
-                  Faza utrzymania
-                </h4>
-                <p className="text-gray-700">{diet.maintenancePhase}</p>
-              </div>
-            </div>
-
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               <div className="text-center p-4 bg-gray-50 rounded-lg border border-gray-200">
                 <div className="text-2xl mb-2 text-gray-700">
@@ -340,25 +220,6 @@ export default function DietDetailModal({
                     >
                       <FaLightbulb className="text-blue-600 mr-3 mt-1" />
                       <span className="text-gray-700">{tip}</span>
-                    </div>
-                  )
-                )}
-              </div>
-            </div>
-
-            <div>
-              <h3 className="text-lg font-semibold mb-4 text-black">
-                Lista zakupów
-              </h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                {parseJsonArray(diet.shoppingList).map(
-                  (item: string, index: number) => (
-                    <div
-                      key={index}
-                      className="flex items-center p-3 bg-yellow-50 rounded-lg"
-                    >
-                      <FaShoppingCart className="text-yellow-600 mr-3" />
-                      <span className="text-gray-700">{item}</span>
                     </div>
                   )
                 )}
@@ -538,23 +399,43 @@ export default function DietDetailModal({
                     <FaCheck className="text-green-500 text-xs" />
                     <span>Natychmiastowy dostęp</span>
                   </div>
-                  <button
-                    onClick={handleCheckout}
-                    disabled={isLoading}
+                  <PurchaseButton
+                    item={{
+                      id: diet.id,
+                      title: diet.title,
+                      price: diet.price,
+                      type: "diet",
+                      data: {
+                        duration: diet.duration,
+                        difficulty: diet.difficulty,
+                        calories: diet.calories,
+                        meals: diet.meals,
+                        category: diet.category,
+                        image: diet.image,
+                        nutritionistName: diet.nutritionistName,
+                        nutritionistCredentials: diet.nutritionistCredentials,
+                        benefits: diet.benefits,
+                        targetAudience: diet.targetAudience,
+                        mealPlanStructure: diet.mealPlanStructure,
+                        shoppingList: diet.shoppingList,
+                        preparationTips: diet.preparationTips,
+                        progressTracking: diet.progressTracking,
+                        maintenancePhase: diet.maintenancePhase,
+                        scientificReferences: diet.scientificReferences,
+                        clinicalStudies: diet.clinicalStudies,
+                        averageWeightLoss: diet.averageWeightLoss,
+                        averageTimeToResults: diet.averageTimeToResults,
+                        successRate: diet.successRate,
+                        faq: diet.faq,
+                        testimonials: diet.testimonials,
+                        beforeAfterStories: diet.beforeAfterStories,
+                      },
+                    }}
                     className="bg-gray-800 hover:bg-gray-700 text-white px-6 py-3 rounded-lg transition-all duration-200 font-medium disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 shadow-sm text-sm"
                   >
-                    {isLoading ? (
-                      <>
-                        <div className="animate-spin rounded-full h-3 w-3 border-b-2 border-white"></div>
-                        Przetwarzanie...
-                      </>
-                    ) : (
-                      <>
-                        <FaShoppingCart className="text-xs" />
-                        Kup teraz
-                      </>
-                    )}
-                  </button>
+                    <FaShoppingCart className="text-xs" />
+                    Kup teraz
+                  </PurchaseButton>
                 </div>
               </div>
             </div>
