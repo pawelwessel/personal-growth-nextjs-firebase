@@ -18,6 +18,7 @@ export default function Courses() {
   const [categories, setCategories] = useState<string[]>(["Wszystkie"]);
   const [selectedDiet, setSelectedDiet] = useState<Diet | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [checkoutLoading, setCheckoutLoading] = useState<string | null>(null);
   const { user } = useAuth();
 
   // Fetch visible diet plans, diets, and categories from database
