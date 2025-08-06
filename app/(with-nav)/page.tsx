@@ -96,7 +96,7 @@ export default async function Home() {
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-12">
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-black mb-4">
-              Zaufali nam już tysiące osób
+              Zaufało nam już tysiące osób
             </h2>
             <p className="text-gray-600 text-lg max-w-2xl mx-auto">
               Dołącz do grona zadowolonych klientów, którzy osiągnęli swoje cele

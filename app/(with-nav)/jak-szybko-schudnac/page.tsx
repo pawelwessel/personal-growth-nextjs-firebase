@@ -94,7 +94,7 @@ export default async function JakSzybkoSchudnac() {
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-12">
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-black mb-4">
-              Zaufali nam już tysiące osób
+              Zaufało nam już tysiące osób
             </h2>
             <p className="text-gray-600 text-lg max-w-2xl mx-auto">
               Dołącz do grona zadowolonych klientów, którzy schudli z naszymi
@@ -104,25 +104,41 @@ export default async function JakSzybkoSchudnac() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             <div className="text-center">
               <div className="text-4xl lg:text-5xl font-bold text-purple-600 mb-2">
-                <CounterAnimation target={15420} suffix="+" />
+                <CounterAnimation
+                  target={15420}
+                  duration={1000}
+                  className="text-4xl lg:text-5xl font-bold text-purple-600 mb-2"
+                />
               </div>
               <p className="text-gray-600">Zadowolonych klientów</p>
             </div>
             <div className="text-center">
               <div className="text-4xl lg:text-5xl font-bold text-green-600 mb-2">
-                <CounterAnimation target={98} suffix="%" />
+                <CounterAnimation
+                  target={98}
+                  duration={1000}
+                  className="text-4xl lg:text-5xl font-bold text-green-600 mb-2"
+                />
               </div>
               <p className="text-gray-600">Skuteczność odchudzania</p>
             </div>
             <div className="text-center">
               <div className="text-4xl lg:text-5xl font-bold text-blue-600 mb-2">
-                <CounterAnimation target={25000} suffix="+" />
+                <CounterAnimation
+                  target={25000}
+                  duration={1000}
+                  className="text-4xl lg:text-5xl font-bold text-blue-600 mb-2"
+                />
               </div>
               <p className="text-gray-600">Sprzedanych planów</p>
             </div>
             <div className="text-center">
               <div className="text-4xl lg:text-5xl font-bold text-orange-600 mb-2">
-                <CounterAnimation target={4.8} />
+                <CounterAnimation
+                  target={4.8}
+                  duration={1000}
+                  className="text-4xl lg:text-5xl font-bold text-orange-600 mb-2"
+                />
               </div>
               <p className="text-gray-600">Średnia ocena</p>
             </div>

@@ -4,14 +4,12 @@ import { useEffect, useRef } from "react";
 interface CounterAnimationProps {
   target: number;
   duration?: number;
-  suffix?: string;
   className?: string;
 }
 
 export default function CounterAnimation({
   target,
   duration = 2000,
-  suffix = "",
   className = "",
 }: CounterAnimationProps) {
   const counterRef = useRef<HTMLSpanElement>(null);
@@ -75,7 +73,7 @@ export default function CounterAnimation({
 
   return (
     <span ref={counterRef} className={className}>
-      0{suffix}
+      0
     </span>
   );
 }
